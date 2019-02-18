@@ -23,7 +23,7 @@
     "pg": "^7.8.0",
     "pug": "^2.0.3",
     "react": "^16.8.1",
-    "react-bootstrap-maskedinput": "^0.4.0",
+    "react-text-mask": "^5.4.3",
     "react-bootstrap-typeahead": "^3.3.4",
     "react-bootstrap4-form-validation": "^1.0.10",
     "react-dom": "^16.8.1",

@@ -1,5 +1,9 @@
 import Alert from './Alerts';
+import MaskInputControl from './MaskedInput';
+import SelectControl from './SelectControl';
 
 export {
-  Alert
+  Alert,
+  MaskInputControl,
+  SelectControl
 };

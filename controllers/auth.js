@@ -6,12 +6,7 @@ import { mailTemplate, transporter } from '../utils/sendMessage';
 import { check, validationResult } from 'express-validator/check';
 import DB from '../database/models';
 
-const salt = bcrypt.genSaltSync(12);
-
-export const validateRegistrationForm = [
-  check('email').isEmail(),
-  check('password').isLength({ min: 6 })
-];
+const salt = '$2b$12$hQkZGSu0X3JN9Nl91zc5sO';
 
 export const registrationController = async (req, res) => {
   const hash = randomstring.generate();
@@ -47,19 +42,10 @@ export const registrationController = async (req, res) => {
   }
 };
 
-export const validateLoginForm = [
-  check('email').isEmail(),
-  check('password').isLength({ min: 6 })
-];
-
 export const loginController = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
 
   const { email, password: bodyPassword } = req.body;
-
+console.log(salt);
   const password = bcrypt.hashSync(bodyPassword, salt);
 
   try {

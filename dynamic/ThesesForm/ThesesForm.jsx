@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { ValidationForm, TextInput } from 'react-bootstrap4-form-validation';
-import validator from 'validator'
-import { Typeahead } from 'react-bootstrap-typeahead';
-import { getNames } from 'country-list';
-import MaskedFormControl from 'react-bootstrap-maskedinput'
+import validator from 'validator';
 
 class TextInputDemo extends Component {
     state = {

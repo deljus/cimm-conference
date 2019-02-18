@@ -34,10 +34,6 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
 
-    workPhone: {
-      type: DataTypes.STRING
-    },
-
     mobilePhone: {
       type: DataTypes.STRING
     },

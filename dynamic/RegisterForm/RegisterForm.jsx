@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { ValidationForm, TextInput } from 'react-bootstrap4-form-validation';
 import validator from 'validator'
-import { Typeahead } from 'react-bootstrap-typeahead';
 import { getNames } from 'country-list';
-import MaskedFormControl from 'react-bootstrap-maskedinput';
 import axios from 'axios';
-import { Alert } from "../components";
+import { Alert, MaskInputControl, SelectControl } from "../components";
 
 const defaultState = {
     firstName: "",
@@ -15,11 +13,16 @@ const defaultState = {
     password: "",
     confirmPassword: "",
     country: '',
-    phoneNumber: '',
+    mobilePhone: '',
     middleName: '',
-    alertPrimaryShow: false,
-    alertDangerShow: false,
-}
+    alertPrimary: {
+        show: false,
+        text: 'We sent you a password confirmation link in the mail. Please check your mail.'
+    },
+    alertDanger: {
+        show: false
+    },
+};
 
 class TextInputDemo extends Component {
     constructor(props){
@@ -55,7 +58,7 @@ class TextInputDemo extends Component {
     resetForm = () => {
         this.setState({
             ...defaultState
-        })
+        });
         let formRef = this.formRef.current;
         formRef.resetValidationState(false);
     };
@@ -65,6 +68,20 @@ class TextInputDemo extends Component {
     };
 
     render () {
+
+        const {
+            alertPrimary,
+            alertDanger,
+            firstName,
+            lastName,
+            middleName,
+            email ,
+            password,
+            confirmPassword,
+            country,
+            mobilePhone,
+        } = this.state;
+
         return (
             //Controlled Components
             <ValidationForm
@@ -80,34 +97,34 @@ class TextInputDemo extends Component {
                 <Alert
                     text="Unfortunately, something went wrong. Please contact the site administrator."
                     type="danger"
-                    show={this.state.alertDangerShow}
+                    show={alertDanger.show}
                     onDismiss={this.onAlertDismiss('alertDangerShow')}
                 />
                 <Alert
-                    text="An mail has been sent to your email. Confirm registration"
+                    text={alertPrimary.text}
                     type="primary"
-                    show={this.state.alertPrimaryShow}
+                    show={alertPrimary.show}
                     onDismiss={this.onAlertDismiss('alertPrimaryShow')}
                 />
 
                 <div className="form-group">
                     <label htmlFor="firstName">First name</label>
                     <TextInput name="firstName" id="firstName" required
-                               value={this.state.firstName}
+                               value={firstName}
                                onChange={this.handleChange}
                     />
                 </div>
                 <div className="form-group">
                     <label htmlFor="lastName">Last name</label>
                     <TextInput name="lastName" id="lastName" required
-                               value={this.state.lastName}
+                               value={lastName}
                                onChange={this.handleChange}
                     />
                 </div>
                 <div className="form-group">
                     <label htmlFor="middleName">Middle name</label>
                     <TextInput name="middleName" id="middleName"
-                               value={this.state.middleName}
+                               value={middleName}
                                onChange={this.handleChange}
                     />
                 </div>
@@ -116,7 +133,7 @@ class TextInputDemo extends Component {
                     <TextInput name="email" id="email" type="email"
                                validator={validator.isEmail}
                                errorMessage={{validator:"Please enter a valid email"}}
-                               value={this.state.email}
+                               value={email}
                                onChange={this.handleChange}
                     />
                 </div>
@@ -125,7 +142,7 @@ class TextInputDemo extends Component {
                     <TextInput name="password" id="password" type="password" required
                                pattern="(?=.*[A-Z]).{6,}"
                                errorMessage={{required:"Password is required", pattern: "Password should be at least 6 characters and contains at least one upper case letter"}}
-                               value={this.state.password}
+                               value={password}
                                onChange={this.handleChange}
                     />
                 </div>
@@ -134,26 +151,31 @@ class TextInputDemo extends Component {
                     <TextInput name="confirmPassword" id="confirmPassword" type="password" required
                                validator={this.matchPassword}
                                errorMessage={{required:"Confirm password is required", validator: "Password does not match"}}
-                               value={this.state.confirmPassword}
+                               value={confirmPassword}
                                onChange={this.handleChange}
                     />
                 </div>
                 <div className="form-group">
                     <label htmlFor="country">Country</label>
-                    <Typeahead
-                        inputProps={{
-                            name: 'country',
-                            id: 'country',
-                            required: true
-                        }}
+                    <SelectControl
+                        name="country"
+                        value={country}
+                        required
+                        validator={(value) => value}
                         options={getNames()}
-                               value={this.state.country}
-                               onChange={r => this.handleChange({ target: { name: 'country', value: r[0] } })}
+                        errorMessage={{validator:"Please enter a valid email"}}
+                        onChange={this.handleChange}
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="phoneNumber">Phone</label>
-                    <MaskedFormControl type='text' name='phoneNumber' mask='111-111-1111' onChange={this.handleChange}/>
+                    <label htmlFor="mobilePhone">Phone</label>
+                    <MaskInputControl name="mobilePhone" className="form-control"
+                                        validator={(value) => value === '' || !(value.indexOf('_') + 1)}
+                                        value={mobilePhone}
+                                        onChange={this.handleChange}
+                                        errorMessage={{validator: "Please enter number to format (999) 999-9999"}}
+                                        mask={['(', /[0-9]/, /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]}
+                    />
                 </div>
                 <div className="form-group">
                     <button className="btn btn-primary">Submit</button>
