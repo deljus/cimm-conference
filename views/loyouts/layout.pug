@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet")
+  body
+    nav.navbar.navbar-light.bg-light
+      a.navbar-brand
+        img(src="/images/logo.png" width="30" height="30" alt="")
+        |   Cimm kpfu
+      div.form-inline
+        block navbar-extra-items
+    block content
+  script(src='javascripts/vendor_app.bundle.js')
+  block js
+

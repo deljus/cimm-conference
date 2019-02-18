@@ -1,0 +1,15 @@
+{
+  "development": {
+    "dialect": "postgres",
+    "username": "meow",
+    "password": "meow",
+    "database": "mydb"
+  },
+  "production": {
+    "username": "",
+    "password": null,
+    "database": "",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

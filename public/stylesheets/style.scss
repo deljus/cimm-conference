@@ -1,0 +1,24 @@
+@import "variables";
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+
+
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.bg {
+  background: url('../images/background.png');
+  height: calc(100% - #{$nav-link-height} - #{$nav-link-padding-y * 2} - 2px);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.registration-form{
+  border: 2px dotted white;
+  padding: 20px;
+  background: white;
+  margin-top: 40px;
+}
