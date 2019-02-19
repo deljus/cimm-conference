@@ -1,30 +1,16 @@
 import React, { Component } from 'react'
 import { ValidationForm, TextInput } from 'react-bootstrap4-form-validation';
 import validator from 'validator'
-import { getNames } from 'country-list';
 import axios from 'axios';
-import { Alert, MaskInputControl, SelectControl } from "../components";
+import withDataFetch from '../core/withDataFetch';
 
 const defaultState = {
-    firstName: "",
-    lastName: "",
     email: "",
-    description: "",
     password: "",
-    confirmPassword: "",
-    country: '',
-    mobilePhone: '',
-    middleName: '',
-    alertPrimary: {
-        show: false,
-        text: 'We sent you a password confirmation link in the mail. Please check your mail.'
-    },
-    alertDanger: {
-        show: false
-    },
+    confirmPassword: ""
 };
 
-class TextInputDemo extends Component {
+class RegisterForm extends Component {
     constructor(props){
         super(props);
         this.formRef = React.createRef();
@@ -37,31 +23,20 @@ class TextInputDemo extends Component {
         })
     };
 
-    handleSubmit = async (e, formData, inputs) => {
+    handleSubmit = async (e, formData) => {
+        const { fetchData } = this.props;
         e.preventDefault();
-        try{
-            await axios.post('/registration', { ...this.state });
-            this.setState({ alertPrimaryShow: true });
-        }catch (e) {
-            this.setState({ alertDangerShow: true });
-        }
-    };
-
-    handleErrorSubmit = (e, formData, errorInputs) => {
-        console.error(errorInputs)
+        await fetchData({
+            method: 'post',
+            url: '/registration',
+            data: formData
+        });
     };
 
     matchPassword = (value) => {
         return value && value === this.state.password;
     };
 
-    resetForm = () => {
-        this.setState({
-            ...defaultState
-        });
-        let formRef = this.formRef.current;
-        formRef.resetValidationState(false);
-    };
 
     onAlertDismiss = (name) => () => {
         this.setState({ [name]: false })
@@ -70,17 +45,15 @@ class TextInputDemo extends Component {
     render () {
 
         const {
-            alertPrimary,
-            alertDanger,
-            firstName,
-            lastName,
-            middleName,
             email ,
             password,
             confirmPassword,
-            country,
-            mobilePhone,
         } = this.state;
+
+        const {
+            loading,
+            renderAlerts
+        } = this.props;
 
         return (
             //Controlled Components
@@ -93,41 +66,7 @@ class TextInputDemo extends Component {
                 setFocusOnError={true}
             >
                 <h3>Registration or <a href="/login">Login</a></h3>
-
-                <Alert
-                    text="Unfortunately, something went wrong. Please contact the site administrator."
-                    type="danger"
-                    show={alertDanger.show}
-                    onDismiss={this.onAlertDismiss('alertDangerShow')}
-                />
-                <Alert
-                    text={alertPrimary.text}
-                    type="primary"
-                    show={alertPrimary.show}
-                    onDismiss={this.onAlertDismiss('alertPrimaryShow')}
-                />
-
-                <div className="form-group">
-                    <label htmlFor="firstName">First name</label>
-                    <TextInput name="firstName" id="firstName" required
-                               value={firstName}
-                               onChange={this.handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="lastName">Last name</label>
-                    <TextInput name="lastName" id="lastName" required
-                               value={lastName}
-                               onChange={this.handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="middleName">Middle name</label>
-                    <TextInput name="middleName" id="middleName"
-                               value={middleName}
-                               onChange={this.handleChange}
-                    />
-                </div>
+                { renderAlerts() }
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <TextInput name="email" id="email" type="email"
@@ -156,34 +95,14 @@ class TextInputDemo extends Component {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="country">Country</label>
-                    <SelectControl
-                        name="country"
-                        value={country}
-                        required
-                        validator={(value) => value}
-                        options={getNames()}
-                        errorMessage={{validator:"Please enter a valid email"}}
-                        onChange={this.handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="mobilePhone">Phone</label>
-                    <MaskInputControl name="mobilePhone" className="form-control"
-                                        validator={(value) => value === '' || !(value.indexOf('_') + 1)}
-                                        value={mobilePhone}
-                                        onChange={this.handleChange}
-                                        errorMessage={{validator: "Please enter number to format (999) 999-9999"}}
-                                        mask={['(', /[0-9]/, /[0-9]/, /[0-9]/, ')', ' ', /[0-9]/, /[0-9]/, /[0-9]/, '-', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]}
-                    />
-                </div>
-                <div className="form-group">
-                    <button className="btn btn-primary">Submit</button>
-                    <button className="btn btn-default ml-2" type="button" onClick={this.resetForm}>Reset</button>
+                    <button className="btn btn-primary" disabled={loading}>
+                        { loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>}
+                        Submit
+                    </button>
                 </div>
             </ValidationForm>
         )
     }
 }
 
-export default TextInputDemo;
+export default withDataFetch(RegisterForm);

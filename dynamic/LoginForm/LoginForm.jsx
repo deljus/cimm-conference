@@ -1,50 +1,41 @@
 import React, { Component } from 'react'
 import { ValidationForm, TextInput } from 'react-bootstrap4-form-validation';
 import validator from 'validator'
-import axios from 'axios';
-import Alert from '../components/Alerts';
+import withDataFetch from "../core/withDataFetch";
 
-class TextInputDemo extends Component {
+class LoginForm extends Component {
     state = {
         email: "",
         password: "",
-        alertPrimaryShow: false
     };
 
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })
-    }
-
-    handleSubmit = async(e, formData, inputs) => {
-        e.preventDefault();
-      try{
-        await axios.post('/login', formData);
-      }catch (e) {
-        this.setState({ alertDangerShow: true });
-      }
-    }
-
-    handleErrorSubmit = (e, formData, errorInputs) => {
-        console.error(errorInputs)
     };
 
-  onAlertDismiss = () => {
-    this.setState({ alertPrimaryShow: false })
-  };
+    handleSubmit = async(e, formData) => {
+        e.preventDefault();
+        await fetchData({
+            method: 'post',
+            url: '/login',
+            data: formData
+        });
+    };
 
     render () {
+
+        const {
+            loading,
+            renderAlerts
+        } = this.props;
+
         return (
             //Controlled Components
             <ValidationForm className="registration-form" onSubmit={this.handleSubmit} onErrorSubmit={this.handleErrorSubmit}>
                 <h3>Login or <a href="/registration">Registration</a></h3>
-              <Alert
-                text="Unfortunately, something went wrong. Please contact the site administrator."
-                type="danger"
-                show={this.state.alertDangerShow}
-                onDismiss={this.onAlertDismiss}
-              />
+                { renderAlerts() }
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <TextInput name="email" id="email" type="email"
@@ -64,11 +55,14 @@ class TextInputDemo extends Component {
                     />
                 </div>
                 <div className="form-group">
-                    <button className="btn btn-primary">Submit</button>
+                    <button className="btn btn-primary" disabled={loading}>
+                        { loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>}
+                        Submit
+                    </button>
                 </div>
             </ValidationForm>
         )
     }
 }
 
-export default TextInputDemo;
+export default withDataFetch(LoginForm);

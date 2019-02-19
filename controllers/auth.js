@@ -35,17 +35,15 @@ export const registrationController = async (req, res) => {
       password,
       ...userParams
     });
-    res.status(200).send('OK');
+    res.status(200).send({ message: 'We sent you a password confirmation link in the mail. Please check your mail.' });
   } catch (e) {
-    console.log(e);
-    res.status(500).send('BAD');
+    res.status(422).json({ message: 'We sent you a password confirmation link in the mail. Please check your mail.' });
   }
 };
 
 export const loginController = async (req, res, next) => {
 
   const { email, password: bodyPassword } = req.body;
-console.log(salt);
   const password = bcrypt.hashSync(bodyPassword, salt);
 
   try {
