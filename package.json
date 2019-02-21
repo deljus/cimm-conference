@@ -5,10 +5,13 @@
   "scripts": {
     "start": "node ./bin/starter",
     "start-dev": "export NODE_ENV=development && nodemon ./bin/starter",
+    "up:seeders": "sequelize db:seed:all",
+    "down:seeders": "sequelize db:seed:undo:all",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "buld:dynamic": "webpack --config ./webpack.config.js --mode production"
   },
   "dependencies": {
+    "markdown": "^0.5.0",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.0",
     "classnames": "^2.2.6",

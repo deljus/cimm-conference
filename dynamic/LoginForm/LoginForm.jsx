@@ -17,11 +17,13 @@ class LoginForm extends Component {
 
     handleSubmit = async(e, formData) => {
         e.preventDefault();
+        const { fetchData } = this.props;
         await fetchData({
             method: 'post',
             url: '/login',
             data: formData
         });
+        window.location.href = "/"
     };
 
     render () {

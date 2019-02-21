@@ -3,7 +3,6 @@ import randomstring from 'randomstring';
 import { pick } from 'lodash';
 import url from 'url';
 import { mailTemplate, transporter } from '../utils/sendMessage';
-import { check, validationResult } from 'express-validator/check';
 import DB from '../database/models';
 
 const salt = '$2b$12$hQkZGSu0X3JN9Nl91zc5sO';
@@ -60,7 +59,7 @@ export const loginController = async (req, res, next) => {
     }
 
     req.session.user_id = user.id;
-    return res.redirect('/');
+    return res.status(200).end();
 
   } catch (e) {
 

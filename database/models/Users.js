@@ -49,6 +49,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
 
+    role: {
+        type: DataTypes.INTEGER
+    },
+
     isVerifiedEmail: {
       type: DataTypes.BOOLEAN
     },
@@ -57,7 +61,9 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     }
-  });
+  }, {
+      timestamps: false,
+    });
 
   // Users.associate = (models) => {
   //     models.users.hasMany(models.posts);

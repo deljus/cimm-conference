@@ -1,12 +1,8 @@
 import { Router } from 'express';
-import { renderAddTheses, renderIndex } from '../controllers/pages';
-import { loadUser } from '../utils/auth';
+import { rendePublicPages, renderIndex } from '../controllers/pages';
 
 const router = Router();
-
-
-router.get('/', loadUser, renderIndex);
-
-router.get('/add-theses', loadUser, renderAddTheses);
+router.get('/', renderIndex);
+router.get('/:url', rendePublicPages);
 
 export default router;

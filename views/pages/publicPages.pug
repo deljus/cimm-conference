@@ -1,0 +1,21 @@
+extends ../loyouts/main
+
+block main-content
+    h2= title
+    div!= body
+
+block menu
+    ul.flex-md-column.flex-row.navbar-nav.w-100.justify-content-between
+        each item in menu
+            li.nav-item
+                a.nav-link.pl-0(href=item.url)
+                    i.fa.fa-heart-o.fa-fw
+                    span.d-none.d-md-inline= item.title
+
+block navbar-extra-items
+    form.form-inline
+        if auth
+            a.btn.btn-primary(href='/logout', role='button', aria-pressed='true') Logout
+        else
+            a.btn.btn-primary(href='/registration', role='button', aria-pressed='true') Registration
+            a.btn.btn-primary(href='/login', role='button', aria-pressed='true') Login
