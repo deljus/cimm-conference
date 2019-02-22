@@ -11,6 +11,17 @@ block menu
                 a.nav-link.pl-0(href=item.url)
                     i.fa.fa-heart-o.fa-fw
                     span.d-none.d-md-inline= item.title
+                    
+block navbar-items
+    if auth
+        ul.navbar-nav.mr-auto
+          li.nav-item
+            a.nav-link(href='/profile')
+              | Profile 
+          li.nav-item
+            a.nav-link(href='/theses')
+              | Theses 
+              
 
 block navbar-extra-items
     form.form-inline
