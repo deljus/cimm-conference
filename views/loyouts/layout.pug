@@ -9,6 +9,10 @@ html
       a.navbar-brand
         img(src="/images/logo.png" width="30" height="30" alt="")
         |   Cimm kpfu
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      #navbarSupportedContent.collapse.navbar-collapse
+        block navbar-items
       div.form-inline
         block navbar-extra-items
     block content
