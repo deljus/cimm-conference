@@ -5,17 +5,19 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet")
   body
-    nav.navbar.navbar-light.bg-light
-      a.navbar-brand
-        img(src="/images/logo.png" width="30" height="30" alt="")
-        |   Cimm kpfu
-      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
-        span.navbar-toggler-icon
-      #navbarSupportedContent.collapse.navbar-collapse
-        block navbar-items
-      div.form-inline
-        block navbar-extra-items
-    block content
+    #wrapper.d-flex
+      #sidebar-wrapper.border-right
+        block side-bar
+      #page-content-wrapper
+        block nav-bar
+        block content
+  script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js' integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo' crossorigin='anonymous')
+  script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
   script(src='javascripts/vendor_app.bundle.js')
+  script.
+      $("#menu-toggle").click(function (e) {
+          e.preventDefault();
+          $("#wrapper").toggleClass("toggled");
+      });
   block js
 

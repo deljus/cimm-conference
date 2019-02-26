@@ -1,32 +1,39 @@
-extends ../loyouts/main
+extends ../loyouts/layout
 
-block main-content
-    h2= title
-    div!= body
+block content
+    .container-fluid
+        main.col-12.py-5.pl-4.bd-content
+            h2= title
+            div!= body
 
-block menu
-    ul.flex-md-column.flex-row.navbar-nav.w-100.justify-content-between
+block side-bar
+    .sidebar-heading
+        a.navbar-brand
+            img(src="/images/logo.png" width="30" height="30" alt="")
+            |   Cimm kpfu
+    .list-group.list-group-flush
         each item in menu
-            li.nav-item
-                a.nav-link.pl-0(href=item.url)
-                    i.fa.fa-heart-o.fa-fw
-                    span.d-none.d-md-inline= item.title
-                    
-block navbar-items
-    if auth
-        ul.navbar-nav.mr-auto
-          li.nav-item
-            a.nav-link(href='/profile')
-              | Profile 
-          li.nav-item
-            a.nav-link(href='/theses')
-              | Theses 
-              
+            a.list-group-item.list-group-item-action(href=item.url)=item.title
 
-block navbar-extra-items
-    form.form-inline
-        if auth
-            a.btn.btn-primary(href='/logout', role='button', aria-pressed='true') Logout
-        else
-            a.btn.btn-primary(href='/registration', role='button', aria-pressed='true') Registration
-            a.btn.btn-primary(href='/login', role='button', aria-pressed='true') Login
+block nav-bar
+    nav.navbar.navbar-light.border-bottom
+        button#menu-toggle.btn
+            span.navbar-toggler-icon
+        form.form-inline
+            if auth
+                a.btn.btn-link(href='/profile', role='button', aria-pressed='true') Profile
+                a.btn.btn-link(href='/theses', role='button', aria-pressed='true') Theses
+                a.btn.btn-primary(href='/logout', role='button', aria-pressed='true') Logout
+            else
+                a.btn.btn-link(href='/registration', role='button', aria-pressed='true') Registration
+                a.btn.btn-link(href='/login', role='button', aria-pressed='true') Login
+
+
+
+//-   navbar-extra-items
+//-    form.form-inline
+//-      if auth
+//-            a.btn.btn-primary(href='/logout', role='button', aria-pressed='true') Logout
+//-        else
+//-            a.btn.btn-primary(href='/registration', role='button', aria-pressed='true') Registration
+//-            a.btn.btn-primary(href='/login', role='button', aria-pressed='true') Login
