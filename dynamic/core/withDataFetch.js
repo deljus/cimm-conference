@@ -26,6 +26,7 @@ const withDataFetch = WrappedComponent => class extends Component {
                     alertPrimaryShow: true
                 });
             }
+            return data;
         }catch (e) {
             this.setState({
                 message: e.message,

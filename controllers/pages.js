@@ -21,3 +21,10 @@ export const rendePublicPages = async(req, res) => {
     }
     res.status(404).end();
 };
+
+export const rendeProfile = async(req, res) => {
+    const allPages = await DB.pages.findAll({ raw: true  });
+    const auth = !isNil(req.session.user_id);
+    res.render('pages/profile', { menu: allPages, auth });
+};
+

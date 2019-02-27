@@ -5,7 +5,8 @@ module.exports = {
   entry: {
     registrationForm: './dynamic/RegisterForm/index.js',
     loginForm: './dynamic/LoginForm/index.js',
-    thesesForm: './dynamic/ThesesForm/index.js'
+    thesesForm: './dynamic/ThesesForm/index.js',
+    profileForm: './dynamic/ProfileForm/index.js'
   },
   module: {
     rules: [

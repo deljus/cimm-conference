@@ -65,9 +65,9 @@ export default (sequelize, DataTypes) => {
       timestamps: false,
     });
 
-  // Users.associate = (models) => {
-  //     models.users.hasMany(models.posts);
-  // };
+  Users.associate = (models) => {
+      models.users.belongsToMany(models.affiliation, {through: 'user_affiliation'});
+  };
 
   return Users;
 };
