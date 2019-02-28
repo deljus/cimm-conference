@@ -16,8 +16,7 @@ class Main extends Component {
             method: 'get',
             url: '/user',
         });
-        this.setState({ ...userData })
-
+        this.setState({ ...userData });
     };
 
     changeToEditMode = () => {
@@ -28,6 +27,13 @@ class Main extends Component {
         this.setState({ editMode: false })
     };
 
+    changeStateForSusses = (data) => {
+        this.setState({
+            ...data,
+            editMode: false,
+        });
+    };
+
 
     render() {
         const {editMode, ...rest} = this.state;
@@ -36,7 +42,7 @@ class Main extends Component {
             <div className="py-4 pl-4">
                 <h5>Common information</h5>
                 { renderAlerts() }
-                {editMode ? <EditMode {...rest} changeToViewMode={this.changeToViewMode}/> : <ViewMode {...rest} changeToEditMode={this.changeToEditMode}/>}
+                { editMode ? <EditMode {...rest} changeToViewMode={this.changeToViewMode} changeState={this.changeStateForSusses}/> : <ViewMode {...rest} changeToEditMode={this.changeToEditMode}/>}
             </div>
 
         )

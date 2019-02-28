@@ -15,28 +15,33 @@ class EditMode extends Component{
         };
     }
 
-    // static getDerivedStateFromProps(nextProps, prevState){
-    //     const nextPropsState = pick(nextProps, keys(prevState))
-    //     if( !isEqual(nextPropsState, prevState) ){
-    //         return { ...nextPropsState }
-    //     }
-    // }
+    componentDidMount(){
+        const nextPropsState = pick(this.props, keys(this.state));
+
+        if( !isEqual(nextPropsState, this.state) ){
+            this.setState({ ...nextPropsState })
+        }
+    }
 
     handleChange = e => {
+        console.log(e.target.value);
         this.setState({
             [e.target.name]: e.target.value
         })
     };
 
     handleSubmit = async (e, formData) => {
-        const { fetchData, changeToViewMode } = this.props;
+        const { fetchData, changeState } = this.props;
         e.preventDefault();
-        await fetchData({
-            method: 'post',
-            url: '/user',
-            data: formData
-        });
-        changeToViewMode();
+
+         const dt = await fetchData({
+                method: 'post',
+                url: '/user',
+                data: formData
+            });
+          if(dt){
+              changeState(this.state);
+          }
     };
 
     render(){

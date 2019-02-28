@@ -16,13 +16,13 @@ block side-bar
             a.list-group-item.list-group-item-action(href=item.url)=item.title
 
 block nav-bar
-    nav.navbar.navbar-light.border-bottom
+    nav.navbar.navbar-dark.bg-primary
         button#menu-toggle.btn
             span.navbar-toggler-icon
         form.form-inline
             if auth
-                a.btn.btn-link(href='/profile', role='button', aria-pressed='true') Profile
-                a.btn.btn-link(href='/theses', role='button', aria-pressed='true') Theses
+                a.btn.btn-primary(href='/profile', role='button', aria-pressed='true') Profile
+                a.btn.btn-primary(href='/theses', role='button', aria-pressed='true') Theses
                 a.btn.btn-primary(href='/logout', role='button', aria-pressed='true') Logout
             else
                 a.btn.btn-link(href='/registration', role='button', aria-pressed='true') Registration

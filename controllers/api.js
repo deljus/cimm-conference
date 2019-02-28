@@ -12,9 +12,9 @@ export const getUser = async(req, res) => {
 export const saveUserInfo = async(req, res) => {
     const { lastName, firstName } = req.body;
     const { user_id } = req.session;
-    const user = await DB.users.update(
+    await DB.users.update(
         { lastName, firstName },
         { where: { id: user_id } }
     );
-    res.status(200).end();
+    res.status(200).json({ id: user_id });
 };
