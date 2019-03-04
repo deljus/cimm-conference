@@ -6,7 +6,8 @@ import { MAX_AFFILIATION, TEMPLATE } from './constants';
 
 class Main extends Component {
     state = {
-        affiliations: []
+        affiliations: [],
+        editMode: false
     };
 
     componentDidMount = async() => {

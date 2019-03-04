@@ -18,3 +18,40 @@ export const saveUserInfo = async(req, res) => {
     );
     res.status(200).json({ id: user_id });
 };
+
+export const getAffiliationForUser = async(req, res) => {
+    const { user_id } = req.session;
+    const affiliations = await DB.affiliation.findAll({ attributes: [
+            'address',
+            'affiliation',
+            'city',
+            'country',
+            'id'
+        ], include: [
+            {
+                model: DB.users,
+                where: {
+                        id: user_id
+                    }
+                }
+        ], raw: true });
+    res.status(200).json(affiliations);
+};
+
+export const saveAffiliationForUser = async(req, res) => {
+    const {  country,
+        city,
+        affiliation,
+        address,
+        zip } = req.body;
+    const { user_id } = req.session;
+    const affiliations = await DB.affiliation.create({
+        country,
+        city,
+        affiliation,
+        address,
+        zip
+    })
+    await DB.user_affiliation.create({ userId: user_id, affiliationId: affiliations.id })
+    res.status(200).json(affiliations);
+};

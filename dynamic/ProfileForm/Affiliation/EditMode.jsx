@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
-import { pick, keys, isEqual } from 'lodash';
+import { pick, keys, isEqual, reduce, map } from 'lodash';
 import withDataFetch from '../../core/withDataFetch';
-import { TEMPLATE } from './constants';
+import { FIELDS } from './constants';
 
 class EditMode extends Component{
     constructor(props){
         super(props);
         this.formRef = React.createRef();
-        this.state = TEMPLATE;
+        this.state = reduce(FIELDS, (acc, val, key) => {
+            acc[key] = val.default;
+            return acc;
+        },{});
     }
 
     componentDidMount(){
@@ -47,12 +50,7 @@ class EditMode extends Component{
 
     render(){
 
-        const {     country,
-            city,
-            affiliation,
-            address,
-            zip} = this.state;
-        const { loading, changeToViewMode } = this.props;
+        const { loading } = this.props;
 
         return(
             <ValidationForm
@@ -61,46 +59,17 @@ class EditMode extends Component{
                 immediate={true}
                 setFocusOnError={true}
             >
-                <div className="form-group">
-                    <label>Country</label>
-                    <TextInput name="country" required
-                               errorMessage={{required:"Country is required"}}
-                               value={country}
-                               onChange={this.handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>City</label>
-                    <TextInput name="city" required
-                               errorMessage={{required:"City is required"}}
-                               value={city}
-                               onChange={this.handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Affiliation</label>
-                    <TextInput name="affiliation" required
-                               errorMessage={{required:"Affiliation is required"}}
-                               value={affiliation}
-                               onChange={this.handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Address</label>
-                    <TextInput name="address" required
-                               errorMessage={{required:"Address is required"}}
-                               value={address}
-                               onChange={this.handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Zip</label>
-                    <TextInput name="zip" required
-                               errorMessage={{required:"Zip is required"}}
-                               value={zip}
-                               onChange={this.handleChange}
-                    />
-                </div>
+                {
+                    map(FIELDS, item => (
+                        <div className="form-group">
+                            <label>{ item.label }</label>
+                            <TextInput {...item}
+                                       value={this.state[item.name]}
+                                       onChange={this.handleChange}
+                            />
+                        </div>
+                    ))
+                }
                 <div className="form-group">
                     <button className="btn btn-primary" disabled={loading}>
                         { loading && <><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>&nbsp;</>}
