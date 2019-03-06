@@ -26,15 +26,17 @@ export const getAffiliationForUser = async(req, res) => {
             'affiliation',
             'city',
             'country',
+            'zip',
             'id'
         ], include: [
             {
                 model: DB.users,
+                attributes: [],
                 where: {
                         id: user_id
                     }
                 }
-        ], raw: true });
+        ] });
     res.status(200).json(affiliations);
 };
 
@@ -51,7 +53,19 @@ export const saveAffiliationForUser = async(req, res) => {
         affiliation,
         address,
         zip
-    })
+    });
     await DB.user_affiliation.create({ userId: user_id, affiliationId: affiliations.id })
+    res.status(200).json(affiliations);
+};
+
+export const deleteAffiliationForUser = async(req, res) => {
+    const { id } = req.body;
+    const { user_id } = req.session;
+    const affiliations = await DB.user_affiliation.destroy({
+        where: {
+            userId: user_id,
+            affiliationId: id
+        }
+    });
     res.status(200).json(affiliations);
 };

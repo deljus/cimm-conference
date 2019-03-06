@@ -3,7 +3,8 @@ export default (sequelize, DataTypes) => {
         id: {
             autoIncrement: true,
             primaryKey: true,
-            type: DataTypes.INTEGER
+            type: DataTypes.INTEGER,
+            access: { read: true }
         },
 
         country: {

@@ -6,8 +6,7 @@ import { MAX_AFFILIATION, TEMPLATE } from './constants';
 
 class Main extends Component {
     state = {
-        affiliations: [],
-        editMode: false
+        affiliations: []
     };
 
     componentDidMount = async() => {
@@ -16,21 +15,26 @@ class Main extends Component {
             method: 'get',
             url: '/affiliations',
         });
-        this.setState({ ...affiliationsData });
+        affiliationsData && this.setState({ affiliations: affiliationsData  });
     };
 
-    changeToEditMode = () => {
-        this.setState({ editMode: true })
+    changeToEditMode = (index) => () => {
+        const { affiliations } = this.state;
+        affiliations[index].editMode = true;
+        this.setState({ affiliations: [...affiliations] })
     };
 
-    changeToViewMode = () => {
-        this.setState({ editMode: false })
+    changeToViewMode = (index) => {
+        const { affiliations } = this.state;
+        affiliations[index].editMode = false;
+        this.setState({ affiliations: [...affiliations] })
     };
 
-    changeStateForSusses = (data) => {
+    changeStateForSusses = (data, index) => {
+        const { affiliations } = this.state;
+        affiliations[index] = {...data, editMode: false};
         this.setState({
-            ...data,
-            editMode: false,
+            affiliations
         });
     };
 
@@ -42,14 +46,21 @@ class Main extends Component {
         });
     };
 
-    deleteInState = (index) => {
-
+    deleteInState = async (index) => {
         const { affiliations } = this.state;
-        console.log(index, affiliations)
+        const { fetchData } = this.props;
+        if(affiliations[index].id){
+            const data = await fetchData({
+                method: 'delete',
+                url: '/affiliation',
+                data: { id: affiliations[index].id }
+            });
+            if(!data) return false;
+        }
+
         affiliations.splice(index, 1);
-        console.log(index, affiliations)
         this.setState({
-            affiliations
+            ...affiliations
         })
     }
 
@@ -79,12 +90,12 @@ class Main extends Component {
                                 index={index}
                                 changeToViewMode={this.changeToViewMode}
                                 changeState={this.changeStateForSusses}
-                                deleteInState={this.deleteInState}
                             />
                             : <ViewMode
                                 {...item}
                                 index={index}
                                 changeToEditMode={this.changeToEditMode}
+                                deleteInState={this.deleteInState}
                             />}
                         </div>
                 )

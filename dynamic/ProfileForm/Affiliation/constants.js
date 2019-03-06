@@ -43,8 +43,11 @@ export const FIELDS = {
     zip: {
         label: 'Zip',
         required: true,
+        type: "number",
+        validator: (val) => val.length === 6,
         errorMessage: {
-            required:"Zip is required"
+            required:"Zip is required",
+            validator: "Zip len must be 6"
         },
         default: '',
     },

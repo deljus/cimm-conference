@@ -29,7 +29,7 @@ class EditMode extends Component{
     };
 
     handleSubmit = async (e, formData) => {
-        const { fetchData, changeState } = this.props;
+        const { fetchData, changeState, index } = this.props;
         e.preventDefault();
 
          const dt = await fetchData({
@@ -38,19 +38,19 @@ class EditMode extends Component{
                 data: formData
             });
           if(dt){
-              changeState(this.state);
+              changeState(dt, index);
           }
     };
 
-    deleteInState = (e) => {
+    changeToViewMode = (e) => {
         e.preventDefault();
-        const { deleteInState, index } = this.props;
-        deleteInState(index);
-    };
+        const { changeToViewMode, index } = this.props;
+        changeToViewMode(index);
+    }
 
     render(){
 
-        const { loading } = this.props;
+        const { loading, changeToViewMode, index } = this.props;
 
         return(
             <ValidationForm
@@ -60,13 +60,16 @@ class EditMode extends Component{
                 setFocusOnError={true}
             >
                 {
-                    map(FIELDS, item => (
-                        <div className="form-group">
-                            <label>{ item.label }</label>
-                            <TextInput {...item}
-                                       value={this.state[item.name]}
-                                       onChange={this.handleChange}
-                            />
+                    map(FIELDS, (item, key) => (
+                        <div className="form-group row">
+                            <label className="col-4">{ item.label }</label>
+                            <div className="col-8">
+                                <TextInput {...item}
+                                           value={this.state[key]}
+                                           name={key}
+                                           onChange={this.handleChange}
+                                />
+                            </div>
                         </div>
                     ))
                 }
@@ -75,10 +78,10 @@ class EditMode extends Component{
                         { loading && <><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>&nbsp;</>}
                         Submit
                     </button>
-                    <button className="btn btn-danger" onClick={this.deleteInState}>
+                    <button className="btn btn-danger" onClick={this.changeToViewMode}>
                         <i className="fa fa-trash" aria-hidden="true" />&nbsp;
-                    Delete
-                </button>
+                        Cancel
+                    </button>
                 </div>
             </ValidationForm>
         )

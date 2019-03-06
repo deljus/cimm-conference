@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import {map} from "lodash";
+import {FIELDS} from "./constants";
+import {TextInput} from "react-bootstrap4-form-validation";
 
 const styleFormCntrol = {
     border: 'none'
@@ -6,42 +9,35 @@ const styleFormCntrol = {
 
 function ViewMode({
     index,
-    country,
-    city,
-    affiliation,
-    address,
-    zip,
-    changeToEditMode
+    changeToEditMode,
+    deleteInState,
+    ...rest
                   }) {
+
+    const deleteInStateFn = (e) => {
+        e.preventDefault();
+        deleteInState(index);
+    };
+
     return(
-        <div>
-            <div className="form-group">
-                <label>Country</label>
-                <span style={styleFormCntrol} className="form-control">{ country || "-" }</span>
-            </div>
-            <div className="form-group">
-                <label>City</label>
-                <span style={styleFormCntrol} className="form-control">{ city || "-" }</span>
-            </div>
-            <div className="form-group">
-                <label>Affiliation</label>
-                <span style={styleFormCntrol} className="form-control">{ affiliation || "-" }</span>
-            </div>
-            <div className="form-group">
-                <label>Address</label>
-                <span style={styleFormCntrol} className="form-control">{ address || "-" }</span>
-            </div>
-            <div className="form-group">
-                <label>Zip</label>
-                <span style={styleFormCntrol} className="form-control">{ zip || "-" }</span>
-            </div>
-            <div className="form-group">
-                <button className="btn btn-primary" onClick={changeToEditMode}>
-                    <i className="fa fa-pencil-square-o" aria-hidden="true"/>&nbsp;
-                    Edit
+        <>
+            {
+                map(FIELDS, (item, key) => (
+                    <div className="form-group row">
+                        <label className="col-4">{ item.label }:</label>
+                        <span
+                                   className="col-8"
+                        >{rest[key]}</span>
+                    </div>
+                ))
+            }
+            <div className="form-group row">
+                <button className="btn btn-danger" onClick={deleteInStateFn}>
+                    <i className="fa fa-trash" aria-hidden="true" />&nbsp;
+                    Delete
                 </button>
             </div>
-        </div>
+        </>
     )
 }
 
