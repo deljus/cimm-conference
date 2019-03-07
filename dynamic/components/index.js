@@ -6,5 +6,6 @@ import AutocompliteInput from './AutocompliteInput';
 export {
   Alert,
   MaskInputControl,
-  SelectControl
+  SelectControl,
+  AutocompliteInput
 };

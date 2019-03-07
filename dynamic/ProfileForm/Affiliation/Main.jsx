@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import ViewMode from './ViewMode';
 import EditMode from './EditMode';
+import { AutocompliteInput } from '../../components';
 import withDataFetch from '../../core/withDataFetch';
 import { MAX_AFFILIATION, TEMPLATE } from './constants';
 
 class Main extends Component {
     state = {
-        affiliations: []
+        affiliations: [],
+        selectedAffiliation: null
     };
 
     componentDidMount = async() => {
@@ -62,25 +64,74 @@ class Main extends Component {
         this.setState({
             ...affiliations
         })
-    }
+    };
 
+    setSelectedAffiliation = async() => {
+        const { fetchData } = this.props;
+        const { selectedAffiliation, affiliations } = this.state;
+        const data = await fetchData({
+            method: 'post',
+            url: '/affiliation',
+            data: {
+                id: selectedAffiliation.id,
+                bound: true
+            }
+        });
+        if(data){
+            affiliations.push(selectedAffiliation);
+            this.setState({ affiliations, selectedAffiliation: null });
+        }
+    };
+
+    addSelectedAffiliation = (selectedAffiliation) => {
+        console.log(selectedAffiliation);
+        this.setState({
+            selectedAffiliation
+        })
+    };
 
     render() {
-        const { affiliations } = this.state;
+        const { affiliations, selectedAffiliation } = this.state;
         const { renderAlerts } = this.props;
+
+        const isMaxAffiliation = affiliations.length >= MAX_AFFILIATION;
+
         return (
             <div className="py-4 pl-4">
-            <h5>Affiliation(s)&nbsp;&nbsp;
-                {
-                    affiliations.length < MAX_AFFILIATION
-                    && (<button className="btn btn-primary" onClick={this.addNewAffiliation}>
-                        <i className="fa fa-plus" aria-hidden="true" />&nbsp;Add
-                    </button>)
-                }</h5>
-        { renderAlerts() }
+            <h5>Affiliation(s):</h5>
+                <div className="row">
+                    <div className="col-6">
+                        <AutocompliteInput
+                            url="/"
+                            className="form-control"
+                            selected={selectedAffiliation}
+                            onSelect={this.addSelectedAffiliation}
+                            disabled={isMaxAffiliation}
+                        />
+                    </div>
+                    <div className="col-6">
+                        <button
+                            className="btn btn-primary"
+                            onClick={this.setSelectedAffiliation}
+                            disabled={isMaxAffiliation || !selectedAffiliation}
+                        >
+                           <i
+                               className="fa fa-plus"
+                               aria-hidden="true"
+                           />&nbsp;
+                            Add selected affiliation
+                        </button>
+                        <button
+                            className="btn btn-primary"
+                            onClick={this.addNewAffiliation}
+                            disabled={isMaxAffiliation}
+                        >
+                            <i className="fa fa-plus" aria-hidden="true" />&nbsp;Add new
+                        </button>
+                    </div>
+                </div>
+            { renderAlerts() }
             <div className="row">
-
-
                 {
                     affiliations.map((item, index) =>
                         <div className="col-12 col-md-4 col-sm-6">
@@ -98,11 +149,10 @@ class Main extends Component {
                                 deleteInState={this.deleteInState}
                             />}
                         </div>
-                )
+                    )
                 }
-                </div>
-
             </div>
+        </div>
 
         )
     }

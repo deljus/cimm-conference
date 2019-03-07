@@ -1,54 +1,54 @@
 export const MAX_AFFILIATION = 3;
 export const TEMPLATE = {
-    country: '',
-    city: '',
-    affiliation: '',
-    address: '',
-    zip: ''
+  country: '',
+  city: '',
+  affiliation: '',
+  address: '',
+  zip: ''
 };
 
 export const FIELDS = {
-    country: {
-        label: 'Country',
-        required: true,
-        errorMessage: {
-            required:"Country is required"
-        },
-        default: '',
+  country: {
+    label: 'Country',
+    required: true,
+    errorMessage: {
+      required: 'Country is required'
     },
-    city: {
-        label: 'City',
-        required: true,
-        errorMessage: {
-            required:"City is required"
-        },
-        default: '',
+    default: ''
+  },
+  city: {
+    label: 'City',
+    required: true,
+    errorMessage: {
+      required: 'City is required'
     },
-    affiliation: {
-        label: 'Affiliation',
-        required: true,
-        errorMessage: {
-            required:"Affiliation is required"
-        },
-        default: '',
+    default: ''
+  },
+  affiliation: {
+    label: 'Affiliation',
+    required: true,
+    errorMessage: {
+      required: 'Affiliation is required'
     },
-    address: {
-        label: 'Address',
-        required: true,
-        errorMessage: {
-            required:"Address is required"
-        },
-        default: '',
+    default: ''
+  },
+  address: {
+    label: 'Address',
+    required: true,
+    errorMessage: {
+      required: 'Address is required'
     },
-    zip: {
-        label: 'Zip',
-        required: true,
-        type: "number",
-        validator: (val) => val.length === 6,
-        errorMessage: {
-            required:"Zip is required",
-            validator: "Zip len must be 6"
-        },
-        default: '',
+    default: ''
+  },
+  zip: {
+    label: 'Zip',
+    required: true,
+    type: 'number',
+    validator: (val) => val.length === 6,
+    errorMessage: {
+      required: 'Zip is required',
+      validator: 'Zip len must be 6'
     },
-}
+    default: ''
+  }
+};
