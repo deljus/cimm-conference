@@ -19,24 +19,23 @@ function ViewMode({
   };
 
   return (
-        <>
-            {
-              map(FIELDS, (item, key) => (
-                <div className="form-group row">
-                  <label className="col-4">{ item.label }:</label>
-                  <span
-                    className="col-8"
-                  >{rest[key]}</span>
-                </div>
-              ))
-            }
-            <div className="form-group row">
-              <button className="btn btn-danger" onClick={deleteInStateFn}>
-                <i className="fa fa-trash" aria-hidden="true" />&nbsp;
+    <div className="affiliation-user">
+      {
+        map(FIELDS, (item, key) => (
+          <div className="form-group row">
+            <label className="col-4">{ item.label }:</label>
+            <span
+              className="col-8"
+            >{rest[key]}</span>
+          </div>
+        ))
+      }
+
+      <button className="btn btn-danger" onClick={deleteInStateFn}>
+        <i className="fa fa-trash" aria-hidden="true" />&nbsp;
                     Delete
-              </button>
-            </div>
-        </>
+      </button>
+    </div>
   );
 }
 

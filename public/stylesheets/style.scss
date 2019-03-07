@@ -79,3 +79,31 @@ body {
     margin-left: -15rem;
   }
 }
+
+.affiliation-user{
+  padding: 1.5rem;
+  position: relative;
+  background: $gray-100;
+  border: 1px solid $gray-100;
+
+  &:before
+  {
+    z-index: -1;
+
+    position: absolute;
+    content: "";
+    bottom: 15px;
+    left: 10px;
+    width: 50%;
+    background: #777;
+    top: 80%;
+    -webkit-box-shadow: 0 15px 10px #777;
+    -moz-box-shadow: 0 15px 10px #777;
+    box-shadow: 0 15px 10px #777;
+    -webkit-transform: rotate(-3deg);
+    -moz-transform: rotate(-3deg);
+    -o-transform: rotate(-3deg);
+    -ms-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+  }
+}

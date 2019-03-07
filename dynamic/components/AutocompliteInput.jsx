@@ -21,28 +21,15 @@ class AutocompliteInput extends Component{
 
     fetchFn = debounce(async(value) => {
         const { url } = this.props;
-        // const response = await axios({
-        //     url,
-        //     method: 'get',
-        //     data: {
-        //         search: value
-        //     }
-        // });
-        if(1){
-            //this.setState({ data: response.data })
-            this.setState({ data: [{
-                organization: 'zdfvzdfvzvfzdvfz',
-                    city: 'dzfvzdfv',
-                    zip: 124124,
-                    address: 'dfgdfgdfgdfgdfgdfg',
-                    id:2
-                }, {
-                    organization: 'zdfvzdfvzvfzdvfz111',
-                    city: 'dzfvzdfv',
-                    zip: 124124,
-                    address: 'dfgdfgdfgdfgdfgdfg',
-                    id:2
-                }] })
+        const response = await axios({
+            url,
+            method: 'get',
+            params: {
+                search: value
+            }
+        });
+        if(response.data) {
+            this.setState({data: response.data})
         }
     }, 200);
 
@@ -78,17 +65,18 @@ class AutocompliteInput extends Component{
                 <input
                     ref={this.inputRef}
                     className={className}
-                    value={selected && selected.organization}
+                    value={selected && selected.affiliation}
                     onFocus={this.openDropdown}
                     onChange={this.handleChange}
+                    onBlur={this.closeDropdown}
                 />
                 {
                     open && (
-                        <div ref={this.popupRef} className="dropdown-menu" style={{ display: 'block' }} onBlur={this.closeDropdown} tabIndex={-1} >
+                        <div ref={this.popupRef} className="dropdown-menu" style={{ display: 'block' }}  >
                             { data && data.map(item => (
-                                <a className="dropdown-item" href="#" onClick={this.onSelectItem(item)} >
-                                    <h6>{ item.organization }</h6>
-                                    { map(omit(FIELDS, 'organization'), ({ label }, key) => item[key] && <span className="badge badge-primary ">{ label }: {item[key]}</span>) }
+                                <a className="dropdown-item" href="" onMouseDown={this.onSelectItem(item)} >
+                                    <h6>{ item.affiliation }</h6>
+                                    { map(omit(FIELDS, 'affiliation'), ({ label }, key) => item[key] && <span className="badge badge-primary ">{ label }: {item[key]}</span>) }
                                 </a>
                             ))}
                             {

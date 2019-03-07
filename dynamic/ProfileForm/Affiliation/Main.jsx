@@ -66,25 +66,25 @@ class Main extends Component {
         })
     };
 
-    setSelectedAffiliation = async() => {
+    setSelectedAffiliation = async(e) => {
+        e.stopPropagation();
         const { fetchData } = this.props;
         const { selectedAffiliation, affiliations } = this.state;
+        console.log(selectedAffiliation);
         const data = await fetchData({
             method: 'post',
-            url: '/affiliation',
+            url: '/affiliation-bound',
             data: {
-                id: selectedAffiliation.id,
-                bound: true
+                id: selectedAffiliation.id
             }
         });
         if(data){
-            affiliations.push(selectedAffiliation);
+            affiliations.push(data);
             this.setState({ affiliations, selectedAffiliation: null });
         }
     };
 
     addSelectedAffiliation = (selectedAffiliation) => {
-        console.log(selectedAffiliation);
         this.setState({
             selectedAffiliation
         })
@@ -99,17 +99,17 @@ class Main extends Component {
         return (
             <div className="py-4 pl-4">
             <h5>Affiliation(s):</h5>
-                <div className="row">
+                <div className="row py-4">
                     <div className="col-6">
                         <AutocompliteInput
-                            url="/"
+                            url="/affiliations"
                             className="form-control"
                             selected={selectedAffiliation}
                             onSelect={this.addSelectedAffiliation}
                             disabled={isMaxAffiliation}
                         />
                     </div>
-                    <div className="col-6">
+                    <div className="btn-group col-4">
                         <button
                             className="btn btn-primary"
                             onClick={this.setSelectedAffiliation}
@@ -131,7 +131,7 @@ class Main extends Component {
                     </div>
                 </div>
             { renderAlerts() }
-            <div className="row">
+            <div className="row py-4">
                 {
                     affiliations.map((item, index) =>
                         <div className="col-12 col-md-4 col-sm-6">

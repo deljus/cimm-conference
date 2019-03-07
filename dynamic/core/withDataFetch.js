@@ -68,8 +68,6 @@ const withDataFetch = WrappedComponent => class extends Component {
     render () {
         const { loading } = this.state;
 
-
-
         return (
             <WrappedComponent {...this.props} loading={loading} renderAlerts={this.renderAlerts} fetchData={this.fetchData}/>
 
