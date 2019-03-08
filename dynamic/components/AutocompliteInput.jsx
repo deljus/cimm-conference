@@ -3,6 +3,10 @@ import { debounce, map, omit } from 'lodash';
 import axios from 'axios';
 import {FIELDS} from "../ProfileForm/Affiliation/constants";
 
+const styles = {
+    input: { position: 'relative' }
+};
+
 class AutocompliteInput extends Component{
     constructor(props){
         super(props);
@@ -61,11 +65,10 @@ class AutocompliteInput extends Component{
         const { selected, className, ...rest } = this.props;
 
         return (
-            <div style={{ position: 'relative' }} >
+            <div style={styles.input} >
                 <input
                     ref={this.inputRef}
                     className={className}
-                    value={selected && selected.affiliation}
                     onFocus={this.openDropdown}
                     onChange={this.handleChange}
                     onBlur={this.closeDropdown}
@@ -76,7 +79,9 @@ class AutocompliteInput extends Component{
                             { data && data.map(item => (
                                 <a className="dropdown-item" href="" onMouseDown={this.onSelectItem(item)} >
                                     <h6>{ item.affiliation }</h6>
-                                    { map(omit(FIELDS, 'affiliation'), ({ label }, key) => item[key] && <span className="badge badge-primary ">{ label }: {item[key]}</span>) }
+                                    { map(omit(FIELDS, 'affiliation'), ({ label }, key) => item[key] && <span className="badge badge-primary ">{ label }: {item[key]}</span>)
+                                    
+                                    }
                                 </a>
                             ))}
                             {
