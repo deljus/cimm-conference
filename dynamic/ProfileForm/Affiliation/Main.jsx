@@ -112,17 +112,6 @@ class Main extends Component {
                     <div className="btn-group col-4">
                         <button
                             className="btn btn-primary"
-                            onClick={this.setSelectedAffiliation}
-                            disabled={isMaxAffiliation || !selectedAffiliation}
-                        >
-                           <i
-                               className="fa fa-plus"
-                               aria-hidden="true"
-                           />&nbsp;
-                            Add selected affiliation
-                        </button>
-                        <button
-                            className="btn btn-primary"
                             onClick={this.addNewAffiliation}
                             disabled={isMaxAffiliation}
                         >
