@@ -82,6 +82,17 @@ class AutocompliteInput extends Component{
                                     { map(omit(FIELDS, 'affiliation'), ({ label }, key) => item[key] && <span className="badge badge-primary ">{ label }: {item[key]}</span>)
                                     
                                     }
+                       <button
+                            className="btn btn-primary"
+                            onClick={this.setSelectedAffiliation}
+                            disabled={isMaxAffiliation || !selectedAffiliation}
+                        >
+                           <i
+                               className="fa fa-plus"
+                               aria-hidden="true"
+                           />&nbsp;
+                            Add selected affiliation
+                        </button>
                                 </a>
                             ))}
                             {
