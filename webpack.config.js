@@ -41,10 +41,11 @@ module.exports = {
   optimization: {
     minimizer: [
       new UglifyJSPlugin({
+        parallel: true,
         sourceMap: true,
         uglifyOptions: {
           compress: {
-            inline: false
+            inline: true
           }
         }
       })
