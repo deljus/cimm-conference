@@ -1,13 +1,6 @@
 export const MAX_AFFILIATION = 3;
-export const TEMPLATE = {
-  country: '',
-  city: '',
-  affiliation: '',
-  address: '',
-  zip: ''
-};
 
-export const FIELDS = {
+export const AFFILIATION_FIELDS = {
   country: {
     label: 'Country',
     required: true,
@@ -52,3 +45,7 @@ export const FIELDS = {
     default: ''
   }
 };
+
+export const USER_FIELDS = {
+
+}

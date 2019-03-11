@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { rendePublicPages, renderIndex, rendeProfile } from '../controllers/pages';
+import { rendePublicPages, renderIndex, rendeProfile, renderThesisList, renderAddThesis } from '../controllers/pages';
 import {
   getUser, saveUserInfo, getAffiliationForUser, saveAffiliationForUser, deleteAffiliationForUser, saveAffiliationBoundForUser
 } from '../controllers/api';
@@ -16,6 +16,8 @@ router.post('/affiliation-bound', saveAffiliationBoundForUser);
 router.delete('/affiliation', deleteAffiliationForUser);
 
 router.get('/profile', rendeProfile);
+router.get('/thesis/list', renderThesisList);
+router.get('/thesis', renderAddThesis);
 router.get('/:url', rendePublicPages);
 
 

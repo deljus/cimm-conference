@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { map } from 'lodash';
-import { FIELDS } from './constants';
+import { AFFILIATION_FIELDS } from '../../constants';
 import { TextInput } from 'react-bootstrap4-form-validation';
 
 const styleFormCntrol = {
@@ -21,7 +21,7 @@ function ViewMode({
   return (
     <div className="affiliation-user">
       {
-        map(FIELDS, (item, key) => (
+        map(AFFILIATION_FIELDS, (item, key) => (
           <div className="form-group row">
             <label className="col-4">{ item.label }:</label>
             <span

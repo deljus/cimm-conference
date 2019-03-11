@@ -38,7 +38,9 @@
     "nodemailer": "^5.1.1",
     "randomstring": "^1.1.5",
     "express-validator": "^5.3.1",
-    "bcrypt": "^3.0.4"
+    "bcrypt": "^3.0.4",
+    "react-draft-wysiwyg": "^1.13.2",
+    "draft-js" : "^0.10.5"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -65,6 +67,9 @@
     "storybook-react-router": "^1.0.2",
     "uglifyjs-webpack-plugin": "^2.1.1",
     "webpack": "^4.29.3",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "style-loader": "^0.23.1",
+    "css-loader": "^2.1.1"
   }
 }

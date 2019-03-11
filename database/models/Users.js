@@ -50,7 +50,7 @@ export default (sequelize, DataTypes) => {
     },
 
     role: {
-        type: DataTypes.INTEGER
+      type: DataTypes.INTEGER
     },
 
     isVerifiedEmail: {
@@ -62,11 +62,12 @@ export default (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {
-      timestamps: false,
-    });
+    timestamps: false
+  });
 
   Users.associate = (models) => {
-      models.users.belongsToMany(models.affiliation, {through: 'user_affiliation'});
+    models.users.belongsToMany(models.affiliation, { through: 'user_affiliation' });
+    models.users.belongsToMany(models.thesis, { through: 'user_thesis' });
   };
 
   return Users;

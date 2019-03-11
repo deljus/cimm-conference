@@ -1,0 +1,13 @@
+extends publicPages
+
+block content
+    .container-fluid
+        main.col-12.py-5.pl-4.bd-content
+            h2 Thesis
+            div#thesis-form
+
+block js
+    script(src='javascripts/thesisForm.bundle.js')
+
+block styles
+    link(rel='stylesheet', href='/javascripts/thesisForm.css')

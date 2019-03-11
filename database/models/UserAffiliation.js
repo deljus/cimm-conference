@@ -1,9 +1,9 @@
 export default (sequelize, DataTypes) => {
-    const UserAffiliation = sequelize.define('user_affiliation', {
+  const UserAffiliation = sequelize.define('user_affiliation', {
 
-    }, {
-        timestamps: false,
-    });
+  }, {
+    timestamps: false
+  });
 
-    return UserAffiliation;
+  return UserAffiliation;
 };

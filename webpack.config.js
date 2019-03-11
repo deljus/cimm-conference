@@ -1,11 +1,12 @@
 const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
     registrationForm: './dynamic/RegisterForm/index.js',
     loginForm: './dynamic/LoginForm/index.js',
-    thesesForm: './dynamic/ThesesForm/index.js',
+    thesisForm: './dynamic/ThesisForm/index.js',
     profileForm: './dynamic/ProfileForm/index.js'
   },
   module: {
@@ -14,9 +15,21 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader']
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract(
+          {
+            fallback: 'style-loader',
+            use: 'css-loader'
+          }
+        )
       }
     ]
   },
+  plugins: [
+    new ExtractTextPlugin({ filename: '[name].css' })
+  ],
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },

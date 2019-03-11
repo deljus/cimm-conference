@@ -56,23 +56,27 @@ class EditMode extends Component{
                 immediate={true}
                 setFocusOnError={true}
             >
-                <div className="form-group">
-                    <label htmlFor="lastName">Last name</label>
+                <div className="form-group row">
+                    <label htmlFor="lastName" className="col-4">Last name</label>
+                    <div className="col-8">
                     <TextInput name="lastName" id="lastName" required
                                errorMessage={{required:"Last name is required"}}
                                value={lastName}
                                onChange={this.handleChange}
                     />
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="firstName">Password</label>
+                <div className="form-group row">
+                    <label htmlFor="firstName" className="col-4">First name</label>
+                    <div className="col-8">
                     <TextInput name="firstName" id="firstName" type="text" required
                                errorMessage={{required:"First name is required"}}
                                value={firstName}
                                onChange={this.handleChange}
                     />
+                    </div>
                 </div>
-                <div className="form-group">
+
                     <button className="btn btn-primary" disabled={loading}>
                         { loading && <><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>&nbsp;</>}
                         Submit
@@ -81,7 +85,6 @@ class EditMode extends Component{
                     <i className="fa fa-times" aria-hidden="true"/>&nbsp;
                     Cancel
                 </button>
-                </div>
             </ValidationForm>
         )
     }

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import { pick, keys, isEqual, reduce, map } from 'lodash';
 import withDataFetch from '../../core/withDataFetch';
-import { FIELDS } from './constants';
+import { AFFILIATION_FIELDS } from '../../constants';
 
 class EditMode extends Component{
     constructor(props){
         super(props);
         this.formRef = React.createRef();
-        this.state = reduce(FIELDS, (acc, val, key) => {
+        this.state = reduce(AFFILIATION_FIELDS, (acc, val, key) => {
             acc[key] = val.default;
             return acc;
         },{});
@@ -53,6 +53,7 @@ class EditMode extends Component{
         const { loading, changeToViewMode, index } = this.props;
 
         return(
+            <div className="affiliation-user">
             <ValidationForm
                 onSubmit={this.handleSubmit}
                 ref={this.formRef}
@@ -60,7 +61,7 @@ class EditMode extends Component{
                 setFocusOnError={true}
             >
                 {
-                    map(FIELDS, (item, key) => (
+                    map(AFFILIATION_FIELDS, (item, key) => (
                         <div className="form-group row">
                             <label className="col-4">{ item.label }</label>
                             <div className="col-8">
@@ -84,6 +85,7 @@ class EditMode extends Component{
                     </button>
                 </div>
             </ValidationForm>
+            </div>
         )
     }
 }

@@ -3,12 +3,11 @@ import ViewMode from './ViewMode';
 import EditMode from './EditMode';
 import { AutocompliteInput } from '../../components';
 import withDataFetch from '../../core/withDataFetch';
-import { MAX_AFFILIATION, TEMPLATE } from './constants';
+import { MAX_AFFILIATION, TEMPLATE } from '../../constants';
 
 class Main extends Component {
     state = {
         affiliations: [],
-        selectedAffiliation: null
     };
 
     componentDidMount = async() => {
@@ -28,7 +27,7 @@ class Main extends Component {
 
     changeToViewMode = (index) => {
         const { affiliations } = this.state;
-        affiliations[index].editMode = false;
+        affiliations.splice(index, 1);
         this.setState({ affiliations: [...affiliations] })
     };
 
@@ -66,11 +65,9 @@ class Main extends Component {
         })
     };
 
-    setSelectedAffiliation = async(e) => {
-        e.stopPropagation();
+    setSelectedAffiliation = async(selectedAffiliation) => {
         const { fetchData } = this.props;
-        const { selectedAffiliation, affiliations } = this.state;
-        console.log(selectedAffiliation);
+        const { affiliations } = this.state;
         const data = await fetchData({
             method: 'post',
             url: '/affiliation-bound',
@@ -80,18 +77,12 @@ class Main extends Component {
         });
         if(data){
             affiliations.push(data);
-            this.setState({ affiliations, selectedAffiliation: null });
+            this.setState({ affiliations });
         }
     };
 
-    addSelectedAffiliation = (selectedAffiliation) => {
-        this.setState({
-            selectedAffiliation
-        })
-    };
-
     render() {
-        const { affiliations, selectedAffiliation } = this.state;
+        const { affiliations } = this.state;
         const { renderAlerts } = this.props;
 
         const isMaxAffiliation = affiliations.length >= MAX_AFFILIATION;
@@ -104,12 +95,12 @@ class Main extends Component {
                         <AutocompliteInput
                             url="/affiliations"
                             className="form-control"
-                            selected={selectedAffiliation}
-                            onSelect={this.addSelectedAffiliation}
+                            affiliations={affiliations}
+                            onSelect={this.setSelectedAffiliation}
                             disabled={isMaxAffiliation}
                         />
                     </div>
-                    <div className="btn-group col-4">
+                    <div className="col-4">
                         <button
                             className="btn btn-primary"
                             onClick={this.addNewAffiliation}
