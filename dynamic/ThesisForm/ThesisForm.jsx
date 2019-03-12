@@ -2,18 +2,13 @@ import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import { pick, keys, isEqual, reduce, map } from 'lodash';
 import withDataFetch from '../core/withDataFetch';
-import { AFFILIATION_FIELDS } from '../constants';
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { HtmlEditor } from '../components';
 
 class EditMode extends Component{
     constructor(props){
         super(props);
         this.formRef = React.createRef();
-        this.state = {...reduce(AFFILIATION_FIELDS, (acc, val, key) => {
-            acc[key] = val.default;
-            return acc;
-        },{}), editorState: ''};
+        this.state = { text: ''};
     }
 
     componentDidMount(){
@@ -25,6 +20,7 @@ class EditMode extends Component{
     }
 
     handleChange = e => {
+        console.log(e.target)
         this.setState({
             [e.target.name]: e.target.value
         })
@@ -43,12 +39,6 @@ class EditMode extends Component{
             changeState(dt, index);
         }
     };
-
-    changeToViewMode = (e) => {
-        e.preventDefault();
-        const { changeToViewMode, index } = this.props;
-        changeToViewMode(index);
-    }
 
     render(){
 
@@ -72,29 +62,13 @@ class EditMode extends Component{
                             />
                         </div>
                     </div>
-                    {
-                        map(AFFILIATION_FIELDS, (item, key) => (
-                            <div className="form-group row">
-                                <label className="col-4">{ item.label }</label>
-                                <div className="col-8">
-                                    <TextInput {...item}
-                                               value={this.state[key]}
-                                               name={key}
-                                               onChange={this.handleChange}
-                                    />
-                                </div>
-                            </div>
-                        ))
-                    }
                     <div className="form-group row">
                         <label className="col-4">Text</label>
                         <div className="col-8">
-                            <Editor
-                                editorState={this.state.editorState}
-                                toolbarClassName="toolbarClassName"
-                                wrapperClassName="wrapperClassName"
-                                editorClassName="editorClassName"
-                                onEditorStateChange={this.onEditorStateChange}
+                            <HtmlEditor
+                                value={this.state.text}
+                                name="text"
+                                onChange={this.handleChange}
                             />
                         </div>
                     </div>

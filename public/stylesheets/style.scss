@@ -107,3 +107,13 @@ body {
     transform: rotate(-3deg);
   }
 }
+
+.html-editor{
+  & .form-control{
+    background-color: white;
+    padding: 20px;
+    tab-index: 1;
+    resize: vertical;
+  }
+}
+
