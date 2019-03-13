@@ -7,6 +7,8 @@ import sassMiddleware from 'node-sass-middleware';
 import { auth, pages } from './routes';
 import sessionConfig from './session';
 import { sequelize } from './database/models';
+import fileUpload from 'express-fileupload';
+import fileUploadController from './controllers/fileUpload';
 
 const app = express();
 
@@ -27,11 +29,16 @@ app.use(sassMiddleware({
 
 app.use(sessionConfig);
 
+app.use(fileUpload({
+  limits: { fileSize: 50 * 1024 * 1024 }
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/', auth);
 app.use('/', pages);
+app.post('/upload', fileUploadController);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

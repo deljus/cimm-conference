@@ -1,5 +1,16 @@
 {
-  "plugins": ["@babel/plugin-proposal-class-properties", "@babel/plugin-transform-runtime"],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-transform-runtime",
+    ["import", {
+    "libraryName": "lodash",
+    "libraryDirectory": "",
+    "camel2DashComponentName": false
+  }, 'loadsh'],
+  ["import", {
+    "libraryName": "validator",
+    "camel2DashComponentName": false
+  }, 'validator']],
   "presets": [
     "@babel/preset-env",
     "@babel/preset-react"

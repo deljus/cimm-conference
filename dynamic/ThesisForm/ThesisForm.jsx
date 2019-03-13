@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import { pick, keys, isEqual, reduce, map } from 'lodash';
 import withDataFetch from '../core/withDataFetch';
-import { HtmlEditor } from '../components';
+import HtmlEditor from '../components/HtmlEditor';
 
 class EditMode extends Component{
     constructor(props){
