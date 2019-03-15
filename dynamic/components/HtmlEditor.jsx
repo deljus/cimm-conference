@@ -26,13 +26,19 @@ class HtmlEditor extends BaseFormControl{
     fileUpload = (file) => {
         return new Promise(
             (resolve, reject) => {
-                const data = new FormData();
-                data.append('fileUpload', file);
-                axios.post('/upload', {data}).then((responseData) => {
+                const formData = new FormData();
+                formData.append('fileUpload', file);
+                axios.post('/upload', formData, {
+                    headers: {
+                        'Authorization': 'multipart/form-data'
+                    }
+                }).then((responseData) => {
                     resolve(responseData)
+                }).catch(err => {
+                    reject(err)
                 })
             })
-    }
+    };
 
     render () {
 

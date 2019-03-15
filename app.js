@@ -29,9 +29,7 @@ app.use(sassMiddleware({
 
 app.use(sessionConfig);
 
-app.use(fileUpload({
-  limits: { fileSize: 50 * 1024 * 1024 }
-}));
+app.use(fileUpload());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
