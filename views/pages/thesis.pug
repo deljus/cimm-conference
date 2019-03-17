@@ -3,11 +3,10 @@ extends publicPages
 block content
     .container-fluid
         main.col-12.py-5.pl-4.bd-content
-            h2 Thesis
-            div#thesis-form
+            div#thesis
 
 block js
-    script(src='javascripts/thesisForm.bundle.js')
+    script(src='/javascripts/thesis.bundle.js')
 
 block styles
-    link(rel='stylesheet', href='/javascripts/thesisForm.css')
+    link(rel='stylesheet', href='/javascripts/thesis.css')

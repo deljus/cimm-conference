@@ -119,6 +119,7 @@ class Main extends Component {
                             <EditMode
                                 {...item}
                                 index={index}
+                                className=""
                                 changeToViewMode={this.changeToViewMode}
                                 changeState={this.changeStateForSusses}
                             />

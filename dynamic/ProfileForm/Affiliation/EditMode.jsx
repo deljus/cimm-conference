@@ -50,7 +50,7 @@ class EditMode extends Component{
 
     render(){
 
-        const { loading, changeToViewMode, index } = this.props;
+        const { loading, changeToViewMode, index, className } = this.props;
 
         return(
             <div className="affiliation-user">

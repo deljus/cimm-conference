@@ -26,6 +26,9 @@ const withDataFetch = WrappedComponent => class extends Component {
                     alertPrimaryShow: true
                 });
             }
+            if(data.redirect){
+                window.location.href = data.redirect;
+            }
             return data;
         }catch (e) {
             this.setState({

@@ -59,7 +59,6 @@ export default (sequelize, DataTypes) => {
 
     password: {
       type: DataTypes.STRING,
-      allowNull: false
     }
   }, {
     timestamps: false

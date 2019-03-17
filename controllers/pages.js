@@ -32,14 +32,8 @@ export const rendeProfile = async (req, res) => {
   res.render('pages/profile', { menu: allPages, auth });
 };
 
-export const renderThesisList = async (req, res) => {
+export const renderThesisPage = async (req, res) => {
   const allPages = await DB.pages.findAll({ raw: true });
   const auth = !isNil(req.session.user_id);
   res.render('pages/thesis', { menu: allPages, auth });
-};
-
-export const renderAddThesis = async (req, res) => {
-    const allPages = await DB.pages.findAll({ raw: true });
-    const auth = !isNil(req.session.user_id);
-    res.render('pages/thesis', { menu: allPages, auth });
 };

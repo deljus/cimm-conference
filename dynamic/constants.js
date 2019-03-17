@@ -1,3 +1,5 @@
+import validation from 'validator';
+
 export const MAX_AFFILIATION = 3;
 
 export const AFFILIATION_FIELDS = {
@@ -46,6 +48,31 @@ export const AFFILIATION_FIELDS = {
   }
 };
 
-export const USER_FIELDS = {
-
-}
+export const AUTHOR_FIELDS = {
+  lastName: {
+    label: 'Last name',
+    required: true,
+    errorMessage: {
+      required: 'Last name is required'
+    },
+    default: ''
+  },
+  firstName: {
+    label: 'First name',
+    required: true,
+    errorMessage: {
+      required: 'First name is required'
+    },
+    default: ''
+  },
+  email: {
+    label: 'Email',
+    required: true,
+    validator: validation.isEmail,
+    errorMessage: {
+      required: 'Affiliation is required',
+      validator: 'Please enter a valid email'
+    },
+    default: ''
+  }
+};

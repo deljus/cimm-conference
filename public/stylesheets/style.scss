@@ -114,6 +114,28 @@ body {
     padding: 20px;
     tab-index: 1;
     resize: vertical;
+    min-height: 300px;
+  }
+}
+
+.autocomplite{
+  width: 100%;
+
+  &.disabled{
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
+  .input{
+    width: 100%;
+  }
+  .dropdown-menu{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    min-height: 400px;
+    max-height: 400px;
+    overflow: auto;
   }
 }
 

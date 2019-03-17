@@ -1,27 +1,43 @@
 import React, { Component } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
-// import htmlToDraft from 'html-to-draftjs';
- import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {BaseFormControl} from "react-bootstrap4-form-validation";
+import { pick } from 'lodash';
 import axios from 'axios';
 import { toolbar } from './toolbarProps';
 
-class HtmlEditor extends BaseFormControl{
-    constructor(props){
-        super(props);
-        this.inputRef = React.createRef();
-        this.getInputRef = this.getInputRef.bind(this);
+/**
+ * Convert defaultValue to draft format
+ * @param defaultValue
+ * @returns {*}
+ */
+const defaultState = (defaultValue) => {
+    if(defaultValue) {
+        const blocksFromHtml = htmlToDraft(defaultValue);
+        const {contentBlocks, entityMap} = blocksFromHtml;
+        const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+        return EditorState.createWithContent(contentState);
     }
+    return null;
+};
 
-    getInputRef(){
-        return this.inputRef.current.inputElement;
+class HtmlEditor extends Component {
+    state = {
+        editorState: defaultState(this.props.defaultValue),
     };
 
-    onEditorStateChange = (val) => {
-        this.checkError();
-        if(this.props.onChange) this.props.onChange(val);
-    }
+    onEditorStateChange = (editorState) => {
+        const value = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+        const { onChange, name } = this.props;
+        this.setState({
+            editorState,
+        });
+
+        onChange({ target: { name, value }})
+    };
 
     fileUpload = (file) => {
         return new Promise(
@@ -40,27 +56,32 @@ class HtmlEditor extends BaseFormControl{
             })
     };
 
-    render () {
+    render() {
+        const { editorState } = this.state;
+        const { name, onImageUpload } = this.props;
 
-        const { value } = this.props;
-
-        return (
-            <React.Fragment>
+        return(
+            <>
                 <Editor
-                    ref={this.inputRef}
-                    {...this.filterProps()}
-                    editorState={value}
-                    toolbar={toolbar(this.fileUpload)}
+                    editorState={editorState}
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="html-editor"
                     editorClassName="form-control"
+                    toolbar={toolbar(this.fileUpload)}
                     onEditorStateChange={this.onEditorStateChange}
                 />
-                { this.displayErrorMessage() }
-                { this.displaySuccessMessage() }
-            </React.Fragment>
+                <textarea
+                    name={name}
+                    style={{ display: 'none' }}
+                    className="html-editor"
+                    value={
+                        editorState && draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+                />
+            </>
         )
     }
 }
+
+
 
 export default HtmlEditor;

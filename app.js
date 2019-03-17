@@ -4,11 +4,10 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import sassMiddleware from 'node-sass-middleware';
-import { auth, pages } from './routes';
+import { auth, pages, upload, api } from './routes';
 import sessionConfig from './session';
 import { sequelize } from './database/models';
 import fileUpload from 'express-fileupload';
-import fileUploadController from './controllers/fileUpload';
 
 const app = express();
 
@@ -34,9 +33,8 @@ app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/', auth);
-app.use('/', pages);
-app.post('/upload', fileUploadController);
+app.use('/', [pages, api, upload, auth]);
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

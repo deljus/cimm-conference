@@ -22,16 +22,12 @@ block nav-bar
         form.form-inline
             if auth
                 a.btn.btn-primary(href='/profile', role='button', aria-pressed='true') Profile
-                .dropdown
-                    button#dropdownMenuButton.btn.btn-primary.dropdown-toggle(type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-                        | Thesis
-                    .dropdown-menu(aria-labelledby='dropdownMenuButton')
-                        a.dropdown-item(href='/thesis/list') My thesis
-                        a.dropdown-item(href='/thesis') Add thesis
+                a.btn.btn-primary(href='/thesis/list') Thesis
+
                 a.btn.btn-primary(href='/logout', role='button', aria-pressed='true') Logout
             else
-                a.btn.btn-link(href='/registration', role='button', aria-pressed='true') Registration
-                a.btn.btn-link(href='/login', role='button', aria-pressed='true') Login
+                a.btn.btn-primary(href='/registration', role='button', aria-pressed='true') Registration
+                a.btn.btn-primary(href='/login', role='button', aria-pressed='true') Login
 
 
 

@@ -10,7 +10,7 @@ export default async (req, res) => {
 
   try {
     await fileUpload.mv(`${__dirname}/../public/images/${fileUpload.name}`);
-    res.status(200).send({ data: { link: `/images/${fileUpload.name}`, type: fileUpload.mimetype }});
+    res.status(200).send({ link: `/images/${fileUpload.name}`, type: fileUpload.mimetype });
   } catch (err) {
     return res.status(500).send(err);
   }
