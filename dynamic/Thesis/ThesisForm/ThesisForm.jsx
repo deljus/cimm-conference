@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import { pick, keys, isEqual, reduce, map } from 'lodash';
-import withDataFetch from '../core/withDataFetch';
-import HtmlEditor from '../components/HtmlEditor';
-import AutocompliteForUser from '../components/AutocompliteForUser';
+import withDataFetch from '../../core/withDataFetch';
+import HtmlEditor from '../../components/HtmlEditor';
+import AutocompliteForUser from '../../components/AutocompliteForUser';
 import CreateUserModal from './CreateUserModal';
+import { apiRoutes } from '../../../globalConfig';
 
 class EditMode extends Component{
     constructor(props){
@@ -17,11 +18,11 @@ class EditMode extends Component{
         const { fetchData } = this.props;
         const userData = await fetchData({
             method: 'get',
-            url: '/user',
+            url: apiRoutes.user.current,
         });
         const affiliations = await fetchData({
             method: 'get',
-            url: '/affiliations',
+            url: apiRoutes.affiliation.all,
         });
         const users = [{ ...userData, affiliations }];
         this.setState({ users });
@@ -106,7 +107,7 @@ class EditMode extends Component{
                         <div className="col-4">
                             <AutocompliteForUser
                                 className="form-control"
-                                url="/users"
+                                url={apiRoutes.user.all}
                                 onSelect={this.setUserToState}
                                 executIds={map(users, 'id')}
                                 renderDropDown={(item) => (

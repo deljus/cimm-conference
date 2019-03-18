@@ -1,15 +1,12 @@
-import DB from '../database/models';
-
-export const loadUser = async (req, res, next) => {
+export const checkUser = async (req, res, next) => {
   if (req.session.user_id) {
-    const user = await DB.users.findByPk(req.session.user_id);
-    if (user) {
-      req.currentUser = user;
-      next();
-    } else {
-      res.redirect('/login');
-    }
-  } else {
-    res.redirect('/login');
+    req.userId = req.session.user_id;
+    next();
   }
+
+  if (req.xhr) {
+    res.status(401).json({ redirect: '/login' }).end();
+  }
+
+  res.status(401).redirect('/login');
 };

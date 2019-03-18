@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import { pick, keys, isEqual } from 'lodash';
-import validator from "validator";
+import { apiRoutes } from '../../../globalConfig';
 import withDataFetch from '../../core/withDataFetch';
 
 
@@ -24,7 +24,6 @@ class EditMode extends Component{
     }
 
     handleChange = e => {
-        console.log(e.target.value);
         this.setState({
             [e.target.name]: e.target.value
         })
@@ -36,7 +35,7 @@ class EditMode extends Component{
 
          const dt = await fetchData({
                 method: 'post',
-                url: '/user',
+                url: apiRoutes.user.current,
                 data: formData
             });
           if(dt){

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import {map, omit, reduce, eq} from 'lodash';
-import {AFFILIATION_FIELDS, AUTHOR_FIELDS} from '../constants';
-import AutocompliteForUser from '../components/AutocompliteForUser';
-import { MAX_AFFILIATION } from '../constants';
-import EditAffiliation from '../components/EditAffiliation';
-import withDataFetch from '../core/withDataFetch';
+import {AFFILIATION_FIELDS, AUTHOR_FIELDS} from '../../constants';
+import AutocompliteForUser from '../../components/AutocompliteForUser';
+import { MAX_AFFILIATION } from '../../constants';
+import EditAffiliation from '../../components/EditAffiliation';
+import withDataFetch from '../../core/withDataFetch';
 import cx from 'classnames';
+import { apiRoutes } from '../../../globalConfig';
 
 const defaultState = {
     ...reduce(AUTHOR_FIELDS, (acc, val, key) => ({ [key]: val.default, ...acc }), {}),
@@ -39,7 +40,7 @@ class CreateUser extends Component {
     resetForm = () => {
         let formRef = this.formRef.current;
         formRef.resetValidationState(this.state.clearInputOnReset);
-    }
+    };
 
     handleChange = e => {
         this.setState({
@@ -48,14 +49,14 @@ class CreateUser extends Component {
     };
 
     setAffiliation = (item) => {
-    const { affiliations } = this.state;
-    affiliations.push(item);
+        const { affiliations } = this.state;
+        affiliations.push(item);
 
-    this.setState({
-      affiliations,
-        editMode: false,
-    })
-  };
+        this.setState({
+          affiliations,
+            editMode: false,
+        })
+      };
 
     deleteAffiiation = (inx) => (e) => {
       e.preventDefault();
@@ -85,7 +86,7 @@ class CreateUser extends Component {
 
         const dt = await fetchData({
             method: 'put',
-            url: '/user',
+            url: apiRoutes.user.current,
             data: this.state
         });
         if(dt){

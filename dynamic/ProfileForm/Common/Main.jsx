@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ViewMode from './ViewMode';
 import EditMode from './EditMode';
 import withDataFetch from '../../core/withDataFetch';
+import { apiRoutes } from '../../../globalConfig';
 
 class Main extends Component {
     state = {
@@ -14,7 +15,7 @@ class Main extends Component {
         const { fetchData } = this.props;
         const userData = await fetchData({
             method: 'get',
-            url: '/user',
+            url: apiRoutes.user.current,
         });
         this.setState({ ...userData });
     };

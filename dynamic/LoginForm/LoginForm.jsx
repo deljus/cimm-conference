@@ -34,7 +34,6 @@ class LoginForm extends Component {
         } = this.props;
 
         return (
-            //Controlled Components
             <ValidationForm className="registration-form" onSubmit={this.handleSubmit} onErrorSubmit={this.handleErrorSubmit}>
                 <h3>Login or <a href="/registration">Registration</a></h3>
                 { renderAlerts() }

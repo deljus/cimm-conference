@@ -49,7 +49,7 @@ export const saveUserInfo = async (req, res) => {
   res.status(200).json({ id: user_id });
 };
 
-export const getAffiliationForUser = async (req, res) => {
+export const getAffiliations = async (req, res) => {
   const { user_id } = req.session;
   const { search } = req.query;
 

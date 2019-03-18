@@ -3,9 +3,9 @@ import pages from './pages';
 import api from './api';
 import upload from './upload';
 
-export {
+export default [
   auth,
   pages,
   api,
   upload
-};
+];

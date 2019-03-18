@@ -1,9 +1,5 @@
 import React from 'react';
 
-const styleFormCntrol = {
-  border: 'none'
-};
-
 function ViewMode({
   lastName,
   firstName,

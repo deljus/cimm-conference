@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ValidationForm, TextInput } from 'react-bootstrap4-form-validation';
 import validator from 'validator'
-import axios from 'axios';
+import { apiRoutes } from '../../globalConfig';
 import withDataFetch from '../core/withDataFetch';
 
 const defaultState = {
@@ -28,7 +28,7 @@ class RegisterForm extends Component {
         e.preventDefault();
         await fetchData({
             method: 'post',
-            url: '/registration',
+            url: apiRoutes.registration,
             data: formData
         });
     };

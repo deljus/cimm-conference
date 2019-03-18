@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { Alert } from "../components";
+import { config } from "../../globalConfig";
 
 const defaultState = {
     alertPrimaryShow: false,
@@ -18,7 +19,11 @@ const withDataFetch = WrappedComponent => class extends Component {
     fetchData = async (options) => {
         try{
             this.setState({ loading: true });
-            const response = await axios(options);
+            const params = {
+                ...options,
+                url: config.routePrefix + options.url
+            };
+            const response = await axios(params);
             const { data } = response;
             if(data.message){
                 this.setState({
@@ -27,10 +32,15 @@ const withDataFetch = WrappedComponent => class extends Component {
                 });
             }
             if(data.redirect){
-                window.location.href = data.redirect;
+                window.location.href = config.routePrefix + data.redirect;
+                return;
             }
             return data;
         }catch (e) {
+            if(e.redirect){
+                window.location.href = config.routePrefix + e.redirect;
+                return;
+            };
             this.setState({
                 message: e.message,
                 alertDangerShow: true
