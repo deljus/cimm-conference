@@ -40,7 +40,7 @@ class EditMode extends Component{
 
         const dt = await fetchData({
             method: 'put',
-            url: '/thesis',
+            url: apiRoutes.thesis.current,
             data: this.state,
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         });

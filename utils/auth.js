@@ -1,12 +1,14 @@
+import { isNil } from 'lodash';
+
 export const checkUser = async (req, res, next) => {
-  if (req.session.user_id) {
+  if (!isNil(req.session.user_id)) {
     req.userId = req.session.user_id;
-    next();
+    return next();
   }
 
   if (req.xhr) {
-    res.status(401).json({ redirect: '/login' }).end();
+    return res.status(401).json({ redirect: '/login' });
   }
 
-  res.status(401).redirect('/login');
+  return res.status(401).redirect('/login');
 };

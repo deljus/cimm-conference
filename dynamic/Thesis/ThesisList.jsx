@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { map } from 'lodash';
 import withDataFetch from '../core/withDataFetch';
 import { redirect } from '../core/history';
+import { insideRoutes } from '../../globalConfig';
 
 
 class ThesisList extends Component {
@@ -13,7 +14,7 @@ class ThesisList extends Component {
       const { fetchData } = this.props;
       const data = await fetchData({
           method: 'get',
-          url: '/thesis/all',
+          url: apiRoutes.thesis.all,
       });
       if(data){
           this.setState({ list: data.thesis });
@@ -21,11 +22,11 @@ class ThesisList extends Component {
   };
 
     redirectToShow = (id) => () => {
-        redirect(`thesis/show/${id}`);
+        redirect(`/thesis/show/${id}`);
     };
 
     redirectToCreate = () => {
-        redirect('thesis/create');
+        redirect(insideRoutes.thesis.create);
     };
 
   render() {

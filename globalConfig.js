@@ -1,5 +1,5 @@
 export const config = {
-  routePrefix: '/'
+  routePrefix: ''
 };
 
 export const insideRoutes = {

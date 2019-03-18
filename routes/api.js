@@ -16,6 +16,7 @@ router.post(apiRoutes.affiliation.forCurrentUser, checkUser, api.saveAffiliation
 router.post(apiRoutes.affiliation.boundForUser, checkUser, api.saveAffiliationBoundForUser);
 router.delete(apiRoutes.affiliation.forCurrentUser, checkUser, api.deleteAffiliationForUser);
 
+
 router.put(apiRoutes.thesis.current, checkUser, api.saveThesis);
 router.get(apiRoutes.thesis.all, checkUser, api.getUserThesises);
 router.get('/thesis/:id', checkUser, api.getUserThesis);
