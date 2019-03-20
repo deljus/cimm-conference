@@ -1,14 +1,15 @@
 import { Router } from 'express';
-import { rendePublicPages, renderIndex, rendeProfile, renderThesisPage } from '../controllers/pages';
+import { values } from 'lodash';
+import { rendePublicPages, renderIndex, rendeProfile, renderThesisPage, getPageAndAuth } from '../controllers/pages';
 import { checkUser } from '../utils/auth';
+import { insideRoutes } from '../globalConfig';
 
 const router = Router();
-router.get('/', renderIndex);
-router.get('/page/:url', rendePublicPages);
-router.get('/profile', checkUser, rendeProfile);
+router.get('/', getPageAndAuth, renderIndex);
+router.get('/profile', checkUser, getPageAndAuth, rendeProfile);
 // Все роуты будут через react-router
-router.get(['/thesis/create', '/thesis/edit/*', '/thesis/list', '/thesis/show/*'], checkUser, renderThesisPage);
-
+router.get(values(insideRoutes.thesis), checkUser, getPageAndAuth, renderThesisPage);
+router.get('/:url', getPageAndAuth, rendePublicPages);
 
 
 export default router;

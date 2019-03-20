@@ -19,13 +19,15 @@ export const apiRoutes = {
     all: '/api/users'
   },
   affiliation: {
-    current: '/api/affiliation',
-    all: '/api/affiliations',
-    forCurrentUser: '/api/affiliation/current',
-    boundForUser: '/api/affiliation/bound'
+    create: '/api/affiliation',
+    forCurrentUser: '/api/affiliations/user',
+    me: '/api/affiliations/me',
+    all: '/api/affiliations/all',
+    boundForMe: '/api/affiliations/bound'
   },
   thesis: {
+    me: '/api/thesis/me',
     all: '/api/thesis/all',
-    current: '/api/thesis'
+    meToId: '/api/thesis/:id'
   }
 };

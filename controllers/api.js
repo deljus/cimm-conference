@@ -50,34 +50,12 @@ export const saveUserInfo = async (req, res) => {
 };
 
 export const getAffiliations = async (req, res) => {
-  const { user_id } = req.session;
   const { search } = req.query;
 
-  if (!search && !isNil(search)) {
-    return res.status(200).json([]);
-  }
-
-  let query;
-
-  if (search) {
-    query = {
-      where: { affiliation: { $like: `%${search}%` } },
-      limit: 10
-    };
-  } else {
-    query = {
-      include: [
-        {
-          model: DB.users,
-          attributes: [],
-          where: {
-            id: user_id
-          }
-        }
-      ]
-    };
-  }
-  const affiliations = await DB.affiliation.findAll(query);
+  const affiliations = await DB.affiliation.findAll({
+    where: { affiliation: { $like: `%${search}%` } },
+    limit: 10
+  });
   res.status(200).json(affiliations);
 };
 
@@ -138,7 +116,7 @@ export const deleteAffiliationForUser = async (req, res) => {
       affiliationId: id
     }
   });
-  res.status(200).json(affiliations);
+  res.status(200).json({ id });
 };
 
 
@@ -198,4 +176,25 @@ export const getUserThesis = async (req, res) => {
   const { id } = req.params;
   const thesis = await DB.thesis.findByPk(id);
   res.status(200).json(thesis);
+};
+
+export const getAffiliationForMe = async (req, res) => {
+  const { user_id } = req.session;
+  const affiliations = await DB.affiliation.findAll({
+    include: [
+      {
+        model: DB.users,
+        attributes: [],
+        where: {
+          id: user_id
+        }
+      }
+    ]
+  });
+  res.status(200).json(affiliations);
+};
+
+export const deleteUserThesis = async (req, res) => {
+    // организовать удаление
+    res.status(200).json({});
 };

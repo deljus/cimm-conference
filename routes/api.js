@@ -10,15 +10,20 @@ router.get(apiRoutes.user.all, checkUser, api.getUsers);
 router.post(apiRoutes.user.current, checkUser, api.saveUserInfo);
 router.put(apiRoutes.user.current, checkUser, api.saveNewUser);
 
+
 router.get(apiRoutes.affiliation.all, checkUser, api.getAffiliations);
-router.post(apiRoutes.affiliation.current, checkUser, api.saveAffiliation);
-router.post(apiRoutes.affiliation.forCurrentUser, checkUser, api.saveAffiliationForUser);
-router.post(apiRoutes.affiliation.boundForUser, checkUser, api.saveAffiliationBoundForUser);
-router.delete(apiRoutes.affiliation.forCurrentUser, checkUser, api.deleteAffiliationForUser);
+router.get(apiRoutes.affiliation.me, checkUser, api.getAffiliationForMe);
+router.delete(apiRoutes.affiliation.me, checkUser, api.deleteAffiliationForUser);
+router.post(apiRoutes.affiliation.boundForMe, checkUser, api.saveAffiliationBoundForUser);
 
+router.post(apiRoutes.affiliation.create, checkUser, api.saveAffiliation);
+router.post(apiRoutes.affiliation.me, checkUser, api.saveAffiliationForUser);
 
-router.put(apiRoutes.thesis.current, checkUser, api.saveThesis);
+router.put(apiRoutes.thesis.me, checkUser, api.saveThesis);
 router.get(apiRoutes.thesis.all, checkUser, api.getUserThesises);
-router.get('/thesis/:id', checkUser, api.getUserThesis);
+
+
+router.get(apiRoutes.thesis.meToId, checkUser, api.getUserThesis);
+router.delete(apiRoutes.thesis.meToId, checkUser, api.deleteUserThesis);
 
 export default router;

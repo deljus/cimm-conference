@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { map } from 'lodash';
 import withDataFetch from '../core/withDataFetch';
-import { redirect } from '../core/history';
+import resolveUrl from '../core/resolveUrl';
+import { apiRoutes } from '../../globalConfig';
 
 
 class ThesisList extends Component {
@@ -14,7 +15,7 @@ class ThesisList extends Component {
         console.log(this.props);
         const data = await fetchData({
             method: 'get',
-            url: `/thesis/${match.params.id}`,
+            url: resolveUrl(apiRoutes.thesis.meToId, { id: match.params.id }),
         });
         if(data){
             this.setState({ data });

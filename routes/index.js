@@ -5,7 +5,7 @@ import upload from './upload';
 
 export default [
   auth,
-  pages,
+
   api,
-  upload
+  upload, pages,
 ];

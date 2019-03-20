@@ -13,7 +13,7 @@ block side-bar
             |   Cimm kpfu
     .list-group.list-group-flush
         each item in menu
-            a.list-group-item.list-group-item-action(href=item.url)=item.title
+            a.list-group-item.list-group-item-action(href=routePrefix + item.url)=item.title
 
 block nav-bar
     nav.navbar.navbar-dark.bg-primary
@@ -21,10 +21,10 @@ block nav-bar
             span.navbar-toggler-icon
         form.form-inline
             if auth
-                a.btn.btn-primary(href='/profile', role='button', aria-pressed='true') Profile
-                a.btn.btn-primary(href='/thesis/list') Thesis
+                a.btn.btn-primary(href=routePrefix + '/profile', role='button', aria-pressed='true') Profile
+                a.btn.btn-primary(href=routePrefix + insideRoutes.thesis.list) Thesis
 
-                a.btn.btn-primary(href='/logout', role='button', aria-pressed='true') Logout
+                a.btn.btn-primary(href=routePrefix + '/logout', role='button', aria-pressed='true') Logout
             else
-                a.btn.btn-primary(href='/registration', role='button', aria-pressed='true') Registration
-                a.btn.btn-primary(href='/login', role='button', aria-pressed='true') Login
+                a.btn.btn-primary(href=routePrefix + '/registration', role='button', aria-pressed='true') Registration
+                a.btn.btn-primary(href=routePrefix + '/login', role='button', aria-pressed='true') Login

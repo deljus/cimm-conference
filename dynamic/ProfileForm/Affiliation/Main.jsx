@@ -4,6 +4,7 @@ import EditMode from './EditMode';
 import { AutocompliteInput } from '../../components';
 import withDataFetch from '../../core/withDataFetch';
 import { MAX_AFFILIATION, TEMPLATE } from '../../constants';
+import { apiRoutes } from '../../../globalConfig';
 
 class Main extends Component {
     state = {
@@ -14,7 +15,7 @@ class Main extends Component {
         const { fetchData } = this.props;
         const affiliationsData = await fetchData({
             method: 'get',
-            url: '/affiliations',
+            url: apiRoutes.affiliation.me,
         });
         affiliationsData && this.setState({ affiliations: affiliationsData  });
     };
@@ -53,7 +54,7 @@ class Main extends Component {
         if(affiliations[index].id){
             const data = await fetchData({
                 method: 'delete',
-                url: '/affiliation',
+                url: apiRoutes.affiliation.me,
                 data: { id: affiliations[index].id }
             });
             if(!data) return false;
@@ -70,7 +71,7 @@ class Main extends Component {
         const { affiliations } = this.state;
         const data = await fetchData({
             method: 'post',
-            url: '/affiliation-bound',
+            url: apiRoutes.affiliation.boundForMe,
             data: {
                 id: selectedAffiliation.id
             }
@@ -93,7 +94,7 @@ class Main extends Component {
                 <div className="row py-4">
                     <div className="col-6">
                         <AutocompliteInput
-                            url="/affiliations"
+                            url={apiRoutes.affiliation.all}
                             className="form-control"
                             affiliations={affiliations}
                             onSelect={this.setSelectedAffiliation}

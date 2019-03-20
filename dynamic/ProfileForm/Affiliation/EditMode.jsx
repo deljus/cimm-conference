@@ -3,6 +3,7 @@ import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import { pick, keys, isEqual, reduce, map } from 'lodash';
 import withDataFetch from '../../core/withDataFetch';
 import { AFFILIATION_FIELDS } from '../../constants';
+import { apiRoutes } from '../../../globalConfig';
 
 class EditMode extends Component{
     constructor(props){
@@ -34,7 +35,7 @@ class EditMode extends Component{
 
          const dt = await fetchData({
                 method: 'post',
-                url: '/affiliation',
+                url: apiRoutes.affiliation.me,
                 data: formData
             });
           if(dt){
