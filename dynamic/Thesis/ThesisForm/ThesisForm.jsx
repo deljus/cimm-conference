@@ -6,6 +6,7 @@ import HtmlEditor from '../../components/HtmlEditor';
 import AutocompliteForUser from '../../components/AutocompliteForUser';
 import CreateUserModal from './CreateUserModal';
 import { apiRoutes } from '../../../globalConfig';
+import resolveUrl from '../../core/resolveUrl'
 
 class EditMode extends Component{
     constructor(props){
@@ -15,7 +16,8 @@ class EditMode extends Component{
     }
 
     componentDidMount = async() => {
-        const { fetchData } = this.props;
+        const { fetchData, match } = this.props;
+
         const userData = await fetchData({
             method: 'get',
             url: apiRoutes.user.current,
@@ -24,8 +26,19 @@ class EditMode extends Component{
             method: 'get',
             url: apiRoutes.affiliation.all,
         });
+
         const users = [{ ...userData, affiliations }];
-        this.setState({ users });
+
+        if(match && match.params && match.params.id){
+            const thesis = await fetchData({
+                method: 'get',
+                url: resolveUrl(apiRoutes.thesis.meToId, match.params),
+            });
+
+            this.setState({ ...thesis });
+        }else{
+            this.setState({ users });
+        }
     };
 
     handleChange = e => {
@@ -40,7 +53,7 @@ class EditMode extends Component{
 
         const dt = await fetchData({
             method: 'put',
-            url: apiRoutes.thesis.current,
+            url: apiRoutes.thesis.me,
             data: this.state,
             config: { headers: {'Content-Type': 'multipart/form-data' }}
         });

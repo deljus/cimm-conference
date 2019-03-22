@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { ValidationForm, TextInput } from 'react-bootstrap4-form-validation';
 import validator from 'validator'
 import withDataFetch from "../core/withDataFetch";
+import { apiRoutes } from '../../globalConfig';
 
 class LoginForm extends Component {
     state = {
@@ -20,10 +21,9 @@ class LoginForm extends Component {
         const { fetchData } = this.props;
         await fetchData({
             method: 'post',
-            url: '/login',
+            url: apiRoutes.login,
             data: formData
         });
-        window.location.href = "/"
     };
 
     render () {

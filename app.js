@@ -30,7 +30,7 @@ app.use(sessionConfig);
 
 app.use(fileUpload());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(config.routePrefix, express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use(config.routePrefix, routes);

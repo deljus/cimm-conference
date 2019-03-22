@@ -9,8 +9,7 @@ router.get(outsideRouters.index, getPageAndAuth, renderIndex);
 router.get(outsideRouters.profile, checkUser, getPageAndAuth, rendeProfile);
 // Все роуты будут через react-router
 router.get(values(insideRoutes.thesis), checkUser, getPageAndAuth, renderThesisPage);
-router.get(outsideRouters.page, getPageAndAuth, rendePublicPages);
 
-router.get(outsideRouters.users, checkUser, checkAdmin, renderUsersPage)
-
+router.get(outsideRouters.users, checkUser, checkAdmin, getPageAndAuth, renderUsersPage);
+router.get(outsideRouters.page, getPageAndAuth, getPageAndAuth, rendePublicPages);
 export default router;

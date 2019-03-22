@@ -2,6 +2,7 @@ import { isNil } from 'lodash';
 
 export const checkUser = async (req, res, next) => {
   if (!isNil(req.session.user_id)) {
+    req.userId = req.session.user_id;
     return next();
   }
 

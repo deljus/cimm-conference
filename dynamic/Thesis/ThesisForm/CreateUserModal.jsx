@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import {map, omit, reduce, eq} from 'lodash';
-import {AFFILIATION_FIELDS, AUTHOR_FIELDS} from '../../constants';
+import {AFFILIATION_FIELDS, AUTHOR_FIELDS} from '../../../globalConfig';
 import AutocompliteForUser from '../../components/AutocompliteForUser';
-import { MAX_AFFILIATION } from '../../constants';
+import { MAX_AFFILIATION } from '../../../globalConfig';
 import EditAffiliation from '../../components/EditAffiliation';
 import withDataFetch from '../../core/withDataFetch';
 import cx from 'classnames';
@@ -149,7 +149,7 @@ class CreateUser extends Component {
                         <div className="col-4">
                             <AutocompliteForUser
                                 className="form-control"
-                                url="/affiliations"
+                                url={apiRoutes.affiliation.all}
                                 onSelect={this.setAffiliation}
                                 executIds={map(affiliations, 'id')}
                                 disabled={affiliations.length >= MAX_AFFILIATION}

@@ -47,5 +47,12 @@ export const renderThesisPage = async (req, res) => {
 };
 
 export const renderUsersPage = async (req, res) => {
-  res.render('admin/usersPage', { ...req.forPage });
+  const { page } = req.query;
+  const limit = 10;
+  const currentPage = parseInt(page) ? parseInt(page) - 1 : 0;
+  const offset = limit * currentPage;
+  const data = await DB.users.findAndCountAll({ limit, offset });
+  const all = Math.ceil(data.count / limit);
+  const pages = [...Array(all).keys()];
+  res.render('admin/usersPage', { ...data, ...req.forPage, pages });
 };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { debounce, map, omit } from 'lodash';
 import axios from 'axios';
-import {AFFILIATION_FIELDS} from "../constants";
+import {AFFILIATION_FIELDS} from "../../globalConfig";
 import OutSideClick from './OutSideClick';
 
 const styles = {

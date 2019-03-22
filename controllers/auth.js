@@ -4,6 +4,7 @@ import { pick } from 'lodash';
 import url from 'url';
 import { mailTemplate, transporter } from '../utils/sendMessage';
 import DB from '../database/models';
+import { config, outsideRouters } from '../globalConfig';
 
 const salt = '$2b$12$hQkZGSu0X3JN9Nl91zc5sO';
 
@@ -40,8 +41,7 @@ export const registrationController = async (req, res) => {
   }
 };
 
-export const loginController = async (req, res, next) => {
-
+export const loginController = async (req, res) => {
   const { email, password: bodyPassword } = req.body;
   const password = bcrypt.hashSync(bodyPassword, salt);
 
@@ -60,17 +60,16 @@ export const loginController = async (req, res, next) => {
 
     req.session.user_id = user.id;
     req.session.is_admin = user.isAdmin;
-    return res.status(200).end();
-
+    return res.status(200).json({ redirect: outsideRouters.index });
   } catch (e) {
 
   }
 };
 
 
-export const renderRegistration = (req, res) => res.render('registration');
+export const renderRegistration = (req, res) => res.render('registration', config);
 
-export const renderLogin = (req, res) => res.render('login');
+export const renderLogin = (req, res) => res.render('login', config);
 
 export const checkEmailHashController = async (req, res) => {
   const { hash } = req.query;
@@ -81,17 +80,13 @@ export const checkEmailHashController = async (req, res) => {
       { where: { hash } }
     );
     if (user[0]) {
-      return res.redirect('/login');
+      return res.redirect(config.routePrefix + outsideRouters.index);
     }
   }
   res.status(400).send('Email is not valid');
 };
 
 export const logoutController = async (req, res) => {
-  try{
-    await req.session.destroy();
-    return res.redirect('/login');
-  }catch (e) {
-
-  }
+  await req.session.destroy();
+  res.redirect(config.routePrefix + outsideRouters.index);
 };

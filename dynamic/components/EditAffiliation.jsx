@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import { pick, keys, isEqual, reduce, map } from 'lodash';
 import withDataFetch from '../core/withDataFetch';
-import { AFFILIATION_FIELDS } from '../constants';
+import { AFFILIATION_FIELDS } from '../../globalConfig';
+import { apiRoutes } from '../../globalConfig';
 
 const defaultState =
     reduce(AFFILIATION_FIELDS, (acc, val, key) => {
@@ -30,7 +31,7 @@ class EditAffiliation extends Component{
 
         const dt = await fetchData({
             method: 'post',
-            url: '/affiliation-create',
+            url: apiRoutes.affiliation.create,
             data: formData
         });
         if(dt){

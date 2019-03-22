@@ -3,7 +3,7 @@ import ViewMode from './ViewMode';
 import EditMode from './EditMode';
 import { AutocompliteInput } from '../../components';
 import withDataFetch from '../../core/withDataFetch';
-import { MAX_AFFILIATION, TEMPLATE } from '../../constants';
+import { MAX_AFFILIATION, TEMPLATE } from '../../../globalConfig';
 import { apiRoutes } from '../../../globalConfig';
 
 class Main extends Component {

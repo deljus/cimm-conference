@@ -4,4 +4,27 @@ block content
     .container-fluid
         main.col-12.py-5.pl-4.bd-content
             h2 Users
+            table.table.table-striped
+                thead
+                    tr
+                        th(scope='col') #
+                        th(scope='col') First
+                        th(scope='col') Last
+                        th(scope='col') Email
+                        th(scope='col') isAdmin
+                        th(scope='col') isVerifiedEmail
+                tbody
+                    each row in rows
+                        tr
+                            th(scope='row')=row.id
+                            td=row.firstName
+                            td=row.lastName
+                            td=row.email
+                            td=row.isAdmin
+                            td=row.isVerifiedEmail
 
+            nav(aria-label='Page navigation example')
+                ul.pagination
+                    each pg in pages
+                        li.page-item
+                            a.page-link(href=routePrefix + outsideRouters.users + '?page=' + (pg+1))=pg+1

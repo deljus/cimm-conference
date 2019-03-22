@@ -3,7 +3,7 @@ import pages from './pages';
 import api from './api';
 
 export default [
-  auth,
+  pages,
   api,
-  pages
+  auth
 ];
