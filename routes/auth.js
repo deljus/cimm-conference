@@ -8,17 +8,19 @@ import {
   logoutController
 } from '../controllers/auth';
 import { catchValidationError, validateLoginForm, validateRegistrationForm } from '../utils/validations';
+import { apiRoutes, outsideRouters } from '../globalConfig';
 
 const router = Router();
 
-router.get('/registration', renderRegistration);
-router.post('/registration', validateRegistrationForm, catchValidationError, registrationController);
+router.get(outsideRouters.registration, renderRegistration);
+router.get(outsideRouters.login, renderLogin);
 
-router.get('/login', renderLogin);
-router.post('/login', validateLoginForm, catchValidationError, loginController);
+router.get(outsideRouters.logout, logoutController);
+router.get(outsideRouters.send, checkEmailHashController);
 
-router.get('/logout', logoutController);
-router.get('/send', checkEmailHashController);
+// api
+router.post(apiRoutes.registration, validateRegistrationForm, catchValidationError, registrationController);
+router.post(apiRoutes.login, validateLoginForm, catchValidationError, loginController);
 
 
 export default router;

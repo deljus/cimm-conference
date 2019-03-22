@@ -59,6 +59,7 @@ export const loginController = async (req, res, next) => {
     }
 
     req.session.user_id = user.id;
+    req.session.is_admin = user.isAdmin;
     return res.status(200).end();
 
   } catch (e) {

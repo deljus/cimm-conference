@@ -1,14 +1,15 @@
 import DB from '../database/models';
 import { find, map, isNil } from 'lodash';
 import { markdown } from 'markdown';
-import { config, insideRoutes } from '../globalConfig';
+import { config, insideRoutes, outsideRouters } from '../globalConfig';
 
 export const getPageAndAuth = async (req, res, next) => {
   const allPages = await DB.pages.findAll({ raw: true });
   const auth = !isNil(req.session.user_id);
+  const admin = req.session.is_admin;
   const { routePrefix } = config;
   req.forPage = {
-    allPages, auth, routePrefix, menu: allPages, insideRoutes
+    allPages, auth, admin, routePrefix, menu: allPages, insideRoutes, outsideRouters
   };
   return next();
 };
@@ -43,4 +44,8 @@ export const rendeProfile = async (req, res) => {
 
 export const renderThesisPage = async (req, res) => {
   res.render('pages/thesis', { ...req.forPage });
+};
+
+export const renderUsersPage = async (req, res) => {
+  res.render('admin/usersPage', { ...req.forPage });
 };

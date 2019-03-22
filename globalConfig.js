@@ -8,7 +8,25 @@ export const insideRoutes = {
     edit: '/thesis/edit/:id',
     list: '/thesis/list',
     show: '/thesis/show/:id'
+  },
+  admin: {
+    page: {
+      create: '/pages/create',
+      edit: '/pages/edit/:id',
+      list: '/pages/list'
+    }
   }
+};
+
+export const outsideRouters = {
+  index: '/',
+  profile: '/profile',
+  page: '/:url',
+  users: '/users',
+  registration: '/registration',
+  login: '/login',
+  logout: 'logout',
+  send: '/send'
 };
 
 export const apiRoutes = {
@@ -29,5 +47,6 @@ export const apiRoutes = {
     me: '/api/thesis/me',
     all: '/api/thesis/all',
     meToId: '/api/thesis/:id'
-  }
+  },
+  uploadFile: '/upload'
 };

@@ -49,8 +49,9 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
 
-    role: {
-      type: DataTypes.INTEGER
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     },
 
     isVerifiedEmail: {
@@ -58,7 +59,7 @@ export default (sequelize, DataTypes) => {
     },
 
     password: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     }
   }, {
     timestamps: false

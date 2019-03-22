@@ -20,11 +20,13 @@ block nav-bar
         button#menu-toggle.btn
             span.navbar-toggler-icon
         form.form-inline
+            if admin
+                a.btn.btn-primary(href=routePrefix + outsideRouters.users, role='button', aria-pressed='true') Users
+                a.btn.btn-primary(href=routePrefix + insideRoutes.admin.page.list, role='button', aria-pressed='true') Create pages
             if auth
-                a.btn.btn-primary(href=routePrefix + '/profile', role='button', aria-pressed='true') Profile
+                a.btn.btn-primary(href=routePrefix + outsideRouters.profile, role='button', aria-pressed='true') Profile
                 a.btn.btn-primary(href=routePrefix + insideRoutes.thesis.list) Thesis
-
-                a.btn.btn-primary(href=routePrefix + '/logout', role='button', aria-pressed='true') Logout
+                a.btn.btn-primary(href=routePrefix + outsideRouters.logout, role='button', aria-pressed='true') Logout
             else
-                a.btn.btn-primary(href=routePrefix + '/registration', role='button', aria-pressed='true') Registration
-                a.btn.btn-primary(href=routePrefix + '/login', role='button', aria-pressed='true') Login
+                a.btn.btn-primary(href=routePrefix + outsideRouters.registration, role='button', aria-pressed='true') Registration
+                a.btn.btn-primary(href=routePrefix + outsideRouters.login, role='button', aria-pressed='true') Login
