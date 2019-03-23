@@ -63,8 +63,6 @@ class AutocompliteInput extends Component{
         const { open, data } = this.state;
         const { disabled, className, executIds, renderDropDown, ...rest } = this.props;
 
-        console.log(disabled);
-
         return (
                 <div className={cx("autocomplite", { disabled })} >
                     <input

@@ -81,9 +81,7 @@ class EditMode extends Component{
     render(){
 
         const { loading, changeToViewMode, index } = this.props;
-        const { users, openModal, saved } = this.state;
-
-        console.log(users);
+        const { users, openModal, saved, text } = this.state;
 
         return(
             <div className="affiliation-user">

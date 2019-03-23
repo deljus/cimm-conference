@@ -12,7 +12,6 @@ class ThesisList extends Component {
 
     componentDidMount = async () => {
         const { fetchData, match } = this.props;
-        console.log(this.props);
         const data = await fetchData({
             method: 'get',
             url: resolveUrl(apiRoutes.thesis.meToId, { id: match.params.id }),

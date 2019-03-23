@@ -4,7 +4,6 @@ import htmlToDraft from 'html-to-draftjs';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import {BaseFormControl} from "react-bootstrap4-form-validation";
 import { pick } from 'lodash';
 import axios from 'axios';
 import { toolbar } from './toolbarProps';
@@ -29,9 +28,20 @@ class HtmlEditor extends Component {
         editorState: defaultState(this.props.defaultValue),
     };
 
+    componentDidUpdate(prevProps){
+        if(!prevProps.value && this.props.value){
+            this.setState({
+                editorState: defaultState(this.props.value)
+            });
+        }
+    }
+
+
+
     onEditorStateChange = (editorState) => {
         const value = draftToHtml(convertToRaw(editorState.getCurrentContent()));
         const { onChange, name } = this.props;
+
         this.setState({
             editorState,
         });
@@ -58,7 +68,7 @@ class HtmlEditor extends Component {
 
     render() {
         const { editorState } = this.state;
-        const { name, onImageUpload } = this.props;
+        const { name, onImageUpload, value } = this.props;
 
         return(
             <>
@@ -74,8 +84,7 @@ class HtmlEditor extends Component {
                     name={name}
                     style={{ display: 'none' }}
                     className="html-editor"
-                    value={
-                        editorState && draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+                    value={editorState && draftToHtml(convertToRaw(editorState.getCurrentContent()))}
                 />
             </>
         )
