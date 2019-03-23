@@ -1,6 +1,6 @@
 import DB, { sequelize } from '../database/models';
 import {
-  find, map, pick, keys
+  find, map, pick, keys, forEach
 } from 'lodash';
 
 import { AUTHOR_FIELDS, AFFILIATION_FIELDS, insideRoutes } from '../globalConfig';
@@ -148,7 +148,7 @@ export const getUserThesis = async (req, res) => {
     include: [
       {
         model: DB.users,
-        attributes: keys(AUTHOR_FIELDS),
+        attributes: ['id', ...keys(AUTHOR_FIELDS)],
         include: [{
           model: DB.affiliation,
           attributes: keys(AFFILIATION_FIELDS)
@@ -188,18 +188,41 @@ export const saveThesisById = async (req, res) => {
   let transaction;
   try {
     const thesisData = pick(req.body, ['title', 'text']);
-    const { id } = req.params;
+    const { id: thesisId } = req.params;
     const { users } = req.body;
+    const userIds = map(users, 'id');
     transaction = await sequelize.transaction();
-    const thesis = await DB.thesis.update({ ...thesisData, where: { id } }, { transaction });
-    // TODO доделать сохранение
-    // await DB.user_thesis.bulkCreate(map(users,
-    //   ({ id }) => ({ userId: id, thesisId: thesis.id })),
-    // { transaction });
+    await DB.thesis.update(thesisData, { where: { id: thesisId } }, { transaction });
+    // TODO доделать лучше
+    const usersDB = await DB.user_thesis.findAll({ where: { thesisId }, raw: true }, { transaction });
+    const userDBIds = map(usersDB, 'userId');
+    forEach(userDBIds, async (id) => {
+      if (!userIds.includes(id)) {
+        await DB.user_thesis.destroy({
+          where: {
+            userId: id,
+            thesisId
+          }
+        }, { transaction });
+      }
+    });
+
+    forEach(userIds, async (id) => {
+      if (!userDBIds.includes(id)) {
+        await DB.user_thesis.create({
+          userId: id,
+          thesisId
+
+        });
+      }
+    });
+
+
     await transaction.commit();
-    res.status(200).json({ redirect: insideRoutes.thesis.list });
+    res.status(200).json();
   } catch (err) {
     if (err) await transaction.rollback();
+    console.log(err);
     res.status(500).end();
   }
 };
