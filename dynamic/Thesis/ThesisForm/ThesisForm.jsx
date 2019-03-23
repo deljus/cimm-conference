@@ -48,18 +48,23 @@ class EditMode extends Component{
     };
 
     handleSubmit = async (e) => {
-        const { fetchData, changeState, index } = this.props;
+        const { fetchData, match } = this.props;
         e.preventDefault();
 
-        const dt = await fetchData({
-            method: 'put',
-            url: apiRoutes.thesis.me,
-            data: this.state,
-            config: { headers: {'Content-Type': 'multipart/form-data' }}
-        });
-        if(dt){
-            this.setState({ saved: true });
-
+        if(match && match.params && match.params.id){
+            await fetchData({
+                method: 'post',
+                url: resolveUrl(apiRoutes.thesis.meToId, match.params),
+                data: this.state,
+                config: { headers: {'Content-Type': 'multipart/form-data' }}
+            });
+        }else{
+            await fetchData({
+                method: 'put',
+                url: apiRoutes.thesis.me,
+                data: this.state,
+                config: { headers: {'Content-Type': 'multipart/form-data' }}
+            });
         }
     };
 
@@ -79,9 +84,7 @@ class EditMode extends Component{
     };
 
     render(){
-
-        const { loading, changeToViewMode, index } = this.props;
-        const { users, openModal, saved, text } = this.state;
+        const { users, openModal, saved } = this.state;
 
         return(
             <div className="affiliation-user">

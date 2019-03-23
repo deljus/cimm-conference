@@ -3,7 +3,7 @@ import {
   find, map, pick, keys
 } from 'lodash';
 
-import { AUTHOR_FIELDS, AFFILIATION_FIELDS } from '../globalConfig';
+import { AUTHOR_FIELDS, AFFILIATION_FIELDS, insideRoutes } from '../globalConfig';
 
 
 export const getUser = async (req, res) => {
@@ -182,4 +182,24 @@ export const deleteUserThesis = async (req, res) => {
     }
   });
   res.status(200).json({ id: delId });
+};
+
+export const saveThesisById = async (req, res) => {
+  let transaction;
+  try {
+    const thesisData = pick(req.body, ['title', 'text']);
+    const { id } = req.params;
+    const { users } = req.body;
+    transaction = await sequelize.transaction();
+    const thesis = await DB.thesis.update({ ...thesisData, where: { id } }, { transaction });
+    // TODO доделать сохранение
+    // await DB.user_thesis.bulkCreate(map(users,
+    //   ({ id }) => ({ userId: id, thesisId: thesis.id })),
+    // { transaction });
+    await transaction.commit();
+    res.status(200).json({ redirect: insideRoutes.thesis.list });
+  } catch (err) {
+    if (err) await transaction.rollback();
+    res.status(500).end();
+  }
 };

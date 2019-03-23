@@ -24,6 +24,7 @@ router.post(apiRoutes.affiliation.me, checkUser, api.saveAffiliationForUser);
 router.put(apiRoutes.thesis.me, checkUser, api.saveThesis);
 router.get(apiRoutes.thesis.all, checkUser, api.getUserThesises);
 router.get(apiRoutes.thesis.meToId, checkUser, api.getUserThesis);
+router.post(apiRoutes.thesis.meToId, checkUser, api.saveThesisById);
 router.delete(apiRoutes.thesis.meToId, checkUser, api.deleteUserThesis);
 
 router.post(apiRoutes.uploadFile, checkUser, fileUpload);
