@@ -1,6 +1,6 @@
 import session from 'express-session';
 import connfigSqStore from 'connect-session-sequelize';
-import { sequelize } from './database/models';
+import { sequelize } from '../database/models/index';
 
 const SequelizeStore = connfigSqStore(session.Store);
 

@@ -9,25 +9,25 @@ import { config, outsideRouters } from '../globalConfig';
 const salt = '$2b$12$hQkZGSu0X3JN9Nl91zc5sO';
 
 export const registrationController = async (req, res) => {
+  const userParams = pick(req.body, ['firstName', 'lastName', 'middleName', 'country', 'phone', 'email']);
   const hash = randomstring.generate();
-  const urlToMail = url.format({
+  const sendMailUrl = url.format({
     protocol: req.protocol,
     host: req.get('host'),
-    pathname: '/send',
+    pathname: config.routePrefix + outsideRouters.send,
     query: {
       hash
     }
   });
 
   const templateToMail = mailTemplate({
-    to: 'musindelus@gmail.com',
-    urlToMail
+    to: userParams.email,
+    sendMailUrl
   });
 
-  const userParams = pick(req.body, ['firstName', 'lastName', 'middleName', 'country', 'phone', 'email']);
 
   try {
-    await transporter.sendMail(templateToMail);
+    await transporter(config).sendMail(templateToMail);
     const password = bcrypt.hashSync(req.body.password, salt);
     await DB.users.create({
       isVerifiedEmail: false,
@@ -80,7 +80,7 @@ export const checkEmailHashController = async (req, res) => {
       { where: { hash } }
     );
     if (user[0]) {
-      return res.redirect(config.routePrefix + outsideRouters.index);
+      return res.redirect(config.routePrefix + outsideRouters.login);
     }
   }
   res.status(400).send('Email is not valid');

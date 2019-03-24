@@ -1,7 +1,9 @@
 import validation from 'validator';
+import json from './exampleConfig.json';
 
 export const config = {
-  routePrefix: ''
+  routePrefix: json.routePrefix || '',
+  ...json
 };
 
 export const insideRoutes = {
@@ -50,7 +52,12 @@ export const apiRoutes = {
     all: '/api/thesis/all',
     meToId: '/api/thesis/:id'
   },
-  uploadFile: '/upload'
+  uploadFile: '/upload',
+  page: {
+    all: '/api/page/all',
+    meToId: '/api/page/:id',
+    create: '/api/page/create'
+  }
 };
 
 export const MAX_AFFILIATION = 3;

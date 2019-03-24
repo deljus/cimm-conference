@@ -1,0 +1,18 @@
+{
+  "routePrefix": "",
+  "emailTitle": "",
+  "emailTemplate": [
+    "Example email",
+    "- one",
+    "- two",
+    "- three",
+    "[confirmation link]({sendMailUrl})."
+  ],
+  "emailTransporter": {
+    "service": "Gmail",
+    "auth": {
+      "user": "musindelus@gmail.com",
+      "pass": "whilewhileTrue1"
+    }
+  }
+}

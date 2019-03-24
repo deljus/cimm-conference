@@ -1,16 +1,15 @@
 import nodemailer from 'nodemailer';
+import { config } from '../globalConfig';
+import { markdown } from 'markdown';
 
-export const transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: 'musindelus@gmail.com',
-    pass: 'whilewhileTrue1'
-  }
-});
+export const transporter = ({ emailTransporter }) => nodemailer.createTransport(emailTransporter);
 
-export const mailTemplate = ({ to, urlToMail }) => ({
-  from: 'musindelus@gmail.com',
-  to,
-  subject: 'Registration on conference KSSCl - 2019',
-  html: `<b>Hi!</b><a href=${urlToMail} >Link</a>`
-});
+export const mailTemplate = ({ to, from, sendMailUrl }) => {
+  const str = config.emailTemplate.join('\n\n');
+  const mark = str.replace('{sendMailUrl}', sendMailUrl);
+  return ({
+    to,
+    subject: config.emailTitle,
+    html: markdown.toHTML(mark)
+  });
+};

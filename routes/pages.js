@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { values } from 'lodash';
-import { rendePublicPages, renderIndex, rendeProfile, renderThesisPage, getPageAndAuth, renderUsersPage } from '../controllers/pages';
+import { rendePublicPages, renderIndex, rendeProfile, renderThesisPage, getPageAndAuth, renderUsersPage, rendeStaticPage } from '../controllers/pages';
 import { checkUser, checkAdmin } from '../utils/auth';
 import { insideRoutes, outsideRouters } from '../globalConfig';
 
@@ -11,5 +11,7 @@ router.get(outsideRouters.profile, checkUser, getPageAndAuth, rendeProfile);
 router.get(values(insideRoutes.thesis), checkUser, getPageAndAuth, renderThesisPage);
 
 router.get(outsideRouters.users, checkUser, checkAdmin, getPageAndAuth, renderUsersPage);
-router.get(outsideRouters.page, getPageAndAuth, getPageAndAuth, rendePublicPages);
+router.get(outsideRouters.page, getPageAndAuth, rendePublicPages);
+
+router.get(values(insideRoutes.admin.page), getPageAndAuth, checkAdmin, rendeStaticPage);
 export default router;

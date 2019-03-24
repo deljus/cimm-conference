@@ -222,7 +222,36 @@ export const saveThesisById = async (req, res) => {
     res.status(200).json();
   } catch (err) {
     if (err) await transaction.rollback();
-    console.log(err);
     res.status(500).end();
   }
+};
+
+export const getAllPages = async (req, res) => {
+  const pages = await DB.pages.findAll({ raw: true });
+  res.status(200).json(pages);
+};
+
+export const getPageById = async (req, res) => {
+  const { id } = req.params;
+  const page = await DB.pages.findByPk(id);
+  res.status(200).json(page);
+};
+
+export const createPage = async (req, res) => {
+  const pageData = pick(req.body, ['title', 'body', 'url', 'order']);
+  await DB.pages.create(pageData);
+  res.status(200).json({ redirect: insideRoutes.admin.page.list });
+};
+
+export const deletePageById = async (req, res) => {
+  const { id } = req.params;
+  await DB.pages.destroy({ where: { id } });
+  res.status(200).json({ id });
+};
+
+export const editPage = async (req, res) => {
+  const { id } = req.params;
+  const pageData = pick(req.body, ['title', 'body', 'url', 'order']);
+  await DB.pages.update(pageData, { where: { id } });
+  res.status(200).json({ redirect: insideRoutes.admin.page.list });
 };

@@ -41,7 +41,7 @@ class Main extends Component {
         const { renderAlerts } = this.props;
         return (
             <div className="py-4 pl-4">
-                <h5>Common information</h5>
+                <h5>Common information: </h5>
                 { renderAlerts() }
                 { editMode ? <EditMode {...rest} changeToViewMode={this.changeToViewMode} changeState={this.changeStateForSusses}/> : <ViewMode {...rest} changeToEditMode={this.changeToEditMode}/>}
             </div>

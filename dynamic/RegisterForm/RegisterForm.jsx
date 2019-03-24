@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ValidationForm, TextInput } from 'react-bootstrap4-form-validation';
 import validator from 'validator'
-import { apiRoutes } from '../../globalConfig';
+import { apiRoutes, outsideRouters, config } from '../../globalConfig';
 import withDataFetch from '../core/withDataFetch';
 
 const defaultState = {
@@ -65,7 +65,7 @@ class RegisterForm extends Component {
                 immediate={true}
                 setFocusOnError={true}
             >
-                <h3>Registration or <a href="/login">Login</a></h3>
+                <h3>Registration or <a href={ config.routePrefix + outsideRouters.login }>Login</a></h3>
                 { renderAlerts() }
                 <div className="form-group">
                     <label htmlFor="email">Email</label>

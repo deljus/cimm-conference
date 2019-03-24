@@ -2,7 +2,7 @@ import { Router } from 'express';
 import * as api from '../controllers/api';
 import fileUpload from '../controllers/fileUpload';
 import { apiRoutes } from '../globalConfig';
-import { checkUser } from '../utils/auth';
+import { checkUser, checkAdmin } from '../utils/auth';
 
 const router = Router();
 
@@ -28,5 +28,12 @@ router.post(apiRoutes.thesis.meToId, checkUser, api.saveThesisById);
 router.delete(apiRoutes.thesis.meToId, checkUser, api.deleteUserThesis);
 
 router.post(apiRoutes.uploadFile, checkUser, fileUpload);
+
+router.get(apiRoutes.page.all, checkUser, checkAdmin, api.getAllPages);
+router.put(apiRoutes.page.create, checkUser, checkAdmin, api.createPage);
+router.get(apiRoutes.page.meToId, checkUser, checkAdmin, api.getPageById);
+router.delete(apiRoutes.page.meToId, checkUser, checkAdmin, api.deletePageById);
+router.post(apiRoutes.page.meToId, checkUser, checkAdmin, api.editPage);
+
 
 export default router;

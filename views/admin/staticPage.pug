@@ -1,0 +1,12 @@
+extends ../pages/publicPages
+
+block content
+    .container-fluid
+        main.col-12.py-5.pl-4.bd-content
+            div#create-static-page
+
+block js
+    script(src=routePrefix + '/javascripts/page.bundle.js')
+
+block styles
+    link(rel='stylesheet', href=routePrefix + '/javascripts/vendor_app.css')

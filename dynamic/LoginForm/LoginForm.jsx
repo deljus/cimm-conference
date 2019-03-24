@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { ValidationForm, TextInput } from 'react-bootstrap4-form-validation';
 import validator from 'validator'
 import withDataFetch from "../core/withDataFetch";
-import { apiRoutes } from '../../globalConfig';
+import { apiRoutes, outsideRouters, config } from '../../globalConfig';
 
 class LoginForm extends Component {
     state = {
@@ -35,7 +35,7 @@ class LoginForm extends Component {
 
         return (
             <ValidationForm className="registration-form" onSubmit={this.handleSubmit} onErrorSubmit={this.handleErrorSubmit}>
-                <h3>Login or <a href="/registration">Registration</a></h3>
+                <h3>Login or <a href={ config.routePrefix + outsideRouters.registration }>Registration</a></h3>
                 { renderAlerts() }
                 <div className="form-group">
                     <label htmlFor="email">Email</label>

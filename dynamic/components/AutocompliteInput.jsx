@@ -22,7 +22,8 @@ class AutocompliteInput extends Component{
 
     componentDidUpdate(){
         const { disabled } = this.props;
-        if(disabled) this.inputRef.current.value = ''
+        if(disabled) this.inputRef.current.value = '',
+        this.fetchFn();
     }
 
     getInputRef(){

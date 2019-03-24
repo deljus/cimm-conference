@@ -4,5 +4,12 @@ export const toolbar = (uploadImageCallBack) => ({
   textAlign: { inDropdown: true },
   link: { inDropdown: true },
   history: { inDropdown: true },
-  image: { previewImage: true, uploadCallback: uploadImageCallBack }
+  image: {
+    previewImage: true,
+    uploadCallback: uploadImageCallBack,
+      className: 'image',
+    defaultSize: {
+      height: '200px'
+    }
+  }
 });
