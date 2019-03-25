@@ -1,7 +1,7 @@
 import Alert from './Alerts';
-import AutocompliteInput from './AutocompliteInput';
+import AutocompliteDropdown from './AutocompliteDropdown';
 
 export {
   Alert,
-  AutocompliteInput
+  AutocompliteDropdown
 };

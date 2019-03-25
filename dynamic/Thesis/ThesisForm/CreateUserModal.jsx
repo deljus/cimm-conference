@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import {map, omit, reduce, eq} from 'lodash';
 import {AFFILIATION_FIELDS, AUTHOR_FIELDS} from '../../../globalConfig';
-import AutocompliteForUser from '../../components/AutocompliteForUser';
+import AutocompliteTransfer from '../../components/AutocompliteTransfer';
 import { MAX_AFFILIATION } from '../../../globalConfig';
 import EditAffiliation from '../../components/EditAffiliation';
 import withDataFetch from '../../core/withDataFetch';
@@ -147,8 +147,9 @@ class CreateUser extends Component {
                     <div className="form-group row">
                         <label className="col-2">Affiliation:</label>
                         <div className="col-4">
-                            <AutocompliteForUser
+                            <AutocompliteTransfer
                                 className="form-control"
+                                placeholder="Select affiliations..."
                                 url={apiRoutes.affiliation.all}
                                 onSelect={this.setAffiliation}
                                 executIds={map(affiliations, 'id')}

@@ -3,7 +3,7 @@ import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import { pick, keys, isEqual, reduce, map } from 'lodash';
 import withDataFetch from '../../core/withDataFetch';
 import HtmlEditor from '../../components/HtmlEditor';
-import AutocompliteForUser from '../../components/AutocompliteForUser';
+import AutocompliteTransfer from '../../components/AutocompliteTransfer';
 import CreateUserModal from './CreateUserModal';
 import { apiRoutes } from '../../../globalConfig';
 import resolveUrl from '../../core/resolveUrl'
@@ -119,8 +119,9 @@ class EditMode extends Component{
                     <div className="form-group row">
                         <label className="col-2">Authors:</label>
                         <div className="col-4">
-                            <AutocompliteForUser
+                            <AutocompliteTransfer
                                 className="form-control"
+                                placeholder="Select users..."
                                 url={apiRoutes.user.all}
                                 onSelect={this.setUserToState}
                                 executIds={map(users, 'id')}

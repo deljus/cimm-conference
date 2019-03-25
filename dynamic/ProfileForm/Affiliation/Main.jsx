@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ViewMode from './ViewMode';
 import EditMode from './EditMode';
-import { AutocompliteInput } from '../../components';
+import { AutocompliteDropdown } from '../../components';
 import withDataFetch from '../../core/withDataFetch';
 import { MAX_AFFILIATION, TEMPLATE } from '../../../globalConfig';
 import { apiRoutes } from '../../../globalConfig';
@@ -93,7 +93,7 @@ class Main extends Component {
             <h5>Affiliation(s):</h5>
                 <div className="row py-4">
                     <div className="col-6">
-                        <AutocompliteInput
+                        <AutocompliteDropdown
                             url={apiRoutes.affiliation.all}
                             className="form-control"
                             affiliations={affiliations}

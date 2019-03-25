@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { debounce, map, omit } from 'lodash';
 import axios from 'axios';
 import cx from 'classnames';
+import { config } from '../../globalConfig';
 
 const styles = {
     input: { position: 'relative' }
@@ -26,7 +27,7 @@ class AutocompliteInput extends Component{
     fetchFn = debounce(async(value) => {
         const { url } = this.props;
         const response = await axios({
-            url,
+            url: config.routePrefix + url,
             method: 'get',
             params: {
                 search: value
@@ -61,7 +62,7 @@ class AutocompliteInput extends Component{
     render () {
 
         const { open, data } = this.state;
-        const { disabled, className, executIds, renderDropDown, ...rest } = this.props;
+        const { disabled, className, executIds, renderDropDown, placeholder, ...rest } = this.props;
 
         return (
                 <div className={cx("autocomplite", { disabled })} >
@@ -71,6 +72,7 @@ class AutocompliteInput extends Component{
                         onFocus={this.openDropdown}
                         onChange={this.handleChange}
                         disabled={disabled}
+                        placeholder={placeholder}
                     />
 
                             <div

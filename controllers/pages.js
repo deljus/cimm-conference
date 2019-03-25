@@ -3,7 +3,9 @@ import {
   find, map, isNil, eq
 } from 'lodash';
 import { markdown } from 'markdown';
-import { config, insideRoutes, outsideRouters } from '../globalConfig';
+import {
+  config, insideRoutes, outsideRouters, conferenceName
+} from '../globalConfig';
 import resolveUrl from '../dynamic/core/resolveUrl';
 
 export const getPageAndAuth = async (req, res, next) => {
@@ -22,7 +24,7 @@ export const getPageAndAuth = async (req, res, next) => {
   const admin = req.session.is_admin;
   const { routePrefix } = config;
   req.forPage = {
-    allPages, auth, admin, routePrefix, menu, insideRoutes, outsideRouters
+    allPages, auth, admin, routePrefix, menu, insideRoutes, outsideRouters, conferenceName
   };
   return next();
 };

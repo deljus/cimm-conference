@@ -8,7 +8,7 @@ const styles = {
     input: { position: 'relative' }
 };
 
-class AutocompliteInput extends Component{
+class AutocompliteDropdown extends Component{
     constructor(props){
         super(props);
         this.inputRef = React.createRef();
@@ -119,4 +119,4 @@ class AutocompliteInput extends Component{
     }
 }
 
-export default AutocompliteInput;
+export default AutocompliteDropdown;
