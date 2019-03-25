@@ -49,16 +49,23 @@ export const saveUserInfo = async (req, res) => {
 
 export const getAffiliations = async (req, res) => {
   const { search } = req.query;
-
-  const affiliations = await DB.affiliation.findAll({
-    where: { affiliation: { $like: `%${search}%` } },
-    limit: 10
-  });
+  let query;
+  if (search) {
+    query = {
+      where: { affiliation: { $like: `%${search}%` } },
+      limit: 10
+    };
+  } else {
+    query = {
+      limit: 10
+    };
+  }
+  const affiliations = await DB.affiliation.findAll(query);
   res.status(200).json(affiliations);
 };
 
 export const saveAffiliationForUser = async (req, res) => {
-  const affiliationsParams = pick(req.body, keys(AUTHOR_FIELDS));
+  const affiliationsParams = pick(req.body, keys(AFFILIATION_FIELDS));
   const { user_id } = req.session;
   const affiliations = await DB.affiliation.create(affiliationsParams);
   await DB.user_affiliation.create({ userId: user_id, affiliationId: affiliations.id });
@@ -254,4 +261,13 @@ export const editPage = async (req, res) => {
   const pageData = pick(req.body, ['title', 'body', 'url', 'order']);
   await DB.pages.update(pageData, { where: { id } });
   res.status(200).json({ redirect: insideRoutes.admin.page.list });
+};
+
+export const profileFullness = async (req, res) => {
+  const user = await DB.users.findByPk(req.userId);
+  const affiliation = await DB.user_affiliation.findOne({ where: { userId: req.userId } });
+  if (user.lastName && user.firstName && affiliation) {
+    res.status(200).json({ fullness: true });
+  }
+  res.status(200).json({ fullness: false });
 };

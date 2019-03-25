@@ -36,6 +36,7 @@ export const outsideRouters = {
 export const apiRoutes = {
   login: '/api/login',
   registration: '/api/registration',
+  profileFullness: '/api/profile/fullness',
   user: {
     current: '/api/user',
     all: '/api/users'

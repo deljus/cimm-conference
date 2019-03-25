@@ -36,4 +36,9 @@ router.delete(apiRoutes.page.meToId, checkUser, checkAdmin, api.deletePageById);
 router.post(apiRoutes.page.meToId, checkUser, checkAdmin, api.editPage);
 
 
+router.get(apiRoutes.profileFullness, checkUser, api.profileFullness);
+
+
+
+
 export default router;

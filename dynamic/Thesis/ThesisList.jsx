@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { map, filter } from 'lodash';
+import { map, filter, isEmpty } from 'lodash';
 import withDataFetch from '../core/withDataFetch';
 import { redirect } from '../core/history';
 import resolveUrl from '../core/resolveUrl';
 import { apiRoutes, insideRoutes } from '../../globalConfig';
+import Modal from '../components/Modal';
 
 
 class ThesisList extends Component {
     state = {
+        fullness: false,
+        open: false,
         list: []
     };
 
@@ -20,6 +23,13 @@ class ThesisList extends Component {
       if(data){
           this.setState({ list: data.thesis });
       }
+      const dt = await fetchData({
+          method: 'get',
+          url: apiRoutes.profileFullness,
+      });
+      if(dt){
+          this.setState({ fullness: dt.fullness });
+      }
   };
 
 
@@ -29,7 +39,12 @@ class ThesisList extends Component {
     };
 
     redirectToCreate = () => {
-        redirect(insideRoutes.thesis.create);
+        const { fullness } = this.state;
+        if(fullness){
+            redirect(insideRoutes.thesis.create);
+        }else{
+            this.setState({ open: true });
+        }
     };
 
     redirectToEdit = (id) => () => {
@@ -48,12 +63,25 @@ class ThesisList extends Component {
         }
     };
 
+    closeModal = () => {
+        this.setState({ open: false });
+    };
+
   render() {
 
-      const { list } = this.state;
+      const { list, open } = this.state;
 
     return (
             <>
+                <Modal
+                  open={open}
+                  title="Warning"
+                  body="You have not completely filled out the profile. Please fill in all fields."
+                  closeModal={this.closeModal}
+                  footer={
+                      <button className="btn btn-primary" onClick={this.closeModal}>OK</button>
+                  }
+                />
                 <div className="row py-4">
                     <div className="col-10"><h2>List(s):</h2></div>
                     <div className="col-2">
@@ -61,7 +89,7 @@ class ThesisList extends Component {
                     </div>
                 </div>
                 {
-                    map(list, item => (
+                    !isEmpty(list) ? map(list, item => (
                         <div className="list-group">
                             <div className="list-group-item list-group-item-action flex-column align-items-start">
                                 <div className="d-flex w-100 justify-content-between">
@@ -76,7 +104,7 @@ class ThesisList extends Component {
                                     <span className="badge badge-primary">{`${user.lastName} ${user.firstName}`}</span>)) }</p>
                             </div>
                         </div>
-                    ))
+                    )): <h3>You have no records. </h3>
                 }
 
                 </>

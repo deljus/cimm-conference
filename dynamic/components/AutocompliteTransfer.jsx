@@ -24,6 +24,10 @@ class AutocompliteInput extends Component{
         return this.inputRef.current.inputElement;
     };
 
+    componentDidMount = () => {
+        this.fetchFn();
+    };
+
     fetchFn = debounce(async(value) => {
         const { url } = this.props;
         const response = await axios({
@@ -46,10 +50,6 @@ class AutocompliteInput extends Component{
     openDropdown = (e) => {
         e.stopPropagation();
         this.setState({ open: true })
-    };
-
-    closeDropdown = (e) => {
-        this.setState({ open: false })
     };
 
     onItemClick = item => e => {

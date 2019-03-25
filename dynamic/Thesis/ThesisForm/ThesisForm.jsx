@@ -24,10 +24,10 @@ class EditMode extends Component{
         });
         const affiliations = await fetchData({
             method: 'get',
-            url: apiRoutes.affiliation.all,
+            url: apiRoutes.affiliation.me,
         });
 
-        const users = [{ ...userData, affiliations }];
+        const users = [{ ...userData, affiliations, me: true }];
 
         if(match && match.params && match.params.id){
             const thesis = await fetchData({
@@ -82,6 +82,14 @@ class EditMode extends Component{
     closeModal = () => {
         this.setState({ openModal: false })
     };
+
+    deleteUser = (index) => (e) => {
+        e.preventDefault();
+        const { users } = this.state;
+        users.splice(index, 1);
+        this.setState({ users });
+
+    }
 
     render(){
         const { users, openModal, saved } = this.state;
@@ -146,13 +154,16 @@ class EditMode extends Component{
                             <div className="card">
                                 <div className="card-header">
                                    #{inx+1}
+                                    {!user.me && <button type="button" className="close" onClick={this.deleteUser(inx)}>
+                                        <span aria-hidden="true">&times;</span>
+                                    </button> }
                                 </div>
                                 <div className="card-body">
                                     <p className="card-text">Last name: {user.lastName}</p>
                                     <p className="card-text">First name: {user.firstName}</p>
                                     <div className="form-group row">
-                                        <label className="col-2">Affiliations:</label>
-                                        <div className="col-10">
+                                        <label className="col-4">Affiliations:</label>
+                                        <div className="col-8">
                                             <div className="row">
                                             {
                                                 user.affiliations && map(user.affiliations, (data, inx) => (
