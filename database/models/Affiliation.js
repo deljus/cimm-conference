@@ -1,3 +1,5 @@
+import { config } from '../../globalConfig';
+
 export default (sequelize, DataTypes) => {
   const Affiliation = sequelize.define('affiliation', {
     id: {
@@ -23,6 +25,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING
     }
   }, {
+    schema: config.db.schema,
     timestamps: false
   });
 

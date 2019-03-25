@@ -1,3 +1,5 @@
+import { config } from '../../globalConfig';
+
 export default (sequelize, DataTypes) => {
   const Users = sequelize.define('users', {
     id: {
@@ -62,6 +64,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING
     }
   }, {
+    schema: config.db.schema,
     timestamps: false
   });
 

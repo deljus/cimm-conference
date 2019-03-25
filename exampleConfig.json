@@ -16,5 +16,16 @@
     }
   },
   "loginPageImage": "https://btcmiami.com/wp-content/uploads/2018/10/27d27bc1ffaede1c0593463a9617527a.jpg",
-  "conferenceName": "Conf name"
+  "conferenceName": "Conf name",
+  "db": {
+    "username": "meow",
+    "password": "meow",
+    "database": "mydb",
+    "schema": "public",
+    "options": {
+      "host": "localhost",
+      "dialect": "postgres",
+      "port": "5432"
+    }
+  }
 }

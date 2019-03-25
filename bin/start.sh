@@ -1,10 +1,5 @@
 #!/bin/sh
 
 npm run build
+npm run start
 
-if [ "$NODE_ENV" == "production" ] ; then
-  npm run start
-else
-  npm run start-dev
-  npm run storybook
-fi

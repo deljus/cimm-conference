@@ -3,23 +3,5 @@ version: "3"
 services:
   app:
     build: .
-    depends_on:
-    - postgres
     ports:
     - "3000:3000"
-    - "9001:9001"
-  postgres:
-    restart: always
-    image: sameersbn/postgresql:10-1
-    environment:
-      DB_NAME: meow
-      DB_USER: meow
-      DB_PASS: meow
-    ports:
-    - "5432:5432"
-    volumes:
-    - /srv/docker/postgresql:/var/lib/postgresql
-  pgadmin:
-    image: chorss/docker-pgadmin4
-    ports:
-    - "5050:5050"

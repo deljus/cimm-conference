@@ -1,3 +1,5 @@
+import { config } from '../../globalConfig';
+
 export default (sequelize, DataTypes) => {
   const Thesis = sequelize.define('thesis', {
     id: {
@@ -14,6 +16,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING
     }
   }, {
+    schema: config.db.schema,
     timestamps: false
   });
 

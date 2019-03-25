@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import Sequelize, { Op } from 'sequelize';
-import config from '../config';
+import { config } from '../../globalConfig';
 
 const operatorsAliases = {
   $eq: Op.eq,
@@ -40,15 +40,11 @@ const operatorsAliases = {
   $col: Op.col
 };
 
-const env = process.env.NODE_ENV || 'production';
-
-const settings = config[env];
-
 const sequelize = new Sequelize(
-  settings.database,
-  settings.username,
-  settings.password,
-  { operatorsAliases, dialect: settings.dialect }
+  config.db.database,
+  config.db.username,
+  config.db.password,
+  { operatorsAliases, ...config.db.options }
 );
 
 const db = {};
