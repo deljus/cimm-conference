@@ -15,6 +15,7 @@ Project for the site cimm.kpfu.ru
 For configuration, edit the file exampleConfig.json file
 
 Basic fields:
+
 | Field | Description |
 | ------ | ------ |
 | routePrefix | prefix for all routes |
