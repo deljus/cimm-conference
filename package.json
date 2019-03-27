@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/starter",
+    "start": "npm run buld:dynamic && node ./bin/starter",
     "start-dev": "export NODE_ENV=development && nodemon ./bin/starter",
-    "wath:dynamic": "webpack --watch --config ./webpack.config.js --mode development",
+    "watch:dynamic": "webpack --watch --config ./webpack.config.js --mode development",
     "up:seeders": "sequelize db:seed:all",
     "down:seeders": "sequelize db:seed:undo:all",
     "storybook": "start-storybook -p 9001 -c .storybook",
