@@ -4,15 +4,16 @@ import { sequelize } from '../database/models/index';
 
 const SequelizeStore = connfigSqStore(session.Store);
 
-const sessionStore = new SequelizeStore({
-  db: sequelize
+export const sessionStore = new SequelizeStore({
+  db: sequelize,
+  table: 'Session'
 });
 
 export default session({
   key: 'user_sid',
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   store: sessionStore,
   cookie: {
     expires: new Date(Date.now() + (30 * 86400 * 1000)),

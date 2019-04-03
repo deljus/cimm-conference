@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import sassMiddleware from 'node-sass-middleware';
 import routes from './routes';
-import sessionConfig from './utils/session';
+import sessionConfig, { sessionStore } from './utils/session';
 import { sequelize } from './database/models';
 import fileUpload from 'express-fileupload';
 import { config } from './globalConfig';
