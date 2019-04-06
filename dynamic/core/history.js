@@ -1,5 +1,5 @@
 import { createBrowserHistory } from 'history';
-import { config } from '../../globalConfig';
+import { config } from '../../utils/globalConfig';
 
 const history = createBrowserHistory();
 

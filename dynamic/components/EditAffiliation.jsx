@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import { pick, keys, isEqual, reduce, map } from 'lodash';
 import withDataFetch from '../core/withDataFetch';
-import { AFFILIATION_FIELDS } from '../../globalConfig';
-import { apiRoutes } from '../../globalConfig';
+import { AFFILIATION_FIELDS } from '../../utils/globalConfig';
+import { apiRoutes } from '../../utils/globalConfig';
 
 const defaultState =
     reduce(AFFILIATION_FIELDS, (acc, val, key) => {

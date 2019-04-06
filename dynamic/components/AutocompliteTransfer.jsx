@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { debounce, map, omit } from 'lodash';
 import axios from 'axios';
 import cx from 'classnames';
-import { config } from '../../globalConfig';
+import { config } from '../../utils/globalConfig';
 
 const styles = {
     input: { position: 'relative' }

@@ -1,4 +1,4 @@
-import { config } from '../../globalConfig';
+import { DBConfig } from '../../utils/globalConfig';
 
 export default (sequelize, DataTypes) => {
   const Thesis = sequelize.define('thesis', {
@@ -16,7 +16,7 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING
     }
   }, {
-    schema: config.db.schema,
+    schema: DBConfig.schema,
     timestamps: false
   });
 

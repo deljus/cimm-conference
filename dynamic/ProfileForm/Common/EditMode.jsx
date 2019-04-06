@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import { pick, keys, isEqual } from 'lodash';
-import { apiRoutes } from '../../../globalConfig';
+import { apiRoutes } from '../../../utils/globalConfig';
 import withDataFetch from '../../core/withDataFetch';
 
 

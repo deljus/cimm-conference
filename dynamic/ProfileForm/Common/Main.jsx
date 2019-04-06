@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ViewMode from './ViewMode';
 import EditMode from './EditMode';
 import withDataFetch from '../../core/withDataFetch';
-import { apiRoutes } from '../../../globalConfig';
+import { apiRoutes } from '../../../utils/globalConfig';
 
 class Main extends Component {
     state = {

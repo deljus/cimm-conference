@@ -8,7 +8,7 @@ import {
   logoutController
 } from '../controllers/auth';
 import { catchValidationError, validateLoginForm, validateRegistrationForm } from '../utils/validations';
-import { apiRoutes, outsideRouters } from '../globalConfig';
+import { apiRoutes, outsideRouters } from '../utils/globalConfig';
 
 const router = Router();
 

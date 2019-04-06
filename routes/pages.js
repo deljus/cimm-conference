@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { values } from 'lodash';
 import { rendePublicPages, renderIndex, rendeProfile, renderThesisPage, getPageAndAuth, renderUsersPage, rendeStaticPage } from '../controllers/pages';
 import { checkUser, checkAdmin } from '../utils/auth';
-import { insideRoutes, outsideRouters } from '../globalConfig';
+import { insideRoutes, outsideRouters } from '../utils/globalConfig';
 
 const router = Router();
 router.get(outsideRouters.index, getPageAndAuth, renderIndex);

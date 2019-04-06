@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import {map, omit, reduce, eq} from 'lodash';
-import {AFFILIATION_FIELDS, AUTHOR_FIELDS} from '../../../globalConfig';
+import {AFFILIATION_FIELDS, AUTHOR_FIELDS} from '../../../utils/globalConfig';
 import AutocompliteTransfer from '../../components/AutocompliteTransfer';
-import { MAX_AFFILIATION } from '../../../globalConfig';
+import { MAX_AFFILIATION } from '../../../utils/globalConfig';
 import EditAffiliation from '../../components/EditAffiliation';
 import withDataFetch from '../../core/withDataFetch';
 import cx from 'classnames';
-import { apiRoutes } from '../../../globalConfig';
+import { apiRoutes } from '../../../utils/globalConfig';
 
 const defaultState = {
     ...reduce(AUTHOR_FIELDS, (acc, val, key) => ({ [key]: val.default, ...acc }), {}),

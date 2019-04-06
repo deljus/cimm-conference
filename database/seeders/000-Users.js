@@ -1,6 +1,8 @@
+import { DBConfig } from '../../utils/globalConfig';
+
 module.exports = {
   up: (queryInterface) => {
-    return queryInterface.bulkInsert('users', [{
+    return queryInterface.bulkInsert({ tableName: 'users', schema: DBConfig.schema }, [{
       firstName: 'admin',
       lastName: 'admin',
       email: 'admin@admin.ru',
@@ -11,6 +13,6 @@ module.exports = {
   },
 
   down: (queryInterface) => {
-    return queryInterface.bulkDelete('users', null, {});
+    return queryInterface.bulkDelete({ tableName: 'users', schema: DBConfig.schema }, null, {});
   }
 };

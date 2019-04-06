@@ -1,10 +1,10 @@
-import { config } from '../../globalConfig';
+import { DBConfig } from '../../utils/globalConfig';
 
 export default (sequelize, DataTypes) => {
   const UserAffiliation = sequelize.define('user_affiliation', {
 
   }, {
-    schema: config.db.schema,
+    schema: DBConfig.schema,
     timestamps: false
   });
 

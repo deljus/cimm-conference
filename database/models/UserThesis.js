@@ -1,10 +1,10 @@
-import { config } from '../../globalConfig';
+import { DBConfig } from '../../utils/globalConfig';
 
 export default (sequelize, DataTypes) => {
   const UserThesis = sequelize.define('user_thesis', {
 
   }, {
-    schema: config.db.schema,
+    schema: DBConfig.schema,
     timestamps: false
   });
 

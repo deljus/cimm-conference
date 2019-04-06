@@ -4,7 +4,7 @@ import { Router, Route } from 'react-router-dom';
 import history from '../core/history';
 import CreateStaticPage from './CreateStaticPage';
 import StaticPageList from './StaticPageList';
-import { config, insideRoutes } from '../../globalConfig';
+import { config, insideRoutes } from '../../utils/globalConfig';
 
 const App = () => (
   <Router history={history}>

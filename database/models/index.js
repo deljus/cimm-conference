@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import { pick } from 'lodash';
 import Sequelize, { Op } from 'sequelize';
-import { config } from '../../globalConfig';
+import { DBConfig } from '../../utils/globalConfig';
 
 const operatorsAliases = {
   $eq: Op.eq,
@@ -41,10 +42,10 @@ const operatorsAliases = {
 };
 
 const sequelize = new Sequelize(
-  config.db.database,
-  config.db.username,
-  config.db.password,
-  { operatorsAliases, ...config.db.options }
+  DBConfig.database,
+  DBConfig.username,
+  DBConfig.password,
+  { operatorsAliases, ...pick(DBConfig, ['dialect']) }
 );
 
 const db = {};

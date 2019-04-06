@@ -8,7 +8,7 @@ import routes from './routes';
 import sessionConfig, { sessionStore } from './utils/session';
 import { sequelize } from './database/models';
 import fileUpload from 'express-fileupload';
-import { config } from './globalConfig';
+import { config } from './utils/globalConfig';
 
 const app = express();
 // view engine setup

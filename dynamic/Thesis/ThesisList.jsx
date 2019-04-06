@@ -3,7 +3,7 @@ import { map, filter, isEmpty } from 'lodash';
 import withDataFetch from '../core/withDataFetch';
 import { redirect } from '../core/history';
 import resolveUrl from '../core/resolveUrl';
-import { apiRoutes, insideRoutes } from '../../globalConfig';
+import { apiRoutes, insideRoutes } from '../../utils/globalConfig';
 import Modal from '../components/Modal';
 
 

@@ -1,4 +1,4 @@
-import { config } from '../../globalConfig';
+import { DBConfig } from '../../utils/globalConfig';
 
 export default (sequelize, DataTypes) => {
   const Session = sequelize.define('Session', {
@@ -9,6 +9,6 @@ export default (sequelize, DataTypes) => {
     userId: DataTypes.STRING,
     expires: DataTypes.DATE,
     data: DataTypes.STRING(50000)
-  }, { schema: config.db.schema });
+  }, { schema: DBConfig.schema });
   return Session;
 };

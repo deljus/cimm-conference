@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import * as api from '../controllers/api';
 import fileUpload from '../controllers/fileUpload';
-import { apiRoutes } from '../globalConfig';
+import { apiRoutes } from '../utils/globalConfig';
 import { checkUser, checkAdmin } from '../utils/auth';
 
 const router = Router();

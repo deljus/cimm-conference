@@ -4,6 +4,8 @@ import { sequelize } from '../database/models/index';
 
 const SequelizeStore = connfigSqStore(session.Store);
 
+
+
 export const sessionStore = new SequelizeStore({
   db: sequelize,
   table: 'Session'

@@ -3,7 +3,7 @@ import {
   find, map, pick, keys, forEach
 } from 'lodash';
 
-import { AUTHOR_FIELDS, AFFILIATION_FIELDS, insideRoutes } from '../globalConfig';
+import { AUTHOR_FIELDS, AFFILIATION_FIELDS, insideRoutes } from '../utils/globalConfig';
 
 
 export const getUser = async (req, res) => {

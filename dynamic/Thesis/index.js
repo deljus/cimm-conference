@@ -5,7 +5,7 @@ import history from '../core/history';
 import ThesisForm from './ThesisForm';
 import ThesisList from './ThesisList';
 import ThesisShow from './ThesisShow';
-import { config, insideRoutes } from '../../globalConfig';
+import { config, insideRoutes } from '../../utils/globalConfig';
 
 const App = () => (
   <Router history={history}>

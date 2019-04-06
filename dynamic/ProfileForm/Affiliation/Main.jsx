@@ -3,8 +3,8 @@ import ViewMode from './ViewMode';
 import EditMode from './EditMode';
 import { AutocompliteDropdown } from '../../components';
 import withDataFetch from '../../core/withDataFetch';
-import { MAX_AFFILIATION, TEMPLATE } from '../../../globalConfig';
-import { apiRoutes } from '../../../globalConfig';
+import { MAX_AFFILIATION, TEMPLATE } from '../../../utils/globalConfig';
+import { apiRoutes } from '../../../utils/globalConfig';
 
 class Main extends Component {
     state = {

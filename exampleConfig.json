@@ -9,20 +9,27 @@
     "[confirmation link]({sendMailUrl})."
   ],
   "emailTransporter": {
-    "service": "Gmail",
+    "service": "Yandex",
     "auth": {
-      "user": "your@email.com",
+      "user": "your@mail.site",
       "pass": "yourPass"
     }
   },
   "loginPageImage": "https://btcmiami.com/wp-content/uploads/2018/10/27d27bc1ffaede1c0593463a9617527a.jpg",
   "conferenceName": "Conf name",
   "db": {
-    "username": "postgres",
-    "password": "postgres",
-    "database": "postgres",
-    "schema": "test_schema",
-    "options": {
+    "production": {
+      "username": "postgres",
+      "password": "postgres",
+      "database": "postgres",
+      "schema": "test_schema",
+      "dialect": "postgres"
+    },
+    "development": {
+      "username": "postgres",
+      "password": "postgres",
+      "database": "postgres",
+      "schema": "test_schema",
       "dialect": "postgres"
     }
   }

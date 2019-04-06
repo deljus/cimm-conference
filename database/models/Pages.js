@@ -1,4 +1,4 @@
-import { config } from '../../globalConfig';
+import { DBConfig } from '../../utils/globalConfig';
 
 export default (sequelize, DataTypes) => {
   const Pages = sequelize.define('pages', {
@@ -26,7 +26,7 @@ export default (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {
-    schema: config.db.schema,
+    schema: DBConfig.schema,
     timestamps: false
   });
 

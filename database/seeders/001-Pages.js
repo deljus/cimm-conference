@@ -1,20 +1,20 @@
-const faker = require('faker');
+import { DBConfig } from '../../utils/globalConfig';
 
 module.exports = {
-    up: (queryInterface) => {
-        return queryInterface.bulkInsert('pages', [{
+  up: (queryInterface) => {
+    return queryInterface.bulkInsert({ tableName: 'pages', schema: DBConfig.schema }, [{
 
-            title: 'Hello World',
+      title: 'Hello World',
 
-            body: '# Header \n ___ \n Hello world.',
+      body: '# Header \n ___ \n Hello world.',
 
-            url: '/',
+      url: '/',
 
-            order: 0
-        }], {});
-    },
+      order: 0
+    }], {});
+  },
 
-    down: (queryInterface) => {
-        return queryInterface.bulkDelete('pages', null, {});
-    }
+  down: (queryInterface) => {
+    return queryInterface.bulkDelete({ tableName: 'pages', schema: DBConfig.schema }, null, {});
+  }
 };

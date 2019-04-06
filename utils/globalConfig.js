@@ -1,10 +1,5 @@
 import validation from 'validator';
-import json from './exampleConfig.json';
-
-export const config = {
-  routePrefix: json.routePrefix || '',
-  ...json
-};
+import json from '../exampleConfig.json';
 
 export const insideRoutes = {
   thesis: {
@@ -137,3 +132,12 @@ export const AUTHOR_FIELDS = {
     default: ''
   }
 };
+
+// For database
+
+export const config = {
+  routePrefix: json.routePrefix || '',
+  ...json
+};
+
+export const DBConfig = json.db[process.env.NODE_ENV || 'development'];

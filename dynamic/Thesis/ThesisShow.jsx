@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { map } from 'lodash';
 import withDataFetch from '../core/withDataFetch';
 import resolveUrl from '../core/resolveUrl';
-import { apiRoutes } from '../../globalConfig';
+import { apiRoutes } from '../../utils/globalConfig';
 
 
 class ThesisList extends Component {

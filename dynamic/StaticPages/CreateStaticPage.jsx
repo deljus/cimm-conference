@@ -3,7 +3,7 @@ import {TextInput, ValidationForm} from "react-bootstrap4-form-validation";
 import { pick, keys, isEqual, reduce, map } from 'lodash';
 import withDataFetch from '../core/withDataFetch';
 import HtmlEditor from '../components/HtmlEditor';
-import { apiRoutes } from '../../globalConfig';
+import { apiRoutes } from '../../utils/globalConfig';
 import resolveUrl from '../core/resolveUrl'
 
 class EditMode extends Component{

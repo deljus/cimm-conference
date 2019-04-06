@@ -5,7 +5,7 @@ import {
 import { markdown } from 'markdown';
 import {
   config, insideRoutes, outsideRouters
-} from '../globalConfig';
+} from '../utils/globalConfig';
 import resolveUrl from '../dynamic/core/resolveUrl';
 
 export const getPageAndAuth = async (req, res, next) => {

@@ -5,7 +5,7 @@ import withDataFetch from '../../core/withDataFetch';
 import HtmlEditor from '../../components/HtmlEditor';
 import AutocompliteTransfer from '../../components/AutocompliteTransfer';
 import CreateUserModal from './CreateUserModal';
-import { apiRoutes } from '../../../globalConfig';
+import { apiRoutes } from '../../../utils/globalConfig';
 import resolveUrl from '../../core/resolveUrl'
 
 class EditMode extends Component{

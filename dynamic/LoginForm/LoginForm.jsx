@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { ValidationForm, TextInput } from 'react-bootstrap4-form-validation';
 import validator from 'validator'
 import withDataFetch from "../core/withDataFetch";
-import { apiRoutes, outsideRouters, config } from '../../globalConfig';
+import { apiRoutes, outsideRouters, config } from '../../utils/globalConfig';
 
 class LoginForm extends Component {
     state = {

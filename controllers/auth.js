@@ -4,7 +4,7 @@ import { pick } from 'lodash';
 import url from 'url';
 import { mailTemplate, transporter } from '../utils/sendMessage';
 import DB from '../database/models';
-import { config, outsideRouters } from '../globalConfig';
+import { config, outsideRouters } from '../utils/globalConfig';
 
 const salt = '$2b$12$hQkZGSu0X3JN9Nl91zc5sO';
 
@@ -22,6 +22,7 @@ export const registrationController = async (req, res) => {
 
   const templateToMail = mailTemplate({
     to: userParams.email,
+    from: config.emailTransporter.auth.user,
     sendMailUrl
   });
 
@@ -37,6 +38,7 @@ export const registrationController = async (req, res) => {
     });
     res.status(200).send({ message: 'We sent you a password confirmation link in the mail. Please check your mail.' });
   } catch (e) {
+    console.error(e);
     res.status(422).json({ message: 'We sent you a password confirmation link in the mail. Please check your mail.' });
   }
 };

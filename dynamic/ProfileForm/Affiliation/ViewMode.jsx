@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { map } from 'lodash';
-import { AFFILIATION_FIELDS } from '../../../globalConfig';
+import { AFFILIATION_FIELDS } from '../../../utils/globalConfig';
 import { TextInput } from 'react-bootstrap4-form-validation';
 
 const styleFormCntrol = {

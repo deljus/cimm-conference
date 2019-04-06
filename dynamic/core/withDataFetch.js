@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { Alert } from "../components";
-import { config } from "../../globalConfig";
+import { config } from "../../utils/globalConfig";
 
 const defaultState = {
     alertPrimaryShow: false,
