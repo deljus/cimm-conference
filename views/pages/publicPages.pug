@@ -3,17 +3,17 @@ extends ../loyouts/layout
 block content
     .container-fluid
         main.col-12.py-5.pl-4.bd-content
-            h2= title
+            h2=title
             div.text-content!= body
 
 block side-bar
     .sidebar-heading
         a.navbar-brand
-            img(src=routePrefix + "/images/logo.png" width="30" height="30" alt="")
-            span= conferenceName
+            img(src="/images/logo.png" width="30" height="30" alt="")
+            span=conferenceName
     .list-group.list-group-flush
         each item in menu
-            a.list-group-item.list-group-item-action(href=routePrefix + item.url)=item.title
+            a.list-group-item.list-group-item-action(href=item.url)=item.title
 
 
 block nav-bar
@@ -22,12 +22,12 @@ block nav-bar
             span.navbar-toggler-icon
         form.form-inline
             if admin
-                a.btn.btn-primary(href=routePrefix + outsideRouters.users, role='button', aria-pressed='true') Users
-                a.btn.btn-primary(href=routePrefix + insideRoutes.admin.page.list, role='button', aria-pressed='true') Create pages
+                a.btn.btn-primary(href=outsideRouters.users, role='button', aria-pressed='true') Users
+                a.btn.btn-primary(href=insideRoutes.admin.page.list, role='button', aria-pressed='true') Create pages
             if auth
-                a.btn.btn-primary(href=routePrefix + outsideRouters.profile, role='button', aria-pressed='true') Profile
-                a.btn.btn-primary(href=routePrefix + insideRoutes.thesis.list) Thesis
-                a.btn.btn-primary(href=routePrefix + outsideRouters.logout, role='button', aria-pressed='true') Logout
+                a.btn.btn-primary(href=outsideRouters.profile, role='button', aria-pressed='true') Profile
+                a.btn.btn-primary(href=insideRoutes.thesis.list) Thesis
+                a.btn.btn-primary(href=outsideRouters.logout, role='button', aria-pressed='true') Logout
             else
-                a.btn.btn-primary(href=routePrefix + outsideRouters.registration, role='button', aria-pressed='true') Registration
-                a.btn.btn-primary(href=routePrefix + outsideRouters.login, role='button', aria-pressed='true') Login
+                a.btn.btn-primary(href=outsideRouters.registration, role='button', aria-pressed='true') Registration
+                a.btn.btn-primary(href=outsideRouters.login, role='button', aria-pressed='true') Login

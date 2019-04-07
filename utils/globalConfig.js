@@ -20,7 +20,7 @@ export const insideRoutes = {
 export const outsideRouters = {
   index: '/',
   profile: '/profile',
-  page: '/page/:url',
+  page: '/:url',
   users: '/users',
   registration: '/registration',
   login: '/login',
@@ -135,9 +135,6 @@ export const AUTHOR_FIELDS = {
 
 // For database
 
-export const config = {
-  routePrefix: json.routePrefix || '',
-  ...json
-};
+export const config = json;
 
 export const DBConfig = json.db[process.env.NODE_ENV || 'development'];

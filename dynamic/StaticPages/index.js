@@ -8,9 +8,9 @@ import { config, insideRoutes } from '../../utils/globalConfig';
 
 const App = () => (
   <Router history={history}>
-    <Route path={config.routePrefix + insideRoutes.admin.page.create} exact component={CreateStaticPage} />
-    <Route path={config.routePrefix + insideRoutes.admin.page.edit} component={CreateStaticPage} />
-    <Route path={config.routePrefix + insideRoutes.admin.page.list} component={StaticPageList} />
+    <Route path={insideRoutes.admin.page.create} exact component={CreateStaticPage} />
+    <Route path={insideRoutes.admin.page.edit} component={CreateStaticPage} />
+    <Route path={insideRoutes.admin.page.list} component={StaticPageList} />
   </Router>
 );
 

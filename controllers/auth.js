@@ -14,7 +14,7 @@ export const registrationController = async (req, res) => {
   const sendMailUrl = url.format({
     protocol: req.protocol,
     host: req.get('host'),
-    pathname: config.routePrefix + outsideRouters.send,
+    pathname: outsideRouters.send,
     query: {
       hash
     }
@@ -82,7 +82,7 @@ export const checkEmailHashController = async (req, res) => {
       { where: { hash } }
     );
     if (user[0]) {
-      return res.redirect(config.routePrefix + outsideRouters.login);
+      return res.redirect(outsideRouters.login);
     }
   }
   res.status(400).send('Email is not valid');
@@ -90,5 +90,5 @@ export const checkEmailHashController = async (req, res) => {
 
 export const logoutController = async (req, res) => {
   await req.session.destroy();
-  res.redirect(config.routePrefix + outsideRouters.index);
+  res.redirect(outsideRouters.index);
 };

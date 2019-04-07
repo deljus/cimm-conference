@@ -2,52 +2,40 @@ import DB from '../database/models';
 import {
   find, map, isNil, eq
 } from 'lodash';
-import { markdown } from 'markdown';
 import {
   config, insideRoutes, outsideRouters
 } from '../utils/globalConfig';
-import resolveUrl from '../dynamic/core/resolveUrl';
 
 export const getPageAndAuth = async (req, res, next) => {
-  const allPages = await DB.pages.findAll({ raw: true });
-  const menu = map(allPages, (page) => {
-    if (eq(page.url, '/')) {
-      return ({ ...page, outside: false });
-    }
-    if (page.url.startsWith('http')) {
-      return ({ ...page, outside: true });
-    }
-    return ({ ...page, url: resolveUrl(outsideRouters.page, { url: page.url }), outside: false });
+  const menu = await DB.pages.findAll({
+    attributes: ['id', 'title', 'url'],
+    order: [['order']]
   });
 
   const auth = !isNil(req.session.user_id);
   const admin = req.session.is_admin;
-  const { routePrefix, conferenceName } = config;
+  const { conferenceName } = config;
   req.forPage = {
-    allPages, auth, admin, routePrefix, menu, insideRoutes, outsideRouters, conferenceName
+    auth, admin, menu, insideRoutes, outsideRouters, conferenceName
   };
   return next();
 };
 
-
-// TODO not found page
-export const renderIndex = async (req, res) => {
-  const { allPages } = req.forPage;
-  const index = find(allPages, ['order', 0]);
-  res.render('pages/publicPages', {
-    ...index, ...req.forPage
-  });
-};
-
 export const rendePublicPages = async (req, res) => {
   const { url } = req.params;
-  const { allPages } = req.forPage;
-  const page = find(allPages, ['url', url]);
+
+  const page = await DB.pages.findOne({
+    attributes: ['id', 'title', 'body'],
+    where: {
+      url: `/${url || ''}`
+    },
+    raw: true
+  });
 
   if (page) {
     res.render('pages/publicPages', {
       ...page, ...req.forPage
-    });
+    }).end();
   }
   res.status(404).end();
 };

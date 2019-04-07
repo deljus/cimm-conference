@@ -21,7 +21,7 @@ const withDataFetch = WrappedComponent => class extends Component {
             this.setState({ loading: true });
             const params = {
                 ...options,
-                url: config.routePrefix + options.url
+                url: options.url
             };
             const response = await axios(params);
             const { data } = response;
@@ -32,13 +32,13 @@ const withDataFetch = WrappedComponent => class extends Component {
                 });
             }
             if(data.redirect){
-                window.location.href = config.routePrefix + data.redirect;
+                window.location.href = data.redirect;
                 return;
             }
             return data;
         }catch (e) {
             if(e.redirect){
-                window.location.href = config.routePrefix + e.redirect;
+                window.location.href = e.redirect;
                 return;
             };
             this.setState({

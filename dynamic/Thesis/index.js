@@ -9,10 +9,10 @@ import { config, insideRoutes } from '../../utils/globalConfig';
 
 const App = () => (
   <Router history={history}>
-    <Route path={config.routePrefix + insideRoutes.thesis.create} exact component={ThesisForm} />
-    <Route path={config.routePrefix + insideRoutes.thesis.show} exact component={ThesisShow} />
-    <Route path={config.routePrefix + insideRoutes.thesis.edit} component={ThesisForm} />
-    <Route path={config.routePrefix + insideRoutes.thesis.list} component={ThesisList} />
+    <Route path={insideRoutes.thesis.create} exact component={ThesisForm} />
+    <Route path={insideRoutes.thesis.show} exact component={ThesisShow} />
+    <Route path={insideRoutes.thesis.edit} component={ThesisForm} />
+    <Route path={insideRoutes.thesis.list} component={ThesisList} />
   </Router>
 );
 
