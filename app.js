@@ -5,10 +5,9 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import sassMiddleware from 'node-sass-middleware';
 import routes from './routes';
-import sessionConfig, { sessionStore } from './utils/session';
+import sessionConfig from './utils/session';
 import { sequelize } from './database/models';
 import fileUpload from 'express-fileupload';
-import { config } from './utils/globalConfig';
 
 const app = express();
 // view engine setup
@@ -33,7 +32,7 @@ app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-app.use('/', routes);
+app.use(routes);
 
 
 // catch 404 and forward to error handler

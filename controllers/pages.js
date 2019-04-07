@@ -32,12 +32,10 @@ export const rendePublicPages = async (req, res) => {
     raw: true
   });
 
-  if (page) {
-    res.render('pages/publicPages', {
-      ...page, ...req.forPage
-    }).end();
-  }
-  res.status(404).end();
+  const pageData = page || { body: 'Not found page' };
+  res.render('pages/publicPages', {
+    ...pageData, ...req.forPage
+  });
 };
 
 export const rendeProfile = async (req, res) => {

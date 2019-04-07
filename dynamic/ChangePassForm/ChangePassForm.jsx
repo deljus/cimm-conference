@@ -4,10 +4,9 @@ import validator from 'validator'
 import withDataFetch from "../core/withDataFetch";
 import { apiRoutes, outsideRouters, config } from '../../utils/globalConfig';
 
-class LoginForm extends Component {
+class ChangePassForm extends Component {
     state = {
-        email: "",
-        password: "",
+        email: ""
     };
 
     handleChange = (e) => {
@@ -21,7 +20,7 @@ class LoginForm extends Component {
         const { fetchData } = this.props;
         await fetchData({
             method: 'post',
-            url: apiRoutes.login,
+            url: apiRoutes.changePassByEmail,
             data: formData
         });
     };
@@ -35,7 +34,9 @@ class LoginForm extends Component {
 
         return (
             <ValidationForm className="registration-form" onSubmit={this.handleSubmit} onErrorSubmit={this.handleErrorSubmit}>
-                <h3>Login or <a href={ outsideRouters.registration }>Registration</a></h3>
+                <h3>
+                    <a href={ outsideRouters.login }>Login</a> or &nbsp;
+                    <a href={ outsideRouters.registration }>Registration</a></h3>
                 { renderAlerts() }
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
@@ -47,24 +48,14 @@ class LoginForm extends Component {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <TextInput name="password" id="password" type="password" required
-                               pattern="(?=.*[A-Z]).{6,}"
-                               errorMessage={{required:"Password is required", pattern: "Password should be at least 6 characters and contains at least one upper case letter"}}
-                               value={this.state.password}
-                               onChange={this.handleChange}
-                    />
-                </div>
-                <div className="form-group">
                     <button className="btn btn-primary" disabled={loading}>
                         { loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>}
                         Submit
-                    </button> &nbsp;
-                    <a href={ outsideRouters.changePassByEmail }>Forgot password</a>
+                    </button>
                 </div>
             </ValidationForm>
         )
     }
 }
 
-export default withDataFetch(LoginForm);
+export default withDataFetch(ChangePassForm);

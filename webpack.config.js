@@ -1,14 +1,15 @@
-const webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
     registrationForm: './dynamic/RegisterForm/index.js',
+    changePassForm: './dynamic/ChangePassForm/index.js',
     loginForm: './dynamic/LoginForm/index.js',
     thesis: './dynamic/Thesis/index.js',
     profileForm: './dynamic/ProfileForm/index.js',
-    page: './dynamic/StaticPages/index.js',
+    newPassForm: './dynamic/NewPassForm/index.js',
+    page: './dynamic/StaticPages/index.js'
   },
   module: {
     rules: [

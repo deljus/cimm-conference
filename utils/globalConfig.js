@@ -20,6 +20,8 @@ export const insideRoutes = {
 export const outsideRouters = {
   index: '/',
   profile: '/profile',
+  changePassByEmail: '/change-pass-email',
+  changePass: '/change-pass',
   page: '/:url',
   users: '/users',
   registration: '/registration',
@@ -32,6 +34,8 @@ export const apiRoutes = {
   login: '/api/login',
   registration: '/api/registration',
   profileFullness: '/api/profile/fullness',
+  changePassByEmail: '/api/change-pass-email',
+  changePass: '/api/change-pass',
   user: {
     current: '/api/user',
     all: '/api/users'

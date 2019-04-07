@@ -1,35 +1,48 @@
 {
-  "routePrefix": "",
-  "emailTitle": "",
-  "emailTemplate": [
-    "Example email",
-    "- one",
-    "- two",
-    "- three",
-    "[confirmation link]({sendMailUrl})."
-  ],
+  "email": {
+    "registration": {
+      "title": "hi",
+      "template": [
+        "Example email",
+        "- one",
+        "- two",
+        "- three",
+        "[confirmation link]({sendMailUrl})."
+      ]
+    },
+    "changePassword": {
+      "title": "hi",
+      "template":  [
+        "Example email",
+        "- one",
+        "- two",
+        "- three",
+        "[confirmation link]({sendMailUrl})."
+      ]
+    }
+  },
   "emailTransporter": {
     "service": "Yandex",
     "auth": {
-      "user": "your@mail.site",
-      "pass": "yourPass"
+      "user": "",
+      "pass": ""
     }
   },
   "loginPageImage": "https://btcmiami.com/wp-content/uploads/2018/10/27d27bc1ffaede1c0593463a9617527a.jpg",
   "conferenceName": "Conf name",
   "db": {
     "production": {
-      "username": "postgres",
-      "password": "postgres",
-      "database": "postgres",
-      "schema": "test_schema",
+      "username": "meow",
+      "password": "meow",
+      "database": "mydb",
+      "schema": "",
       "dialect": "postgres"
     },
     "development": {
-      "username": "postgres",
-      "password": "postgres",
-      "database": "postgres",
-      "schema": "test_schema",
+      "username": "meow",
+      "password": "meow",
+      "database": "mydb",
+      "schema": "",
       "dialect": "postgres"
     }
   }

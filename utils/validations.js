@@ -11,6 +11,10 @@ export const validateLoginForm = [
   check('password').isLength({ min: 6 })
 ];
 
+export const validateEmail = [
+    check('email').isEmail(),
+];
+
 export const catchValidationError = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

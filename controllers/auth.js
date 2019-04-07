@@ -8,6 +8,21 @@ import { config, outsideRouters } from '../utils/globalConfig';
 
 const salt = '$2b$12$hQkZGSu0X3JN9Nl91zc5sO';
 
+export const checkEmailinDB = async (req, res, next) => {
+  const { email } = req.body;
+  const user = await DB.users.find({
+    where: {
+      email,
+      isVerifiedEmail: true
+    }
+  });
+  if (user) {
+    res.status(422).json({ message: 'A user with this email already exists' });
+  } else {
+    next();
+  }
+};
+
 export const registrationController = async (req, res) => {
   const userParams = pick(req.body, ['firstName', 'lastName', 'middleName', 'country', 'phone', 'email']);
   const hash = randomstring.generate();
@@ -23,6 +38,8 @@ export const registrationController = async (req, res) => {
   const templateToMail = mailTemplate({
     to: userParams.email,
     from: config.emailTransporter.auth.user,
+    emailTemplate: config.email.registration.template,
+    emailTitle: config.email.registration.title,
     sendMailUrl
   });
 
@@ -57,7 +74,7 @@ export const loginController = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(422).json({ errors: [{ msg: 'User not found or you not check email' }] });
+      return res.status(422).json({ message: 'Not valid password' });
     }
 
     req.session.user_id = user.id;
@@ -68,10 +85,65 @@ export const loginController = async (req, res) => {
   }
 };
 
+export const changePassController = async (req, res) => {
+  const { email } = req.body;
+  const hash = randomstring.generate();
+  const sendMailUrl = url.format({
+    protocol: req.protocol,
+    host: req.get('host'),
+    pathname: outsideRouters.changePass,
+    query: {
+      hash
+    }
+  });
+
+  const templateToMail = mailTemplate({
+    to: email,
+    from: config.emailTransporter.auth.user,
+    emailTemplate: config.email.changePassword.template,
+    emailTitle: config.email.changePassword.title,
+    sendMailUrl
+  });
+
+
+  try {
+    await transporter(config).sendMail(templateToMail);
+    await DB.users.update({
+      isVerifiedEmail: false,
+      hash
+    }, { where: { email } });
+    res.status(200).send({ message: 'We sent you a password confirmation link in the mail. Please check your mail.' });
+  } catch (e) {
+    console.error(e);
+    res.status(422).json({ message: 'Mail transport error' });
+  }
+};
+
+export const newPassController = async (req, res) => {
+  const { hash, password: bodyPassword } = req.body;
+
+  const password = bcrypt.hashSync(bodyPassword, salt);
+
+  if (hash) {
+    const user = await DB.users.update(
+      { isVerifiedEmail: true, password },
+      { where: { hash } }
+    );
+    if (user[0]) {
+      return res.status(200).json({ redirect: outsideRouters.login });
+    }
+  }
+  res.status(400).json({ message: 'Change password error' });
+};
+
 
 export const renderRegistration = (req, res) => res.render('registration', config);
 
 export const renderLogin = (req, res) => res.render('login', config);
+
+export const renderChangePass = (req, res) => res.render('change-pass', config);
+
+export const renderNewPass = (req, res) => res.render('new-pass', config);
 
 export const checkEmailHashController = async (req, res) => {
   const { hash } = req.query;

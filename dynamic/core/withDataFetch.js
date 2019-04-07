@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import { Alert } from "../components";
-import { config } from "../../utils/globalConfig";
+import { get } from 'lodash';
 
 const defaultState = {
     alertPrimaryShow: false,
@@ -42,7 +42,7 @@ const withDataFetch = WrappedComponent => class extends Component {
                 return;
             };
             this.setState({
-                message: e.message,
+                message: get(e, 'response.data.message', e),
                 alertDangerShow: true
             });
         }finally {
