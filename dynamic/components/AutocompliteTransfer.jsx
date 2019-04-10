@@ -31,7 +31,7 @@ class AutocompliteInput extends Component{
     fetchFn = debounce(async(value) => {
         const { url } = this.props;
         const response = await axios({
-            url: config.routePrefix + url,
+            url: url,
             method: 'get',
             params: {
                 search: value

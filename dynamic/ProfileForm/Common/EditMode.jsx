@@ -75,15 +75,16 @@ class EditMode extends Component{
                     />
                     </div>
                 </div>
-
+                <div className="form-group row">
                     <button className="btn btn-primary" disabled={loading}>
                         { loading && <><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>&nbsp;</>}
                         Submit
                     </button>
                     <button className="btn btn-secondary" onClick={changeToViewMode}>
-                    <i className="fa fa-times" aria-hidden="true"/>&nbsp;
-                    Cancel
-                </button>
+                        <i className="fa fa-times" aria-hidden="true"/>&nbsp;
+                        Cancel
+                    </button>
+                </div>
             </ValidationForm>
         )
     }

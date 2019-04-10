@@ -49,17 +49,23 @@ export const saveUserInfo = async (req, res) => {
 
 export const getAffiliations = async (req, res) => {
   const { search } = req.query;
-  let query;
-  if (search) {
-    query = {
-      where: { affiliation: { $like: `%${search}%` } },
-      limit: 10
-    };
-  } else {
-    query = {
-      limit: 10
-    };
-  }
+  if (!search) return res.status(200).json([]);
+
+  const query = {
+    where: { affiliation: { $like: `%${search}%` } },
+    include: [
+      {
+        model: DB.users,
+        attributes: [],
+        required: true,
+        where: {
+          id: { $notIn: [req.userId] }
+        }
+      }
+    ],
+    limit: 10
+  };
+
   const affiliations = await DB.affiliation.findAll(query);
   res.status(200).json(affiliations);
 };

@@ -40,7 +40,7 @@ class Main extends Component {
         const {editMode, ...rest} = this.state;
         const { renderAlerts } = this.props;
         return (
-            <div className="py-4 pl-4">
+            <div className="py-4 pl-4 affiliation-user">
                 <h5>Common information: </h5>
                 { renderAlerts() }
                 { editMode ? <EditMode {...rest} changeToViewMode={this.changeToViewMode} changeState={this.changeStateForSusses}/> : <ViewMode {...rest} changeToEditMode={this.changeToEditMode}/>}

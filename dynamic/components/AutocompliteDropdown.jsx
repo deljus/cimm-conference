@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { debounce, map, omit } from 'lodash';
+import { debounce, map, omit, eq } from 'lodash';
 import { TextInput, BaseFormControl } from "react-bootstrap4-form-validation"
 import axios from 'axios';
 import {AFFILIATION_FIELDS} from "../../utils/globalConfig";
@@ -63,10 +63,37 @@ class AutocompliteDropdown extends Component{
         onSelectNewAffiliation && onSelectNewAffiliation(item);
     };
 
+    renderDropDown = (item, index) => (
+            <>
+                <span className="dropdown-item-text">
+                  <div className="row justify-content-between">
+                    <div className="col-4">
+                      <h6>{ item.affiliation }</h6>
+                    </div>
+
+                      <button
+                          className="btn btn-primary btn-sm"
+                          onClick={this.onItemClick(item)}
+                      >
+                       <i
+                           className="fa fa-plus"
+                           aria-hidden="true"
+                       />&nbsp;
+                          Add
+                    </button>
+                    </div>
+                    <div className="badge badge-primary">
+                    { map(omit(AFFILIATION_FIELDS, 'affiliation'), ({ label }, key) => item[key] && <>{ label }: {item[key]}&nbsp;</>)}
+                    </div>
+                </span>
+                { !eq(index, this.state.data.length-1) && <div className="dropdown-divider"></div> }
+            </>
+        );
+
     render () {
 
         const { open, data } = this.state;
-        const { disabled, className, affiliations, ...rest } = this.props;
+        const { disabled, className, ...rest } = this.props;
 
         return (
             <OutSideClick onOutSideClick={this.closeDropdown}>
@@ -86,26 +113,9 @@ class AutocompliteDropdown extends Component{
                                 className="dropdown-menu"
                                 style={{ display: 'inline-block', position: 'absolute', top: '38px' }}
                             >
-                                { data && data.map(item => (
-                                    <span className="dropdown-item-text">
-                                        <h6>{ item.affiliation }</h6>
-                                        <div>
-                                        { map(omit(AFFILIATION_FIELDS, 'affiliation'), ({ label }, key) => item[key] && <span className="badge badge-primary ">{ label }: {item[key]}</span>)}
-                                        </div>
-                                       <button
-                                            className="btn btn-primary btn-sm"
-                                            onClick={this.onItemClick(item)}
-                                        >
-                                           <i
-                                               className="fa fa-plus"
-                                               aria-hidden="true"
-                                           />&nbsp;
-                                            Add selected affiliation
-                                        </button>
-                                    </span>
-                                ))}
+                                { map(data, this.renderDropDown) }
                                 {
-                                    !data.length && (<span className="dropdown-item">Not found</span>)
+                                  !data.length && (<span className="dropdown-item">Not found</span>)
                                 }
 
                             </div>
