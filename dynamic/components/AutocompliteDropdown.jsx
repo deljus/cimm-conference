@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { debounce, map, omit } from 'lodash';
+import { TextInput, BaseFormControl } from "react-bootstrap4-form-validation"
 import axios from 'axios';
 import {AFFILIATION_FIELDS} from "../../utils/globalConfig";
 import OutSideClick from './OutSideClick';
@@ -11,9 +12,6 @@ const styles = {
 class AutocompliteDropdown extends Component{
     constructor(props){
         super(props);
-        this.inputRef = React.createRef();
-        this.popupRef = React.createRef();
-        this.getInputRef = this.getInputRef.bind(this);
         this.state = {
             data: [],
             open: false
@@ -25,10 +23,6 @@ class AutocompliteDropdown extends Component{
         if(disabled) this.inputRef.current.value = '',
         this.fetchFn();
     }
-
-    getInputRef(){
-        return this.inputRef.current.inputElement;
-    };
 
     fetchFn = debounce(async(value) => {
         const { url } = this.props;
@@ -44,9 +38,13 @@ class AutocompliteDropdown extends Component{
         }
     }, 200);
 
-    handleChange = (e) => {
+    handleChange = async (e) => {
+        const { onChange } = this.props;
         e.stopPropagation();
-        this.fetchFn(e.target.value);
+        e.persist();
+        onChange(e);
+        await this.fetchFn(e.target.value);
+
     };
 
     openDropdown = (e) => {
@@ -61,8 +59,8 @@ class AutocompliteDropdown extends Component{
     onItemClick = item => e => {
         e.stopPropagation();
         this.setState({ open: false })
-        const { onSelect } = this.props;
-        onSelect && onSelect(item);
+        const { onSelectNewAffiliation } = this.props;
+        onSelectNewAffiliation && onSelectNewAffiliation(item);
     };
 
     render () {
@@ -72,48 +70,48 @@ class AutocompliteDropdown extends Component{
 
         return (
             <OutSideClick onOutSideClick={this.closeDropdown}>
-            <div style={styles.input} >
-                <input
-                    ref={this.inputRef}
-                    className={className}
-                    onFocus={this.openDropdown}
-                    onChange={this.handleChange}
-                    disabled={disabled}
-                />
-                {
-                    open && (
-                        <div
-                            ref={this.popupRef}
-                            className="dropdown-menu"
-                            style={{ display: 'block' }}
-                        >
-                            { data && data.map(item => (
-                                <span className="dropdown-item-text">
-                                    <h6>{ item.affiliation }</h6>
-                                    <div>
-                                    { map(omit(AFFILIATION_FIELDS, 'affiliation'), ({ label }, key) => item[key] && <span className="badge badge-primary ">{ label }: {item[key]}</span>)}
-                                    </div>
-                                   <button
-                                        className="btn btn-primary btn-sm"
-                                        onClick={this.onItemClick(item)}
-                                        disabled={affiliations.some(affiliation => affiliation.id === item.id )}
-                                    >
-                                       <i
-                                           className="fa fa-plus"
-                                           aria-hidden="true"
-                                       />&nbsp;
-                                        Add selected affiliation
-                                    </button>
-                                </span>
-                            ))}
-                            {
-                                !data.length && (<span className="dropdown-item">Not found</span>)
-                            }
+                <div style={styles.input} >
+                    <TextInput
+                        ref={this.inputRef}
+                        {...rest}
+                        autocomplete="off"
+                        className={className}
+                        onFocus={this.openDropdown}
+                        onChange={this.handleChange}
+                        disabled={disabled}
+                    />
+                    {
+                        open && (
+                            <div
+                                className="dropdown-menu"
+                                style={{ display: 'inline-block', position: 'absolute', top: '38px' }}
+                            >
+                                { data && data.map(item => (
+                                    <span className="dropdown-item-text">
+                                        <h6>{ item.affiliation }</h6>
+                                        <div>
+                                        { map(omit(AFFILIATION_FIELDS, 'affiliation'), ({ label }, key) => item[key] && <span className="badge badge-primary ">{ label }: {item[key]}</span>)}
+                                        </div>
+                                       <button
+                                            className="btn btn-primary btn-sm"
+                                            onClick={this.onItemClick(item)}
+                                        >
+                                           <i
+                                               className="fa fa-plus"
+                                               aria-hidden="true"
+                                           />&nbsp;
+                                            Add selected affiliation
+                                        </button>
+                                    </span>
+                                ))}
+                                {
+                                    !data.length && (<span className="dropdown-item">Not found</span>)
+                                }
 
-                        </div>
-                    )
-                }
-            </div>
+                            </div>
+                        )
+                    }
+                </div>
             </OutSideClick>
         )
     }

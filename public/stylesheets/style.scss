@@ -149,3 +149,9 @@ body {
   border: 1px dashed $primary;
 }
 
+.form-group{
+  & > button{
+    margin-right: 0.5rem;
+  }
+}
+

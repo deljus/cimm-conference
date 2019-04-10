@@ -78,11 +78,15 @@ export const saveAffiliation = async (req, res) => {
   res.status(200).json(affiliations);
 };
 
-export const saveAffiliationBoundForUser = async (req, res) => {
-  const { id } = req.body;
-  await DB.user_affiliation.create({ userId: req.userId, affiliationId: id });
-  const affiliation = await DB.affiliation.findByPk(id);
-  res.status(200).json(affiliation);
+export const saveAffiliationBoundForUser = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    await DB.user_affiliation.create({ userId: req.userId, affiliationId: id });
+    const affiliation = await DB.affiliation.findByPk(id);
+    res.status(200).json(affiliation);
+  } catch (err) {
+    next(err);
+  }
 };
 
 export const deleteAffiliationForUser = async (req, res) => {

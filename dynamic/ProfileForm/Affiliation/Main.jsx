@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { isEmpty, filter } from 'lodash';
 import ViewMode from './ViewMode';
 import EditMode from './EditMode';
-import { AutocompliteDropdown } from '../../components';
 import withDataFetch from '../../core/withDataFetch';
 import { MAX_AFFILIATION, TEMPLATE } from '../../../utils/globalConfig';
 import { apiRoutes } from '../../../utils/globalConfig';
@@ -13,11 +13,16 @@ class Main extends Component {
 
     componentDidMount = async() => {
         const { fetchData } = this.props;
-        const affiliationsData = await fetchData({
+        const affiliations = await fetchData({
             method: 'get',
             url: apiRoutes.affiliation.me,
         });
-        affiliationsData && this.setState({ affiliations: affiliationsData  });
+        if(isEmpty(affiliations)){
+            this.addNewAffiliation();
+
+        }else{
+            this.setState({ affiliations });
+        }
     };
 
     changeToEditMode = (index) => () => {
@@ -78,7 +83,7 @@ class Main extends Component {
         });
         if(data){
             affiliations.push(data);
-            this.setState({ affiliations });
+            this.setState({ affiliations: filter(affiliations, 'id') });
         }
     };
 
@@ -92,15 +97,6 @@ class Main extends Component {
             <div className="py-4 pl-4">
             <h5>Affiliation(s):</h5>
                 <div className="row py-4">
-                    <div className="col-6">
-                        <AutocompliteDropdown
-                            url={apiRoutes.affiliation.all}
-                            className="form-control"
-                            affiliations={affiliations}
-                            onSelect={this.setSelectedAffiliation}
-                            disabled={isMaxAffiliation}
-                        />
-                    </div>
                     <div className="col-4">
                         <button
                             className="btn btn-primary"
@@ -123,6 +119,7 @@ class Main extends Component {
                                 className=""
                                 changeToViewMode={this.changeToViewMode}
                                 changeState={this.changeStateForSusses}
+                                setSelectedAffiliation={this.setSelectedAffiliation}
                             />
                             : <ViewMode
                                 {...item}

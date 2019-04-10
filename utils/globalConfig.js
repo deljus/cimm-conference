@@ -63,6 +63,14 @@ export const apiRoutes = {
 export const MAX_AFFILIATION = 3;
 
 export const AFFILIATION_FIELDS = {
+  affiliation: {
+    label: 'Affiliation',
+    required: true,
+    errorMessage: {
+      required: 'Affiliation is required'
+    },
+    default: ''
+  },
   country: {
     label: 'Country',
     required: true,
@@ -76,14 +84,6 @@ export const AFFILIATION_FIELDS = {
     required: true,
     errorMessage: {
       required: 'City is required'
-    },
-    default: ''
-  },
-  affiliation: {
-    label: 'Affiliation',
-    required: true,
-    errorMessage: {
-      required: 'Affiliation is required'
     },
     default: ''
   },
