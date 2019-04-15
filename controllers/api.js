@@ -23,7 +23,8 @@ export const getUsers = async (req, res) => {
         firstName: { $like: `%${search}%` }
       }],
       $and: {
-        id: { $notIn: [req.userId] }
+        id: { $notIn: [req.userId] },
+        isAdmin: false
       }
     },
     include: [

@@ -164,15 +164,13 @@ class EditMode extends Component{
                                     <div className="form-group row">
                                         <label className="col-4">Affiliations:</label>
                                         <div className="col-8">
-                                            <div className="row">
                                             {
                                                 user.affiliations && map(user.affiliations, (data, inx) => (
-                                                    <div className="col-4 thesis-affiliaton">
+                                                    <div className="badge badge-primary d-block mb-2">
                                                         { data.affiliation }
                                                     </div>
                                                 ))
                                             }
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
