@@ -145,7 +145,13 @@ export const saveThesis = async (req, res) => {
 };
 
 export const getUserThesises = async (req, res) => {
-  const thesis = await DB.thesis.findAll({
+  const query = req.session.is_admin ? {
+    include: [
+      {
+        model: DB.users
+      }
+    ]
+  } : {
     include: [
       {
         model: DB.users,
@@ -153,9 +159,10 @@ export const getUserThesises = async (req, res) => {
           id: req.userId
         }
       }
-
     ]
-  });
+  };
+
+  const thesis = await DB.thesis.findAll(query);
   res.status(200).json({ thesis });
 };
 
