@@ -10,6 +10,7 @@ Project for the site cimm.kpfu.ru
 # Start to production
 - npm install
 - npm run start
+- npm run up:seeders
 
 # Configure service
 For configuration, edit the file exampleConfig.json file
