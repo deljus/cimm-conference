@@ -1,9 +1,11 @@
 import DB, { sequelize } from '../database/models';
 import {
-  find, map, pick, keys, forEach
+  find, map, pick, keys, forEach, filter, defaultTo
 } from 'lodash';
 
-import { AUTHOR_FIELDS, AFFILIATION_FIELDS, insideRoutes, LIMIT_THESIS_LIST } from '../utils/globalConfig';
+import {
+  AUTHOR_FIELDS, AFFILIATION_FIELDS, insideRoutes, LIMIT_THESIS_LIST
+} from '../utils/globalConfig';
 
 
 export const getUser = async (req, res) => {
@@ -110,14 +112,23 @@ export const deleteAffiliationForUser = async (req, res) => {
 
 export const saveNewUser = async (req, res) => {
   let transaction;
+  let newAff = [];
   try {
     const userData = pick(req.body, keys(AUTHOR_FIELDS));
     const { affiliations } = req.body;
     transaction = await sequelize.transaction();
     const user = await DB.users.create(userData, { transaction });
-    await DB.user_affiliation.bulkCreate(map(affiliations,
-      ({ id }) => ({ userId: user.id, affiliationId: id })),
-    { transaction });
+
+    const newAffiliations = filter(affiliations, affiliation => !affiliation.id);
+    const createdAffiliations = filter(affiliations, affiliation => affiliation.id);
+
+    if (newAffiliations) {
+      newAff = await DB.affiliation.bulkCreate(newAffiliations, { transaction, returning: true });
+    }
+
+
+    await DB.user_affiliation.bulkCreate(map([...createdAffiliations, ...newAff],
+      ({ id }) => ({ userId: user.id, affiliationId: id })), { transaction });
     await transaction.commit();
     res.status(200).json({ id: user.id });
   } catch (err) {
@@ -166,7 +177,9 @@ export const getUserThesises = async (req, res) => {
   };
 
   const searchQuery = search ? { where: { title: { $like: `%${req.query.search}%` } } } : {};
-  const thesis = await DB.thesis.findAndCountAll({ ...searchQuery, ...includeQuery, limit: LIMIT_THESIS_LIST, offset });
+  const thesis = await DB.thesis.findAndCountAll({
+    ...searchQuery, ...includeQuery, limit: LIMIT_THESIS_LIST, offset: defaultTo(offset, 0)
+  });
   res.status(200).json(thesis);
 };
 

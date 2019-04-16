@@ -31,18 +31,18 @@ class EditMode extends Component{
     };
 
     handleSubmit = async (e, formData) => {
-        const { fetchData, changeState, index } = this.props;
+        const { fetchData, changeState, index, setUrl } = this.props;
         e.stopPropagation();
         e.preventDefault();
 
-         const dt = await fetchData({
-                method: 'post',
-                url: apiRoutes.affiliation.me,
-                data: formData
-            });
-          if(dt){
-              changeState(dt, index);
-          }
+         if(setUrl){
+             await fetchData({
+                 method: 'post',
+                 url: setUrl,
+                 data: formData
+             });
+         }
+         changeState(formData, index);
     };
 
     changeToViewMode = (e) => {

@@ -6,8 +6,10 @@
     "start": "npm run buld:dynamic && node ./bin/starter",
     "start:dev": "cross-env NODE_ENV=development nodemon ./bin/starter",
     "watch:dynamic": "webpack --watch --config ./webpack.config.js --mode development",
-    "up:seeders": "cross-env NODE_ENV=development && sequelize db:seed:all",
-    "down:seeders": "cross-env NODE_ENV=development sequelize db:seed:undo:all",
+    "up:seeders:dev": "cross-env NODE_ENV=development && sequelize db:seed:all",
+    "down:seeders:dev": "cross-env NODE_ENV=development sequelize db:seed:undo:all",
+    "up:seeders": "cross-env NODE_ENV=production && sequelize db:seed:all",
+    "down:seeders": "cross-env NODE_ENV=production sequelize db:seed:undo:all",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "buld:dynamic": "webpack --config ./webpack.config.js --mode production",
     "test:frontend": "jest --colors",
@@ -48,7 +50,8 @@
     "react-router-dom": "^5.0.0",
     "history": "^4.9.0",
     "cross-env": "^5.2.0",
-    "query-string": "^6.4.2"
+    "query-string": "^6.4.2",
+    "prop-types": "^15.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

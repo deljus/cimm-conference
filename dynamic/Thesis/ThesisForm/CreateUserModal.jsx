@@ -4,7 +4,7 @@ import {map, omit, reduce, eq} from 'lodash';
 import {AFFILIATION_FIELDS, AUTHOR_FIELDS} from '../../../utils/globalConfig';
 import AutocompliteTransfer from '../../components/AutocompliteTransfer';
 import { MAX_AFFILIATION } from '../../../utils/globalConfig';
-import EditAffiliation from '../../components/EditAffiliation';
+import Affiliation from '../../ProfileForm/Affiliation/Main'
 import withDataFetch from '../../core/withDataFetch';
 import cx from 'classnames';
 import { apiRoutes } from '../../../utils/globalConfig';
@@ -13,7 +13,6 @@ const defaultState = {
     ...reduce(AUTHOR_FIELDS, (acc, val, key) => ({ [key]: val.default, ...acc }), {}),
     affiliations: [],
     editMode: false,
-
 };
 
 class CreateUser extends Component {
@@ -23,18 +22,16 @@ class CreateUser extends Component {
         this.formRef = React.createRef();
     }
 
-    componentDidUpdate = (prevProps) => {
-        if(!eq(prevProps.open, this.props.open)){
-            if(this.props.open){
-                document.body.classList.add('modal-open');
-                const elemDiv = document.createElement('div');
-                elemDiv.className = 'modal-backdrop fade show';
-                document.body.appendChild(elemDiv);
-            }else{
-                document.body.classList.remove('modal-open');
-                document.querySelector('.modal-backdrop').remove();
-            }
-        }
+    componentWillMount = () => {
+        document.body.classList.add('modal-open');
+        const elemDiv = document.createElement('div');
+        elemDiv.className = 'modal-backdrop fade show';
+        document.body.appendChild(elemDiv);
+    };
+
+    componentWillUnmount = () => {
+        document.body.classList.remove('modal-open');
+        document.querySelector('.modal-backdrop').remove();
     };
 
     resetForm = () => {
@@ -48,32 +45,6 @@ class CreateUser extends Component {
         })
     };
 
-    setAffiliation = (item) => {
-        const { affiliations } = this.state;
-        affiliations.push(item);
-
-        this.setState({
-          affiliations,
-            editMode: false,
-        })
-      };
-
-    deleteAffiiation = (inx) => (e) => {
-      e.preventDefault();
-      const { affiliations } = this.state;
-      affiliations.splice(inx, 1);
-
-      this.setState({
-        affiliations
-      })
-    };
-
-    switchEditMode = () => {
-        this.setState({
-            editMode: true
-        })
-    };
-
     changeToViewMode = () => {
         this.setState({
             editMode: false
@@ -81,13 +52,18 @@ class CreateUser extends Component {
     };
 
     handleSubmit = async (e, formData) => {
-        const { fetchData, changeState, index, setNewUser } = this.props;
+        e.stopPropagation();
         e.preventDefault();
+        const { fetchData, setNewUser } = this.props;
+        const { affiliations, lastName, firstName, email } = this.state;
+
 
         const dt = await fetchData({
             method: 'put',
             url: apiRoutes.user.current,
-            data: this.state
+            data: {
+                affiliations, lastName, firstName, email
+            }
         });
         if(dt){
             setNewUser({ ...this.state, id: dt.id });
@@ -101,9 +77,13 @@ class CreateUser extends Component {
         this.props.onClose();
     };
 
+    handleAffiliationChange = (affiliations) => {
+        this.setState({ affiliations })
+    };
+
   render() {
 
-    const { affiliations, editMode } = this.state;
+    const { affiliations } = this.state;
     const { open } = this.props;
 
     return (
@@ -145,55 +125,13 @@ class CreateUser extends Component {
                         </div>
                     )) }
                     <div className="form-group row">
-                        <label className="col-2">Affiliation:</label>
-                        <div className="col-4">
-                            <AutocompliteTransfer
-                                className="form-control"
-                                placeholder="Select affiliations..."
-                                url={apiRoutes.affiliation.all}
-                                onSelect={this.setAffiliation}
-                                executIds={map(affiliations, 'id')}
-                                disabled={affiliations.length >= MAX_AFFILIATION}
-                                renderDropDown={(item) => (
-                                    <>
-                                      <h6>{ item.affiliation }</h6>
-                                      <div>
-                                      { map(omit(AFFILIATION_FIELDS, 'affiliation'),
-                                          ({ label }, key) =>
-                                              item[key] && <span className="badge badge-primary ">
-                                                  { label }: {item[key]}
-                                                  </span>)
-                                      }
-                                      </div>
-                                    </>
-                                )}
+                        <label className="col-2">Affiliation(s):</label>
+                        <div className="col-10">
+                            <Affiliation
+                                affiliations={affiliations}
+                                onChange={this.handleAffiliationChange}
                             />
-                        </div>
-                        <div className="col-6">
-                            <div style={{ paddingBottom: '5px' }}>
-                                <button
-                                    className="btn btn-primary"
-                                    type="button"
-                                    onClick={this.switchEditMode}>
-                                    New affiliation
-                                </button>
-                            </div>
-                            { editMode ? <EditAffiliation changeToViewMode={this.changeToViewMode} onSubmitted={this.setAffiliation} /> :
 
-                                map(affiliations, (affiliation, inx) => (
-                                    <div className="card">
-                                        <div className="card-header">
-                                            #{inx+1}
-                                            <button type="button" className="close" onClick={this.deleteAffiiation(inx)}>
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div className="card-body">
-                                            <p className="card-text">Last name: {affiliation.zip}</p>
-                                        </div>
-                                    </div>
-                                ))
-                            }
                         </div>
                     </div>
                 </ValidationForm>

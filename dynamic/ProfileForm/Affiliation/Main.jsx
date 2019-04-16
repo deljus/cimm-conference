@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-import { isEmpty, filter } from 'lodash';
+import PropTypes from 'prop-types';
+import { isEmpty, isEqual, filter } from 'lodash';
 import ViewMode from './ViewMode';
 import EditMode from './EditMode';
 import withDataFetch from '../../core/withDataFetch';
 import { MAX_AFFILIATION, TEMPLATE } from '../../../utils/globalConfig';
-import { apiRoutes } from '../../../utils/globalConfig';
 
-class Main extends Component {
+class AffiliationForm extends Component {
     state = {
         affiliations: [],
     };
 
     componentDidMount = async() => {
-        const { fetchData } = this.props;
-        const affiliations = await fetchData({
+        const { fetchData, getUrl } = this.props;
+        const affiliations = getUrl ? await fetchData({
             method: 'get',
-            url: apiRoutes.affiliation.me,
-        });
+            url: getUrl,
+        }) : [];
         if(isEmpty(affiliations)){
             this.addNewAffiliation();
 
@@ -24,6 +24,12 @@ class Main extends Component {
             this.setState({ affiliations });
         }
     };
+
+    componentDidUpdate = (prevProps) => {
+        if(!isEqual(prevProps.affiliations, this.props.affiliations)){
+            this.setState({ affiliations: this.props.affiliations })
+        }
+    }
 
     changeToEditMode = (index) => () => {
         const { affiliations } = this.state;
@@ -39,13 +45,17 @@ class Main extends Component {
 
     changeStateForSusses = (data, index) => {
         const { affiliations } = this.state;
+        const { onChange } = this.props;
         affiliations[index] = {...data, editMode: false};
         this.setState({
             affiliations
         });
+        onChange(affiliations)
     };
 
-    addNewAffiliation = () => {
+    addNewAffiliation = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
         const { affiliations } = this.state;
         affiliations.push({ ...TEMPLATE, editMode: true });
         this.setState({
@@ -55,47 +65,49 @@ class Main extends Component {
 
     deleteInState = async (index) => {
         const { affiliations } = this.state;
-        const { fetchData } = this.props;
+        const { fetchData, delUrl, onChange } = this.props;
         if(affiliations[index].id){
-            const data = await fetchData({
-                method: 'delete',
-                url: apiRoutes.affiliation.me,
-                data: { id: affiliations[index].id }
-            });
-            if(!data) return false;
+            if(delUrl){
+                await fetchData({
+                    method: 'delete',
+                    url: delUrl,
+                    data: { id: affiliations[index].id }
+                });
+            }
         }
 
         affiliations.splice(index, 1);
         this.setState({
             ...affiliations
-        })
+        });
+        onChange(affiliations)
     };
 
     setSelectedAffiliation = async(selectedAffiliation) => {
-        const { fetchData } = this.props;
+        const { fetchData, boundUrl, onChange } = this.props;
         const { affiliations } = this.state;
-        const data = await fetchData({
-            method: 'post',
-            url: apiRoutes.affiliation.boundForMe,
-            data: {
-                id: selectedAffiliation.id
-            }
-        });
-        if(data){
-            affiliations.push(data);
-            this.setState({ affiliations: filter(affiliations, 'id') });
+        if(boundUrl){
+            await fetchData({
+                method: 'post',
+                url: boundUrl,
+                data: {
+                    id: selectedAffiliation.id
+                }
+            });
         }
+        affiliations.push(selectedAffiliation);
+        this.setState({ affiliations: filter(affiliations, 'id') });
+        onChange(affiliations)
     };
 
     render() {
         const { affiliations } = this.state;
-        const { renderAlerts } = this.props;
+        const { renderAlerts, setUrl } = this.props;
 
         const isMaxAffiliation = affiliations.length >= MAX_AFFILIATION;
 
         return (
-            <div className="py-4 pl-4">
-            <h5>Affiliation(s):</h5>
+            <div>
                 <div className="row py-4">
                     <div className="col-4">
                         <button
@@ -115,6 +127,7 @@ class Main extends Component {
                             {item.editMode ?
                             <EditMode
                                 {...item}
+                                setUrl={setUrl}
                                 index={index}
                                 className=""
                                 changeToViewMode={this.changeToViewMode}
@@ -137,4 +150,17 @@ class Main extends Component {
     }
 }
 
-export default withDataFetch(Main);
+AffiliationForm.propTypes = {
+    getUrl: PropTypes.string,
+    delUrl: PropTypes.string,
+    boundUrl: PropTypes.string,
+    setUrl: PropTypes.string,
+    onChange: PropTypes.func,
+};
+
+AffiliationForm.defaultProps = {
+    onChange: () => {}
+};
+
+
+export default withDataFetch(AffiliationForm);

@@ -96,7 +96,7 @@ class EditMode extends Component{
 
         return(
             <div className="affiliation-user">
-                <CreateUserModal open={openModal} onClose={this.closeModal} setNewUser={this.setUserToState}/>
+                {openModal && <CreateUserModal open={true} onClose={this.closeModal} setNewUser={this.setUserToState}/> }
                 <ValidationForm
                     onSubmit={this.handleSubmit}
                     ref={this.formRef}
