@@ -178,7 +178,12 @@ export const getUserThesises = async (req, res) => {
 
   const searchQuery = search ? { where: { title: { $like: `%${req.query.search}%` } } } : {};
   const thesis = await DB.thesis.findAndCountAll({
-    ...searchQuery, ...includeQuery, limit: LIMIT_THESIS_LIST, offset: defaultTo(offset, 0)
+    ...searchQuery,
+    ...includeQuery,
+    attributes: ['id', 'title', 'text'],
+    distinct: true,
+    limit: LIMIT_THESIS_LIST,
+    offset
   });
   res.status(200).json(thesis);
 };

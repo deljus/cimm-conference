@@ -109,12 +109,11 @@ class ThesisList extends Component {
     renderShowListBtn = () => {
         const { count, list } = this.state;
         if(list.length < count){
-            let nextOffset = Math.floor(list.length/LIMIT_THESIS_LIST) + 1;
             return (
                 <button
                     type="button"
                     className="btn btn-primary btn-lg btn-block"
-                    onClick={this.showMoreClick(nextOffset)}>
+                    onClick={this.showMoreClick(list.length)}>
                     Show more
                 </button>
             )

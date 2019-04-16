@@ -143,6 +143,6 @@ export const AUTHOR_FIELDS = {
 
 export const config = json;
 
-export const LIMIT_THESIS_LIST = 10;
+export const LIMIT_THESIS_LIST = 3;
 
 export const DBConfig = json.db[process.env.NODE_ENV || 'development'];
