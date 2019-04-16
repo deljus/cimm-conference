@@ -1,4 +1,4 @@
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
@@ -39,15 +39,7 @@ module.exports = {
   },
   optimization: {
     minimizer: [
-      new UglifyJSPlugin({
-        parallel: true,
-        sourceMap: true,
-        uglifyOptions: {
-          compress: {
-            inline: true
-          }
-        }
-      })
+      new TerserPlugin()
     ],
     runtimeChunk: false,
     splitChunks: {
