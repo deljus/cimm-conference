@@ -3,7 +3,7 @@ import {
   find, map, pick, keys, forEach
 } from 'lodash';
 
-import { AUTHOR_FIELDS, AFFILIATION_FIELDS, insideRoutes } from '../utils/globalConfig';
+import { AUTHOR_FIELDS, AFFILIATION_FIELDS, insideRoutes, LIMIT_THESIS_LIST } from '../utils/globalConfig';
 
 
 export const getUser = async (req, res) => {
@@ -145,15 +145,18 @@ export const saveThesis = async (req, res) => {
 };
 
 export const getUserThesises = async (req, res) => {
-  const query = req.session.is_admin ? {
+  const { search, offset } = req.query;
+  const includeQuery = req.session.is_admin ? {
     include: [
       {
+        attributes: [],
         model: DB.users
       }
     ]
   } : {
     include: [
       {
+        attributes: [],
         model: DB.users,
         where: {
           id: req.userId
@@ -162,8 +165,9 @@ export const getUserThesises = async (req, res) => {
     ]
   };
 
-  const thesis = await DB.thesis.findAll(query);
-  res.status(200).json({ thesis });
+  const searchQuery = search ? { where: { title: { $like: `%${req.query.search}%` } } } : {};
+  const thesis = await DB.thesis.findAndCountAll({ ...searchQuery, ...includeQuery, limit: LIMIT_THESIS_LIST, offset });
+  res.status(200).json(thesis);
 };
 
 export const getUserThesis = async (req, res) => {

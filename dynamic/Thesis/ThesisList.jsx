@@ -3,7 +3,7 @@ import { map, filter, isEmpty } from 'lodash';
 import withDataFetch from '../core/withDataFetch';
 import { redirect } from '../core/history';
 import resolveUrl from '../core/resolveUrl';
-import { apiRoutes, insideRoutes } from '../../utils/globalConfig';
+import { apiRoutes, insideRoutes, LIMIT_THESIS_LIST } from '../../utils/globalConfig';
 import Modal from '../components/Modal';
 
 
@@ -11,7 +11,9 @@ class ThesisList extends Component {
     state = {
         fullness: false,
         open: false,
-        list: []
+        list: [],
+        count: 0,
+        search: ""
     };
 
   componentDidMount = async () => {
@@ -21,7 +23,7 @@ class ThesisList extends Component {
           url: apiRoutes.thesis.all,
       });
       if(data){
-          this.setState({ list: data.thesis });
+          this.setState({ list: data.rows, count: data.count });
       }
       const dt = await fetchData({
           method: 'get',
@@ -53,13 +55,16 @@ class ThesisList extends Component {
 
     deleteThesis = (id) => async () => {
         const { fetchData } = this.props;
-        const { list } = this.state;
+        const { list, count } = this.state;
         const data = await fetchData({
             method: 'delete',
             url: resolveUrl(apiRoutes.thesis.meToId, { id }),
         });
         if(data){
-            this.setState({ list: filter(list, (item) => item.id != id) });
+            this.setState({
+                list: filter(list, (item) => item.id != id),
+                count: count - 1
+            });
         }
     };
 
@@ -67,8 +72,62 @@ class ThesisList extends Component {
         this.setState({ open: false });
     };
 
-  render() {
+    handleSearchSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const { fetchData } = this.props;
+        const data = await fetchData({
+            method: 'get',
+            url: apiRoutes.thesis.all,
+            params: {
+                search: formData.get('search')
+            }
+        });
+        if(data){
+            this.setState({ list: data.rows, count: data.count });
+        }
+    };
 
+    showMoreClick = (offset) => async (e) => {
+        const { search, list } = this.state;
+        const { fetchData } = this.props;
+        e.stopPropagation();
+        const data = await fetchData({
+            method: 'get',
+            url: apiRoutes.thesis.all,
+            params: {
+                search,
+                offset
+            }
+        });
+        if(data){
+            this.setState({ list: list.concat(data.rows) });
+        }
+
+    };
+
+    renderShowListBtn = () => {
+        const { count, list } = this.state;
+        if(list.length < count){
+            let nextOffset = Math.floor(list.length/LIMIT_THESIS_LIST) + 1;
+            return (
+                <button
+                    type="button"
+                    className="btn btn-primary btn-lg btn-block"
+                    onClick={this.showMoreClick(nextOffset)}>
+                    Show more
+                </button>
+            )
+        }
+        return null;
+
+    };
+
+    handleInputChange = (e) => {
+        this.setState({ search: e.target.value });
+    };
+
+  render() {
       const { list, open } = this.state;
 
     return (
@@ -88,9 +147,19 @@ class ThesisList extends Component {
                         <button className="btn btn-primary btn-lg btn-block" onClick={this.redirectToCreate}>Create</button>
                     </div>
                 </div>
+                <form className="input-group mb-3" onSubmit={this.handleSearchSubmit}>
+                    <input name="search" type="text" className="form-control" placeholder="Search thesis..."
+                           aria-label="Search thesis..." aria-describedby="basic-addon2" onChange={this.handleInputChange}/>
+                        <div className="input-group-append">
+                            <button className="btn btn-outline-primary" type="submit">
+                                <i className="fa fa-search" />
+                                &nbsp;<span>Search</span>
+                            </button>
+                        </div>
+                </form>
                 {
                     !isEmpty(list) ? map(list, item => (
-                        <div className="list-group">
+                        <div className="list-group mb-2">
                             <div className="list-group-item list-group-item-action flex-column align-items-start">
                                 <div className="d-flex w-100 justify-content-between">
                                     <h5 className="mb-1">{ item.title }</h5>
@@ -106,6 +175,7 @@ class ThesisList extends Component {
                         </div>
                     )): <h3>You have no records. </h3>
                 }
+                { this.renderShowListBtn() }
 
                 </>
     );
