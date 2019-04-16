@@ -14,18 +14,20 @@ export const insideRoutes = {
       edit: '/pages/edit/:id',
       list: '/pages/list'
     }
+  },
+  auth: {
+    changePassByEmail: '/change-pass-email',
+    changePass: '/change-pass',
+    login: '/login',
+    registration: '/registration'
   }
 };
 
 export const outsideRouters = {
   index: '/',
   profile: '/profile',
-  changePassByEmail: '/change-pass-email',
-  changePass: '/change-pass',
   page: '/:url',
   users: '/users',
-  registration: '/registration',
-  login: '/login',
   logout: '/logout',
   send: '/send'
 };

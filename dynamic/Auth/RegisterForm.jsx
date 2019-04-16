@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import { ValidationForm, TextInput } from 'react-bootstrap4-form-validation';
-import queryString from 'query-string'
-import { apiRoutes, outsideRouters, config } from '../../utils/globalConfig';
+import validator from 'validator'
+import { apiRoutes, insideRoutes } from '../../utils/globalConfig';
 import withDataFetch from '../core/withDataFetch';
 
 const defaultState = {
@@ -10,7 +11,7 @@ const defaultState = {
     confirmPassword: ""
 };
 
-class NewPassForm extends Component {
+class RegisterForm extends Component {
     constructor(props){
         super(props);
         this.formRef = React.createRef();
@@ -28,8 +29,8 @@ class NewPassForm extends Component {
         e.preventDefault();
         await fetchData({
             method: 'post',
-            url: apiRoutes.changePass,
-            data: { ...formData, ...queryString.parse(location.search) }
+            url: apiRoutes.registration,
+            data: formData
         });
     };
 
@@ -37,9 +38,15 @@ class NewPassForm extends Component {
         return value && value === this.state.password;
     };
 
+
+    onAlertDismiss = (name) => () => {
+        this.setState({ [name]: false })
+    };
+
     render () {
 
         const {
+            email ,
             password,
             confirmPassword,
         } = this.state;
@@ -59,7 +66,17 @@ class NewPassForm extends Component {
                 immediate={true}
                 setFocusOnError={true}
             >
+                <h3>Registration or <Link to={ insideRoutes.auth.login }>Login</Link></h3>
                 { renderAlerts() }
+                <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <TextInput name="email" id="email" type="email"
+                               validator={validator.isEmail}
+                               errorMessage={{validator:"Please enter a valid email"}}
+                               value={email}
+                               onChange={this.handleChange}
+                    />
+                </div>
                 <div className="form-group">
                     <label htmlFor="password">Password</label>
                     <TextInput name="password" id="password" type="password" required
@@ -89,4 +106,4 @@ class NewPassForm extends Component {
     }
 }
 
-export default withDataFetch(NewPassForm);
+export default withDataFetch(RegisterForm);

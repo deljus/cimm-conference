@@ -1,0 +1,11 @@
+extends loyouts/layout
+
+block content
+    div.bg(style='background-image: url(' + loginPageImage + ')')
+        a(href=outsideRouters.index)
+            i.fa.fa-home.home-icon(aria-hidden="true")
+        .container
+            .row.justify-content-end
+                .col-md-6.align-self-center#auth
+block js
+    script(src='/javascripts/auth.bundle.js')

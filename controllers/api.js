@@ -149,14 +149,14 @@ export const getUserThesises = async (req, res) => {
   const includeQuery = req.session.is_admin ? {
     include: [
       {
-        attributes: [],
+        attributes: ['lastName', 'firstName'],
         model: DB.users
       }
     ]
   } : {
     include: [
       {
-        attributes: [],
+        attributes: ['lastName', 'firstName'],
         model: DB.users,
         where: {
           id: req.userId

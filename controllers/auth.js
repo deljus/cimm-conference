@@ -4,7 +4,7 @@ import { pick } from 'lodash';
 import url from 'url';
 import { mailTemplate, transporter } from '../utils/sendMessage';
 import DB from '../database/models';
-import { config, outsideRouters } from '../utils/globalConfig';
+import { config, outsideRouters, insideRoutes } from '../utils/globalConfig';
 
 const salt = '$2b$12$hQkZGSu0X3JN9Nl91zc5sO';
 
@@ -91,7 +91,7 @@ export const changePassController = async (req, res) => {
   const sendMailUrl = url.format({
     protocol: req.protocol,
     host: req.get('host'),
-    pathname: outsideRouters.changePass,
+    pathname: insideRoutes.auth.changePass,
     query: {
       hash
     }
@@ -130,20 +130,14 @@ export const newPassController = async (req, res) => {
       { where: { hash } }
     );
     if (user[0]) {
-      return res.status(200).json({ redirect: outsideRouters.login });
+      return res.status(200).json({ redirect: insideRoutes.auth.login });
     }
   }
   res.status(400).json({ message: 'Change password error' });
 };
 
 
-export const renderRegistration = (req, res) => res.render('registration', config);
-
-export const renderLogin = (req, res) => res.render('login', config);
-
-export const renderChangePass = (req, res) => res.render('change-pass', config);
-
-export const renderNewPass = (req, res) => res.render('new-pass', config);
+export const renderAuth = (req, res) => res.render('auth', { ...config, outsideRouters });
 
 export const checkEmailHashController = async (req, res) => {
   const { hash } = req.query;
@@ -154,7 +148,7 @@ export const checkEmailHashController = async (req, res) => {
       { where: { hash } }
     );
     if (user[0]) {
-      return res.redirect(outsideRouters.login);
+      return res.redirect(insideRoutes.auth.login);
     }
   }
   res.status(400).send('Email is not valid');

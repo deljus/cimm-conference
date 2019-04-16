@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import { ValidationForm, TextInput } from 'react-bootstrap4-form-validation';
 import validator from 'validator'
 import withDataFetch from "../core/withDataFetch";
-import { apiRoutes, outsideRouters, config } from '../../utils/globalConfig';
+import { apiRoutes, insideRoutes } from '../../utils/globalConfig';
 
 class ChangePassForm extends Component {
     state = {
@@ -35,8 +36,8 @@ class ChangePassForm extends Component {
         return (
             <ValidationForm className="registration-form" onSubmit={this.handleSubmit} onErrorSubmit={this.handleErrorSubmit}>
                 <h3>
-                    <a href={ outsideRouters.login }>Login</a> or &nbsp;
-                    <a href={ outsideRouters.registration }>Registration</a></h3>
+                    <Link to={ insideRoutes.auth.login }>Login</Link> or &nbsp;
+                    <Link to={ insideRoutes.auth.registration }>Registration</Link></h3>
                 { renderAlerts() }
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
