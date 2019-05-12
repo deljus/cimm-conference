@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import randomstring from 'randomstring';
-import { pick } from 'lodash';
+import { pick, omit } from 'lodash';
 import url from 'url';
 import { mailTemplate, transporter } from '../utils/sendMessage';
 import DB from '../database/models';
@@ -47,16 +47,38 @@ export const registrationController = async (req, res) => {
   try {
     await transporter(config).sendMail(templateToMail);
     const password = bcrypt.hashSync(req.body.password, salt);
-    await DB.users.create({
-      isVerifiedEmail: false,
-      hash,
-      password,
-      ...userParams
+
+    // если есть user обновляем либо создаем
+
+    const user = await DB.users.findOne({
+      where: {
+        email: userParams.email
+      }
     });
+    if (user) {
+      await DB.users.update({
+        isVerifiedEmail: false,
+        hash,
+        password
+      }, {
+        where: {
+          email: userParams.email
+        }
+      });
+    } else {
+      await DB.users.create({
+        isVerifiedEmail: false,
+        hash,
+        password,
+        ...userParams
+      });
+    }
+
+
     res.status(200).send({ message: 'We sent you a password confirmation link in the mail. Please check your mail.' });
   } catch (e) {
     console.error(e);
-    res.status(422).json({ message: 'We sent you a password confirmation link in the mail. Please check your mail.' });
+    res.status(422).json({ message: 'Error to transporter' });
   }
 };
 

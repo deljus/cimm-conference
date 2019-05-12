@@ -23,7 +23,7 @@ router.get(outsideRouters.logout, logoutController);
 router.get(outsideRouters.send, checkEmailHashController);
 
 // api
-router.post(apiRoutes.registration, validateRegistrationForm, catchValidationError, checkEmailinDB, registrationController);
+router.post(apiRoutes.registration, validateRegistrationForm, catchValidationError, registrationController);
 router.post(apiRoutes.login, validateLoginForm, catchValidationError, loginController);
 router.post(apiRoutes.changePassByEmail, validateEmail, catchValidationError, changePassController);
 router.post(apiRoutes.changePass, newPassController);

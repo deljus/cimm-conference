@@ -22,10 +22,10 @@
     }
   },
   "emailTransporter": {
-    "service": "Yandex",
+    "service": "",
     "auth": {
-      "user": "delus@cimm.site",
-      "pass": "dmr123"
+      "user": "",
+      "pass": ""
     }
   },
   "loginPageImage": "https://btcmiami.com/wp-content/uploads/2018/10/27d27bc1ffaede1c0593463a9617527a.jpg",
