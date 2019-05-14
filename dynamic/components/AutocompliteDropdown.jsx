@@ -65,7 +65,7 @@ class AutocompliteDropdown extends Component{
 
     renderDropDown = (item, index) => (
             <>
-                <span className="dropdown-item-text">
+                <span className="dropdown-item">
                   <div className="row justify-content-between">
                     <div className="col-4">
                       <h6>{ item.affiliation }</h6>
@@ -97,7 +97,7 @@ class AutocompliteDropdown extends Component{
 
         return (
             <OutSideClick onOutSideClick={this.closeDropdown}>
-                <div style={styles.input} >
+                <div className="dropdown" style={styles.input} >
                     <TextInput
                         ref={this.inputRef}
                         {...rest}
@@ -110,8 +110,8 @@ class AutocompliteDropdown extends Component{
                     {
                         open && (
                             <div
-                                className="dropdown-menu"
-                                style={{ display: 'inline-block', position: 'absolute', top: '38px' }}
+                                className="dropdown-menu dropdown-menu-right"
+                                style={{ display: 'inline-block', minWidth: '100%' }}
                             >
                                 { map(data, this.renderDropDown) }
                                 {
