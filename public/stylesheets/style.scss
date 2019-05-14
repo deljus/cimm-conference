@@ -53,8 +53,16 @@ body {
   background-color: $side-color;
 }
 
-#sidebar-wrapper .list-group {
-  width: 15rem;
+#sidebar-wrapper{
+  & .list-group {
+    width: 15rem;
+  }
+  & .sidebar-heading {
+    width: 15rem;
+  }
+  & .navbar-brand > span {
+    white-space: normal;
+  }
 }
 
 #page-content-wrapper {
@@ -165,4 +173,3 @@ body {
   border: 4px solid white;
   border-radius: 50%;
 }
-
